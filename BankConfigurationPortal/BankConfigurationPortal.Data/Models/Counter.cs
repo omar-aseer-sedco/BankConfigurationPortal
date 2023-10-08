@@ -28,6 +28,6 @@ namespace BankConfigurationPortal.Data.Models {
         public CounterType Type { get; set; }
 
         [Required]
-        public List<Service> Services { get; set; }
+        public List<BankService> Services { get; set; }
     }
 }

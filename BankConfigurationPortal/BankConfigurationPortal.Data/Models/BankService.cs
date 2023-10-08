@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace BankConfigurationPortal.Data.Models {
-    public class Service {
+    public class BankService {
         [Required]
         [MaxLength(255)]
         public string BankName { get; set; }
