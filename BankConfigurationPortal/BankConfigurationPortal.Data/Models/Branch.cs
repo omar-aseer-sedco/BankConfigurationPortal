@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BankConfigurationPortal.Data.Models {
+namespace BankConfigurationPortal.Data.Models { 
     public class Branch {
         [Required]
         [MaxLength(255)]
