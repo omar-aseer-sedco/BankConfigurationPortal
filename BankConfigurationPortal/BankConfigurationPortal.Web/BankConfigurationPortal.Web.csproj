@@ -169,18 +169,16 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Branch\Index.cshtml" />
     <Content Include="Views\Branch\_BranchSummary.cshtml" />
     <Content Include="Views\Branch\Create.cshtml" />
     <Content Include="Views\Branch\Details.cshtml" />
-    <Content Include="Views\Branch\NotFound.cshtml" />
     <Content Include="Views\Branch\Delete.cshtml" />
     <Content Include="Views\Branch\Edit.cshtml" />
     <Content Include="Views\BankService\Index.cshtml" />
     <Content Include="Views\BankService\_BankServiceSummary.cshtml" />
-    <Content Include="Views\BankService\NotFound.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
     <Content Include="Views\BankService\Details.cshtml" />
     <Content Include="Views\BankService\Create.cshtml" />
     <Content Include="Views\BankService\Edit.cshtml" />
@@ -191,7 +189,6 @@
     <Content Include="Views\Counter\Create.cshtml" />
     <Content Include="Views\Counter\Edit.cshtml" />
     <Content Include="Views\Counter\Delete.cshtml" />
-    <Content Include="Views\Counter\NotFound.cshtml" />
     <Content Include="Views\CounterService\Index.cshtml" />
     <Content Include="Views\CounterService\_CounterServiceSummary.cshtml" />
   </ItemGroup>
@@ -223,6 +220,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="WebResources.ar.resx" />
     <EmbeddedResource Include="WebResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>WebResources.Designer.cs</LastGenOutput>

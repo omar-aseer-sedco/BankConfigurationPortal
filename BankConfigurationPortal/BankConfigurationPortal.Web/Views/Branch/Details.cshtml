@@ -1,10 +1,10 @@
 ﻿@model BankConfigurationPortal.Data.Models.Branch
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = WebResources.Details;
 }
 
-<h2>Details</h2>
+<h2>@WebResources.Details</h2>
 
 <div>
     <hr />
@@ -43,9 +43,9 @@
     </dl>
 </div>
 <div>
-    <p><a class="btn btn-default" href=@string.Format($"/Counter?branchId={Model.BranchId}")>Edit counters &raquo;</a></p>
+    <p><a class="btn btn-default" href=@string.Format($"/Counter?branchId={Model.BranchId}")>@WebResources.EditCounters &raquo;</a></p>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { branchId = Model.BranchId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(WebResources.Edit, "Edit", new { branchId = Model.BranchId }) |
+    @Html.ActionLink(WebResources.BackToList, "Index")
 </p>

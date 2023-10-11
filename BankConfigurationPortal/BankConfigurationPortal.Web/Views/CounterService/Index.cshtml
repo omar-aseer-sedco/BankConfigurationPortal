@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<BankConfigurationPortal.Web.ViewModels.CounterServiceViewModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = WebResources.BankServices;
 }
 
-<h2>Index</h2>
+<h2>@WebResources.BankServices</h2>
 
 @foreach (var item in Model) {
     @Html.Partial("_CounterServiceSummary", item);
 }
 
 <p>
-    @Html.ActionLink("Back to counter", "Details", "Counter", new { branchId = ViewBag.BranchId, counterId = ViewBag.CounterId }, null)
+    @Html.ActionLink(WebResources.BackToCounter, "Details", "Counter", new { branchId = ViewBag.BranchId, counterId = ViewBag.CounterId }, null)
 </p>

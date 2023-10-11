@@ -1,13 +1,13 @@
 ﻿@model BankConfigurationPortal.Data.Models.Counter
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = WebResources.Details;
 }
 
-<h2>Details</h2>
+<h2>@WebResources.Details</h2>
 
 <div>
-    <h4>Counter</h4>
+    <h4>@WebResources.Counter</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -58,22 +58,22 @@
             @if (Model.Services.Count() > 0) {
                 var last = Model.Services.Last();
                 foreach (var item in Model.Services) {
-                    @item.NameEn;
+                    @Html.DisplayFor(model => item.NameEn);
                     if (item != last) {
                         @Html.Encode(", ");
                     }
                 }
             }
             else {
-                @Html.Encode("None");
+                @Html.Encode(WebResources.None);
             }
         </dd>
     </dl>
 </div>
 <div>
-    <p><a class="btn btn-default" href=@string.Format($"/CounterService?branchId={Model.BranchId}&counterId={Model.CounterId}")>Allocate services &raquo;</a></p>
+    <p><a class="btn btn-default" href=@string.Format($"/CounterService?branchId={Model.BranchId}&counterId={Model.CounterId}")>@WebResources.AllocateServices &raquo;</a></p>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { branchId = Model.BranchId, counterId = Model.CounterId }) |
-    @Html.ActionLink("Back to List", "Index", new { branchId = Model.BranchId })
+    @Html.ActionLink(WebResources.Edit, "Edit", new { branchId = Model.BranchId, counterId = Model.CounterId }) |
+    @Html.ActionLink(WebResources.BackToList, "Index", new { branchId = Model.BranchId })
 </p>

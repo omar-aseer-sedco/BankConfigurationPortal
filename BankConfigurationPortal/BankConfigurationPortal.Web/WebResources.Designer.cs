@@ -70,6 +70,15 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allocate services.
+        /// </summary>
+        public static string AllocateServices {
+            get {
+                return ResourceManager.GetString("AllocateServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bank Configuration Portal.
         /// </summary>
         public static string ApplicationName {
@@ -84,6 +93,42 @@ namespace BankConfigurationPortal.Web {
         public static string BackToBranch {
             get {
                 return ResourceManager.GetString("BackToBranch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to counter.
+        /// </summary>
+        public static string BackToCounter {
+            get {
+                return ResourceManager.GetString("BackToCounter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to home.
+        /// </summary>
+        public static string BackToHome {
+            get {
+                return ResourceManager.GetString("BackToHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to list.
+        /// </summary>
+        public static string BackToList {
+            get {
+                return ResourceManager.GetString("BackToList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service.
+        /// </summary>
+        public static string BankService {
+            get {
+                return ResourceManager.GetString("BankService", resourceCulture);
             }
         }
         
@@ -106,6 +151,15 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Branch.
+        /// </summary>
+        public static string Branch {
+            get {
+                return ResourceManager.GetString("Branch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Branches.
         /// </summary>
         public static string Branches {
@@ -124,11 +178,29 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contact.
+        ///   Looks up a localized string similar to Are you sure you want to delete this entry? This action cannot be undone..
         /// </summary>
-        public static string Contact {
+        public static string ConfirmDeleteMessage {
             get {
-                return ResourceManager.GetString("Contact", resourceCulture);
+                return ResourceManager.GetString("ConfirmDeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Omar Aseer.
+        /// </summary>
+        public static string CopyrightHolder {
+            get {
+                return ResourceManager.GetString("CopyrightHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Counter.
+        /// </summary>
+        public static string Counter {
+            get {
+                return ResourceManager.GetString("Counter", resourceCulture);
             }
         }
         
@@ -142,11 +214,83 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create New.
         /// </summary>
         public static string CreateNew {
             get {
                 return ResourceManager.GetString("CreateNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit counters.
+        /// </summary>
+        public static string EditCounters {
+            get {
+                return ResourceManager.GetString("EditCounters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oopsie.
+        /// </summary>
+        public static string ErrorHeading {
+            get {
+                return ResourceManager.GetString("ErrorHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while processing your request..
+        /// </summary>
+        public static string ErrorMessage {
+            get {
+                return ResourceManager.GetString("ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string ErrorTitle {
+            get {
+                return ResourceManager.GetString("ErrorTitle", resourceCulture);
             }
         }
         
@@ -169,11 +313,65 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oopsie.
+        /// </summary>
+        public static string NotFoundHeading {
+            get {
+                return ResourceManager.GetString("NotFoundHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The page you&apos;re looking for does not exist.
+        /// </summary>
+        public static string NotFoundMessage {
+            get {
+                return ResourceManager.GetString("NotFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page not found.
+        /// </summary>
+        public static string NotFoundTitle {
+            get {
+                return ResourceManager.GetString("NotFoundTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of counters.
         /// </summary>
         public static string NumberOfCounters {
             get {
                 return ResourceManager.GetString("NumberOfCounters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to عربي.
+        /// </summary>
+        public static string SwitchLanguage {
+            get {
+                return ResourceManager.GetString("SwitchLanguage", resourceCulture);
             }
         }
         

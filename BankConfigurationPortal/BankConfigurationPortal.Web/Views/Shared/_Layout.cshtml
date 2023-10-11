@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Bank Configuration Portal</title>
+    <title>@ViewBag.Title - @WebResources.ApplicationName</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -24,6 +24,9 @@
                     <li>@Html.ActionLink(WebResources.Branches, "Index", "Branch")</li>
                     <li>@Html.ActionLink(WebResources.BankServices, "Index", "BankService")</li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right"> <!--TODO: figure out how to RTL this-->
+                    <li class="btn btn-sm nav-item">@Html.ActionLink(WebResources.SwitchLanguage + " (WIP)", "Index", "Home")</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -31,7 +34,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Omar Aseer</p>
+            <p>&copy; @DateTime.Now.Year - @WebResources.CopyrightHolder</p>
         </footer>
     </div>
 
