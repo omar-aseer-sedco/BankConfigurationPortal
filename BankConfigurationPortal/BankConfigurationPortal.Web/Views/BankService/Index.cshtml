@@ -1,0 +1,14 @@
+﻿@model IEnumerable<BankConfigurationPortal.Data.Models.BankService>
+@{
+    ViewBag.Title = @WebResources.BankServices;
+}
+
+<h2>@WebResources.BankServices</h2>
+
+<p>
+    @Html.ActionLink(WebResources.CreateNew, "Create")
+</p>
+
+@foreach (var item in Model) {
+    @Html.Partial("_BankServiceSummary", item);
+}

@@ -33,7 +33,7 @@ IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo'
 		bank_name VARCHAR(255) NOT NULL, 
 		branch_id INT IDENTITY(1, 1) NOT NULL,
 		name_en VARCHAR(100) NOT NULL,
-		name_ar VARCHAR(100) NOT NULL,
+		name_ar NVARCHAR(100) NOT NULL,
 		active BIT NOT NULL, 
 		CONSTRAINT PK_BRANCHES PRIMARY KEY (bank_name, branch_id), 
 		CONSTRAINT FK_BANKS_BRANCHES FOREIGN KEY (bank_name) REFERENCES Banks(bank_name) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -102,33 +102,37 @@ CREATE TRIGGER CascadeOnBankDelete
 	ON Banks
 	AFTER DELETE
 AS BEGIN
-	DELETE FROM BankServices WHERE BankServices.bank_name IN (SELECT deleted.bank_name FROM deleted);
 	DELETE FROM Branches WHERE Branches.bank_name IN (SELECT deleted.bank_name FROM deleted);
+	DELETE FROM BankServices WHERE BankServices.bank_name IN (SELECT deleted.bank_name FROM deleted);
 END	
 
 GO
 
 CREATE TRIGGER CascadeOnBranchDelete
 	ON Branches
-	AFTER DELETE
+	INSTEAD OF DELETE
 AS BEGIN
+	DELETE FROM ServicesCounters WHERE ServicesCounters.bank_name IN (SELECT deleted.bank_name FROM deleted) AND ServicesCounters.branch_id IN (SELECT deleted.branch_id FROM deleted);
 	DELETE FROM Counters WHERE Counters.bank_name IN (SELECT deleted.bank_name FROM deleted) AND Counters.branch_id IN (SELECT deleted.branch_id FROM deleted);
+	DELETE FROM Branches WHERE Branches.bank_name IN (SELECT deleted.bank_name FROM deleted) AND Branches.branch_id IN (SELECT deleted.branch_id FROM deleted);
 END
 
 GO
 
 CREATE TRIGGER CascadeOnServiceDelete
 	ON BankServices
-	AFTER DELETE
+	INSTEAD OF DELETE
 AS BEGIN
 	DELETE FROM ServicesCounters WHERE ServicesCounters.service_id IN (SELECT deleted.service_id FROM deleted) AND ServicesCounters.bank_name IN (SELECT deleted.bank_name FROM deleted);
+	DELETE FROM BankServices WHERE BankServices.bank_name IN (SELECT deleted.bank_name FROM deleted) AND BankServices.service_id IN (SELECT deleted.service_id FROM deleted);
 END
 
 GO
 
 CREATE TRIGGER CascadeOnCounterDelete
 	ON Counters
-	AFTER DELETE
+	INSTEAD OF DELETE
 AS BEGIN
 	DELETE FROM ServicesCounters WHERE ServicesCounters.bank_name IN (SELECT deleted.bank_name FROM deleted) AND ServicesCounters.branch_id IN (SELECT deleted.branch_id FROM deleted) AND ServicesCounters.counter_id IN (SELECT deleted.counter_id FROM deleted);
+	DELETE FROM Counters WHERE Counters.bank_name IN (SELECT deleted.bank_name FROM deleted) AND Counters.branch_id IN (SELECT deleted.branch_id FROM deleted) AND Counters.counter_id IN (SELECT deleted.counter_id FROM deleted);
 END

@@ -39,7 +39,7 @@
         public const string TABLE_NAME = "BankServices";
 
         public const string BANK_NAME = "bank_name";
-        public const string SERVICE_ID = "service_id";
+        public const string BANK_SERVICE_ID = "service_id";
         public const string NAME_EN = "name_en";
         public const string NAME_AR = "name_ar";
         public const string ACTIVE = "active";

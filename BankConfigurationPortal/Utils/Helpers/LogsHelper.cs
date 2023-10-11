@@ -38,7 +38,7 @@ namespace BankConfigurationPortal.Utils.Helpers {
     }
 
     public static class LogsHelper {
-        private static readonly string logsDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "logs");
+        private static readonly string logsDirectoryPath = Path.Combine(@"C:\Users\omar.aseer\Desktop\Projects\Task 2 - Bank Configuration Portal", "logs");
         private static readonly string logsFilePath = Path.Combine(logsDirectoryPath, "logs.json");
 
         private static void InitializeFile() {
@@ -49,7 +49,7 @@ namespace BankConfigurationPortal.Utils.Helpers {
                     }
 
                     using (var fileWriter = File.AppendText(logsFilePath)) {
-                        fileWriter.WriteLine("[]");
+                        fileWriter.Write("[");
                     }
                 }
             }
@@ -69,12 +69,14 @@ namespace BankConfigurationPortal.Utils.Helpers {
                 bool isFirstLog = true;
                 using (var fileStream = new FileStream(logsFilePath, FileMode.Open, FileAccess.ReadWrite)) {
                     fileStream.Seek(1, SeekOrigin.Begin);
-                    if (fileStream.ReadByte() == '{')
+                    if (fileStream.ReadByte() == '{') {
                         isFirstLog = false;
 
-                    fileStream.Seek(-3, SeekOrigin.End);
-                    if (fileStream.ReadByte() == ']')
-                        fileStream.SetLength(fileStream.Length - 3);
+                        fileStream.Seek(-3, SeekOrigin.End);
+                        if (fileStream.ReadByte() == ']') {
+                            fileStream.SetLength(fileStream.Length - 3);
+                        }
+                    }
                 }
 
                 using (var fileWriter = File.AppendText(logsFilePath)) {
@@ -88,7 +90,7 @@ namespace BankConfigurationPortal.Utils.Helpers {
         }
 
         public static void Log(string message, EventSeverity severity) {
-            Log(new LogEvent(message, DateTime.Now, severity));
+            Log(new LogEvent(message, DateTime.Now, severity, string.Empty, string.Empty));
         }
     }
 }

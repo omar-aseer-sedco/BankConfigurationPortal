@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 using System.Text;
 
 namespace BankConfigurationPortal.Data.Services {
-    class BranchData {
+    public class SqlBranchData : IBranchData {
         public IEnumerable<Branch> GetAllBranches(string bankName) {
             try {
                 string query = $"SELECT * FROM {BranchesConstants.TABLE_NAME} WHERE {BranchesConstants.BANK_NAME} = @bankName;";
@@ -52,7 +52,7 @@ namespace BankConfigurationPortal.Data.Services {
                 command.Parameters.Add("@bankName", SqlDbType.VarChar, BranchesConstants.BANK_NAME_SIZE).Value = bankName;
                 command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
 
-                Branch branch = new Branch();
+                Branch branch = null;
                 DbUtils.ExecuteReader(command, (reader) => {
                     if (reader.Read()) {
                         string nameEn = (string) reader[BranchesConstants.NAME_EN];
@@ -109,6 +109,24 @@ namespace BankConfigurationPortal.Data.Services {
 
                     reader.Close();
                 });
+
+                return counters;
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
+        }
+
+        public int GetNumberOfCounters(string bankName, int branchId) {
+            try {
+                string query = $"SELECT COUNT(*) FROM {CountersConstants.TABLE_NAME} WHERE {CountersConstants.BANK_NAME} = @bankName AND {CountersConstants.BRANCH_ID} = @branchId;";
+                SqlCommand command = new SqlCommand(query);
+                command.Parameters.Add("@bankName", SqlDbType.VarChar, BranchesConstants.BANK_NAME_SIZE).Value = bankName;
+                command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
+
+                return (int) DbUtils.ExecuteScalar(command);
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);

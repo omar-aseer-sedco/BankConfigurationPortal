@@ -1,0 +1,14 @@
+﻿@model IEnumerable<BankConfigurationPortal.Data.Models.Branch>
+@{
+    ViewBag.Title = @WebResources.Branches;
+}
+
+<h2>@WebResources.Branches</h2>
+
+<p>
+    @Html.ActionLink(WebResources.CreateNew, "Create")
+</p>
+
+@foreach (var item in Model) {
+    @Html.Partial("_BranchSummary", item);
+}

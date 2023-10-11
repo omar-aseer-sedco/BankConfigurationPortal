@@ -1,0 +1,51 @@
+﻿@model BankConfigurationPortal.Data.Models.Branch
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameEn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameEn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NameAr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameAr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+        <dt>
+            @WebResources.NumberOfCounters
+        </dt>
+
+        <dd>
+            @ViewBag.NumberOfCounters
+        </dd>
+    </dl>
+</div>
+<div>
+    <p><a class="btn btn-default" href=@string.Format($"/Counter?branchId={Model.BranchId}")>Edit counters &raquo;</a></p>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { branchId = Model.BranchId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

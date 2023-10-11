@@ -120,11 +120,19 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BankServiceController.cs" />
+    <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\CounterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebResources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -160,8 +168,28 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Branch\Index.cshtml" />
+    <Content Include="Views\Branch\_BranchSummary.cshtml" />
+    <Content Include="Views\Branch\Create.cshtml" />
+    <Content Include="Views\Branch\Details.cshtml" />
+    <Content Include="Views\Branch\NotFound.cshtml" />
+    <Content Include="Views\Branch\Delete.cshtml" />
+    <Content Include="Views\Branch\Edit.cshtml" />
+    <Content Include="Views\BankService\Index.cshtml" />
+    <Content Include="Views\BankService\_BankServiceSummary.cshtml" />
+    <Content Include="Views\BankService\NotFound.cshtml" />
+    <Content Include="Views\BankService\Details.cshtml" />
+    <Content Include="Views\BankService\Create.cshtml" />
+    <Content Include="Views\BankService\Edit.cshtml" />
+    <Content Include="Views\BankService\Delete.cshtml" />
+    <Content Include="Views\Counter\Index.cshtml" />
+    <Content Include="Views\Counter\_CounterSummary.cshtml" />
+    <Content Include="Views\Counter\Details.cshtml" />
+    <Content Include="Views\Counter\Create.cshtml" />
+    <Content Include="Views\Counter\Edit.cshtml" />
+    <Content Include="Views\Counter\Delete.cshtml" />
+    <Content Include="Views\Counter\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -179,6 +207,22 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BankConfigurationPortal.Data\BankConfigurationPortal.Data.csproj">
+      <Project>{cecf5ccf-66e7-48e1-8b85-70c3671b8aa6}</Project>
+      <Name>BankConfigurationPortal.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\BankConfigurationPortal.Utils.csproj">
+      <Project>{3e2473c6-7acf-49e3-9e76-8a8df3aa1019}</Project>
+      <Name>BankConfigurationPortal.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WebResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WebResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
