@@ -50,7 +50,28 @@
             @Html.DisplayFor(model => model.Type)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Services)
+        </dt>
+
+        <dd>
+            @if (Model.Services.Count() > 0) {
+                var last = Model.Services.Last();
+                foreach (var item in Model.Services) {
+                    @item.NameEn;
+                    if (item != last) {
+                        @Html.Encode(", ");
+                    }
+                }
+            }
+            else {
+                @Html.Encode("None");
+            }
+        </dd>
     </dl>
+</div>
+<div>
+    <p><a class="btn btn-default" href=@string.Format($"/CounterService?branchId={Model.BranchId}&counterId={Model.CounterId}")>Allocate services &raquo;</a></p>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { branchId = Model.BranchId, counterId = Model.CounterId }) |

@@ -5,8 +5,8 @@
         <h3 class="panel-title">@Model.NameEn</h3>
     </div>
     <div class="panel-body">
-        @Html.ActionLink("Edit", "Edit", new { id = Model.BankServiceId }) |
-        @Html.ActionLink("Details", "Details", new { id = Model.BankServiceId }) |
-        @Html.ActionLink("Delete", "Delete", new { id = Model.BankServiceId })
+        @Html.ActionLink("Edit", "Edit", new { bankServiceId = Model.BankServiceId }) |
+        @Html.ActionLink("Details", "Details", new { bankServiceId = Model.BankServiceId }) |
+        @Html.ActionLink("Delete", "Delete", new { bankServiceId = Model.BankServiceId })
     </div>
 </div>

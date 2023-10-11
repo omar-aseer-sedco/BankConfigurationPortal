@@ -155,5 +155,62 @@ namespace BankConfigurationPortal.Data.Services {
 
             return default;
         }
+        
+        public int AddService(string bankName, int branchId, int counterId, int bankServiceId) {
+            try {
+                string query = $"INSERT INTO {ServicesCountersConstants.TABLE_NAME} ({ServicesCountersConstants.BANK_NAME}, {ServicesCountersConstants.BRANCH_ID}, " +
+                               $"{ServicesCountersConstants.COUNTER_ID}, {ServicesCountersConstants.BANK_SERVICE_ID}) VALUES (@bankName, @branchId, @counterId, @bankServiceId);";
+                SqlCommand command = new SqlCommand(query);
+                command.Parameters.Add("@bankName", SqlDbType.VarChar, BranchesConstants.BANK_NAME_SIZE).Value = bankName;
+                command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
+                command.Parameters.Add("@counterId", SqlDbType.Int).Value = counterId;
+                command.Parameters.Add("@bankServiceId", SqlDbType.Int).Value = bankServiceId;
+
+                return DbUtils.ExecuteNonQuery(command);
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
+        }
+
+        public int RemoveService(string bankName, int branchId, int counterId, int bankServiceId) {
+            try {
+                string query = $"DELETE FROM {ServicesCountersConstants.TABLE_NAME} WHERE {ServicesCountersConstants.BANK_NAME} = @bankName AND {ServicesCountersConstants.BRANCH_ID} = @branchId " +
+                               $"AND {ServicesCountersConstants.COUNTER_ID} = @counterId AND {ServicesCountersConstants.BANK_SERVICE_ID} = @bankServiceId;";
+                SqlCommand command = new SqlCommand(query);
+                command.Parameters.Add("@bankName", SqlDbType.VarChar, BranchesConstants.BANK_NAME_SIZE).Value = bankName;
+                command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
+                command.Parameters.Add("@counterId", SqlDbType.Int).Value = counterId;
+                command.Parameters.Add("@bankServiceId", SqlDbType.Int).Value = bankServiceId;
+
+                return DbUtils.ExecuteNonQuery(command);
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
+        }
+
+        public bool IsAvailableOnCounter(string bankName, int branchId, int counterId, int bankServiceId) {
+            try {
+                string query = $"SELECT COUNT(*) FROM {ServicesCountersConstants.TABLE_NAME} WHERE {ServicesCountersConstants.BANK_NAME} = @bankName AND {ServicesCountersConstants.BRANCH_ID} = @branchId " +
+                               $"AND {ServicesCountersConstants.COUNTER_ID} = @counterId AND {ServicesCountersConstants.BANK_SERVICE_ID} = @bankServiceId;";
+                SqlCommand command = new SqlCommand(query);
+                command.Parameters.Add("@bankName", SqlDbType.VarChar, BranchesConstants.BANK_NAME_SIZE).Value = bankName;
+                command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
+                command.Parameters.Add("@counterId", SqlDbType.Int).Value = counterId;
+                command.Parameters.Add("@bankServiceId", SqlDbType.Int).Value = bankServiceId;
+
+                return (int) DbUtils.ExecuteScalar(command) == 1;
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
+        }
     }
 }

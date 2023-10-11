@@ -91,7 +91,9 @@ namespace BankConfigurationPortal.Data.Services {
 
         public IEnumerable<BankService> GetServices(string bankName, int branchId, int counterId) {
             try {
-                string query = $"SELECT * FROM {BankServicesConstants.TABLE_NAME} WHERE {CountersConstants.BANK_NAME} = @bankName AND {CountersConstants.BRANCH_ID} = @branchId AND {CountersConstants.COUNTER_ID} = @counterId;";
+                string query = $"SELECT * FROM {BankServicesConstants.TABLE_NAME} WHERE {BankServicesConstants.BANK_NAME} = @bankName AND {BankServicesConstants.BANK_SERVICE_ID} IN " +
+                               $"(SELECT {ServicesCountersConstants.BANK_SERVICE_ID} FROM {ServicesCountersConstants.TABLE_NAME} WHERE {ServicesCountersConstants.BANK_NAME} = @bankName " +
+                               $"AND {ServicesCountersConstants.BRANCH_ID} = @branchId AND {ServicesCountersConstants.COUNTER_ID} = @counterId);";
                 SqlCommand command = new SqlCommand(query);
                 command.Parameters.Add("@bankName", SqlDbType.VarChar, BranchesConstants.BANK_NAME_SIZE).Value = bankName;
                 command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;

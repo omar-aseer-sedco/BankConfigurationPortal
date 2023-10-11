@@ -72,7 +72,7 @@
         public const string BANK_NAME = "bank_name";
         public const string BRANCH_ID = "branch_id";
         public const string COUNTER_ID = "counter_id";
-        public const string SERVICE_ID = "service_id";
+        public const string BANK_SERVICE_ID = "service_id";
 
         public const int BANK_NAME_SIZE = 255;
     }

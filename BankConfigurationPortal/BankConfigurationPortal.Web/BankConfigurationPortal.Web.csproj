@@ -123,11 +123,13 @@
     <Compile Include="Controllers\BankServiceController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\CounterController.cs" />
+    <Compile Include="Controllers\CounterServiceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CounterServiceViewModel.cs" />
     <Compile Include="WebResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -190,6 +192,8 @@
     <Content Include="Views\Counter\Edit.cshtml" />
     <Content Include="Views\Counter\Delete.cshtml" />
     <Content Include="Views\Counter\NotFound.cshtml" />
+    <Content Include="Views\CounterService\Index.cshtml" />
+    <Content Include="Views\CounterService\_CounterServiceSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

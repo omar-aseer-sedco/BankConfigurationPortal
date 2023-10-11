@@ -1,0 +1,15 @@
+﻿@model BankConfigurationPortal.Web.ViewModels.CounterServiceViewModel
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">@Model.Service.NameEn</h3>
+    </div>
+    <div class="panel-body">
+        @if (Model.IsAvailableOnCounter) {
+            @Html.ActionLink("Remove", "RemoveService", new { branchId = Model.BranchId, counterId = Model.CounterId, bankServiceId = Model.Service.BankServiceId })
+        }
+        else {
+            @Html.ActionLink("Add", "AddService", new { branchId = Model.BranchId, counterId = Model.CounterId, bankServiceId = Model.Service.BankServiceId })
+        }
+    </div>
+</div>
