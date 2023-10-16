@@ -1,12 +1,12 @@
-﻿using BankConfigurationPortal.Data.Constants;
-using BankConfigurationPortal.Data.Models;
-using BankConfigurationPortal.Data.Utils;
+﻿using BankConfigurationPortal.Web.Constants;
+using BankConfigurationPortal.Web.Models;
+using BankConfigurationPortal.Web.Utils;
 using BankConfigurationPortal.Utils.Helpers;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace BankConfigurationPortal.Data.Services {
+namespace BankConfigurationPortal.Web.Services {
     public class SqlUserData : IUserData {
         public User GetUser(string username) {
             try {

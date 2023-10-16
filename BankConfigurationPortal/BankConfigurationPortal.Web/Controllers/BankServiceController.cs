@@ -1,13 +1,10 @@
-﻿using BankConfigurationPortal.Data.Models;
-using BankConfigurationPortal.Data.Services;
-using BankConfigurationPortal.Utils.Helpers;
+﻿using BankConfigurationPortal.Utils.Helpers;
 using BankConfigurationPortal.Web.Attributes;
 using BankConfigurationPortal.Web.Models;
+using BankConfigurationPortal.Web.Services;
 using BankConfigurationPortal.Web.Utils;
 using System;
-using System.Text.Json;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [CookieAuthorization]

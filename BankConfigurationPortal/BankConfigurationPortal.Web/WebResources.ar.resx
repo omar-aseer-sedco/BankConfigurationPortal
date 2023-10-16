@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>عن التطبيق</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>مفعل؟</value>
+  </data>
   <data name="AddSelectedServices" xml:space="preserve">
     <value>تفعيل الخدمات المختارة</value>
   </data>
@@ -141,8 +144,14 @@
   <data name="BackToList" xml:space="preserve">
     <value>العودة إلى القائمة</value>
   </data>
+  <data name="BankName" xml:space="preserve">
+    <value>اسم البنك</value>
+  </data>
   <data name="BankService" xml:space="preserve">
     <value>الخدمة</value>
+  </data>
+  <data name="BankServiceId" xml:space="preserve">
+    <value>رقم الخدمة</value>
   </data>
   <data name="BankServices" xml:space="preserve">
     <value>الخدمات</value>
@@ -159,6 +168,9 @@
   <data name="BranchesMessage" xml:space="preserve">
     <value>يمكنك معاينة الفروع، إضافة فروع جديدة، أو تعديل أو حذف الفروع المتوفرة</value>
   </data>
+  <data name="BranchId" xml:space="preserve">
+    <value>رقم الفرع</value>
+  </data>
   <data name="ConfirmDeleteMessage" xml:space="preserve">
     <value>هل أنت متأكد أنك تريد حذف هذا السجل؟ لا يمكنك التراجع عن هذا الإجراء</value>
   </data>
@@ -168,8 +180,14 @@
   <data name="Counter" xml:space="preserve">
     <value>شباك</value>
   </data>
+  <data name="CounterId" xml:space="preserve">
+    <value>رقم الشباك</value>
+  </data>
   <data name="Counters" xml:space="preserve">
     <value>شبابيك</value>
+  </data>
+  <data name="CounterType" xml:space="preserve">
+    <value>نوع الشباك</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>إضافة</value>
@@ -210,6 +228,15 @@
   <data name="Logout" xml:space="preserve">
     <value>تسجيل خروج</value>
   </data>
+  <data name="MaxDailyTickets" xml:space="preserve">
+    <value>عدد التذاكر الأعلى يوميًا</value>
+  </data>
+  <data name="NameAr" xml:space="preserve">
+    <value>الاسم (عربي)</value>
+  </data>
+  <data name="NameEn" xml:space="preserve">
+    <value>الاسم (انجليزي)</value>
+  </data>
   <data name="None" xml:space="preserve">
     <value>لا يوجد</value>
   </data>
@@ -225,14 +252,23 @@
   <data name="NumberOfCounters" xml:space="preserve">
     <value>عدد الشبابيك</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة السر</value>
+  </data>
   <data name="RemoveSelectedServices" xml:space="preserve">
     <value>إبطال الخدمات المختارة</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>حفظ</value>
   </data>
+  <data name="Services" xml:space="preserve">
+    <value>خدمات</value>
+  </data>
   <data name="SwitchLanguage" xml:space="preserve">
     <value>English</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>اسم المستخدم</value>
   </data>
   <data name="ViewYourBranches" xml:space="preserve">
     <value>معاينة الفروع</value>

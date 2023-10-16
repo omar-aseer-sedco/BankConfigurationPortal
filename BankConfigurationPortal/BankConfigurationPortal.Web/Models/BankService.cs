@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BankConfigurationPortal.Data.Models {
+namespace BankConfigurationPortal.Web.Models {
     public class BankService {
         //[Required]
         [MaxLength(255)]

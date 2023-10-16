@@ -1,7 +1,7 @@
-﻿using BankConfigurationPortal.Data.Models;
+﻿using BankConfigurationPortal.Web.Models;
 using System.Collections.Generic;
 
-namespace BankConfigurationPortal.Data.Services {
+namespace BankConfigurationPortal.Web.Services {
     public interface IBranchData {
         IEnumerable<Branch> GetAllBranches(string bankName);
         Branch GetBranch(string bankName, int branchId);

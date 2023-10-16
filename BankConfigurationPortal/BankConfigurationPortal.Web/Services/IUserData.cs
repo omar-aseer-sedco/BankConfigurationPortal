@@ -1,6 +1,6 @@
-﻿using BankConfigurationPortal.Data.Models;
+﻿using BankConfigurationPortal.Web.Models;
 
-namespace BankConfigurationPortal.Data.Services {
+namespace BankConfigurationPortal.Web.Services {
     public interface IUserData {
         User GetUser(string username);
         bool ValidateUser(User user);

@@ -1,4 +1,4 @@
-﻿namespace BankConfigurationPortal.Data.Constants {
+﻿namespace BankConfigurationPortal.Web.Constants {
     public static class BanksConstants {
         public const string TABLE_NAME = "Banks";
 

@@ -1,7 +1,7 @@
-﻿using BankConfigurationPortal.Data.Models;
+﻿using BankConfigurationPortal.Web.Models;
 using System.Collections.Generic;
 
-namespace BankConfigurationPortal.Data.Services {
+namespace BankConfigurationPortal.Web.Services {
     public interface ICounterData {
         IEnumerable<Counter> GetAllCountersWithoutServices(string bankName, int branchId);
         Counter GetCounter(string bankName, int branchId, int counterId);

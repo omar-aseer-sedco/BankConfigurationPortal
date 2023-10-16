@@ -1,6 +1,5 @@
-﻿using BankConfigurationPortal.Data.Models;
-using BankConfigurationPortal.Data.Services;
-using BankConfigurationPortal.Web.Models;
+﻿using BankConfigurationPortal.Web.Models;
+using BankConfigurationPortal.Web.Services;
 using System;
 using System.Text.Json;
 using System.Web;
@@ -40,7 +39,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                 }
             }
 
-            ModelState.AddModelError("", "Username or password is incorrect");
+            ModelState.AddModelError("", "Bank name, username, or password is incorrect");
             return View(user);
         }
 

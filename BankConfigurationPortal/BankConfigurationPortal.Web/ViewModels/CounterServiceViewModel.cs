@@ -1,4 +1,4 @@
-﻿using BankConfigurationPortal.Data.Models;
+﻿using BankConfigurationPortal.Web.Models;
 
 namespace BankConfigurationPortal.Web.ViewModels {
     public class CounterServiceViewModel {

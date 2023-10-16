@@ -1,6 +1,6 @@
-﻿using BankConfigurationPortal.Data.Constants;
-using BankConfigurationPortal.Data.Models;
-using BankConfigurationPortal.Data.Utils;
+﻿using BankConfigurationPortal.Web.Constants;
+using BankConfigurationPortal.Web.Models;
+using BankConfigurationPortal.Web.Utils;
 using BankConfigurationPortal.Utils.Helpers;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
-namespace BankConfigurationPortal.Data.Services {
+namespace BankConfigurationPortal.Web.Services {
     public class SqlCounterData : ICounterData {
         public IEnumerable<Counter> GetAllCountersWithoutServices(string bankName, int branchId) {
             try {

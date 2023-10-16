@@ -153,6 +153,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attributes\CookieAuthorizationAttribute.cs" />
     <Compile Include="Attributes\InternationalizationAttribute.cs" />
+    <Compile Include="Constants\DbConstants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BankServiceController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
@@ -162,8 +163,24 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Bank.cs" />
+    <Compile Include="Models\BankService.cs" />
+    <Compile Include="Models\Branch.cs" />
+    <Compile Include="Models\Counter.cs" />
+    <Compile Include="Models\CounterType.cs" />
     <Compile Include="Models\SerializableUserData.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IBankServiceData.cs" />
+    <Compile Include="Services\IBranchData.cs" />
+    <Compile Include="Services\ICounterData.cs" />
+    <Compile Include="Services\IUserData.cs" />
+    <Compile Include="Services\SqlBankServiceData.cs" />
+    <Compile Include="Services\SqlBranchData.cs" />
+    <Compile Include="Services\SqlCounterData.cs" />
+    <Compile Include="Services\SqlUserData.cs" />
+    <Compile Include="Utils\CookieUtils.cs" />
+    <Compile Include="Utils\DbUtils.cs" />
     <Compile Include="ViewModels\CounterServiceViewModel.cs" />
     <Compile Include="ViewModels\SelectServicesViewModel.cs" />
     <Compile Include="WebResources.Designer.cs">
@@ -246,10 +263,6 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BankConfigurationPortal.Data\BankConfigurationPortal.Data.csproj">
-      <Project>{cecf5ccf-66e7-48e1-8b85-70c3671b8aa6}</Project>
-      <Name>BankConfigurationPortal.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utils\BankConfigurationPortal.Utils.csproj">
       <Project>{3e2473c6-7acf-49e3-9e76-8a8df3aa1019}</Project>
       <Name>BankConfigurationPortal.Utils</Name>

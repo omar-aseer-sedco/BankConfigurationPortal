@@ -1,15 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace BankConfigurationPortal.Data.Models { 
-    public class Branch {
-        //[Required] idk why this isn't working but whatever for now
+namespace BankConfigurationPortal.Web.Models {
+    public class Counter {
         [MaxLength(255)]
         [Display(Name = "BankName", ResourceType = typeof(WebResources))]
         public string BankName { get; set; }
 
-        [Required]
         [Display(Name = "BranchId", ResourceType = typeof(WebResources))]
         public int BranchId { get; set; }
+
+        [Required]
+        [Display(Name = "CounterId", ResourceType = typeof(WebResources))]
+        public int CounterId { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -24,5 +27,12 @@ namespace BankConfigurationPortal.Data.Models {
         [Required]
         [Display(Name = "Active", ResourceType = typeof(WebResources))]
         public bool Active { get; set; }
+
+        [Required]
+        [Display(Name = "CounterType", ResourceType = typeof(WebResources))]
+        public CounterType Type { get; set; }
+
+        [Display(Name = "Services", ResourceType = typeof(WebResources))]
+        public IEnumerable<BankService> Services { get; set; }
     }
 }

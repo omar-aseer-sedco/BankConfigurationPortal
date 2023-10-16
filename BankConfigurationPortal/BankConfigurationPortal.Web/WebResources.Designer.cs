@@ -70,6 +70,15 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active?.
+        /// </summary>
+        public static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add selected.
         /// </summary>
         public static string AddSelectedServices {
@@ -133,11 +142,29 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bank name.
+        /// </summary>
+        public static string BankName {
+            get {
+                return ResourceManager.GetString("BankName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service.
         /// </summary>
         public static string BankService {
             get {
                 return ResourceManager.GetString("BankService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service ID.
+        /// </summary>
+        public static string BankServiceId {
+            get {
+                return ResourceManager.GetString("BankServiceId", resourceCulture);
             }
         }
         
@@ -187,6 +214,15 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Branch ID.
+        /// </summary>
+        public static string BranchId {
+            get {
+                return ResourceManager.GetString("BranchId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete this entry? This action cannot be undone..
         /// </summary>
         public static string ConfirmDeleteMessage {
@@ -214,11 +250,29 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Counter ID.
+        /// </summary>
+        public static string CounterId {
+            get {
+                return ResourceManager.GetString("CounterId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Counters.
         /// </summary>
         public static string Counters {
             get {
                 return ResourceManager.GetString("Counters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Counter type.
+        /// </summary>
+        public static string CounterType {
+            get {
+                return ResourceManager.GetString("CounterType", resourceCulture);
             }
         }
         
@@ -340,6 +394,33 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum tickets per day.
+        /// </summary>
+        public static string MaxDailyTickets {
+            get {
+                return ResourceManager.GetString("MaxDailyTickets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name (Arabic).
+        /// </summary>
+        public static string NameAr {
+            get {
+                return ResourceManager.GetString("NameAr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name (English).
+        /// </summary>
+        public static string NameEn {
+            get {
+                return ResourceManager.GetString("NameEn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
         public static string None {
@@ -385,6 +466,15 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove selected.
         /// </summary>
         public static string RemoveSelectedServices {
@@ -403,11 +493,29 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Services.
+        /// </summary>
+        public static string Services {
+            get {
+                return ResourceManager.GetString("Services", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to عربي.
         /// </summary>
         public static string SwitchLanguage {
             get {
                 return ResourceManager.GetString("SwitchLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string Username {
+            get {
+                return ResourceManager.GetString("Username", resourceCulture);
             }
         }
         

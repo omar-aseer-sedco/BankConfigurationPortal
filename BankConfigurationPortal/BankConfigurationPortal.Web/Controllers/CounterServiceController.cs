@@ -1,4 +1,4 @@
-﻿using BankConfigurationPortal.Data.Services;
+﻿using BankConfigurationPortal.Web.Services;
 using BankConfigurationPortal.Utils.Helpers;
 using BankConfigurationPortal.Web.Attributes;
 using BankConfigurationPortal.Web.Utils;

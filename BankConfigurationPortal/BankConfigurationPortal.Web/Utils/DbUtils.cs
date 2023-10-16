@@ -1,12 +1,13 @@
 ﻿using BankConfigurationPortal.Utils.Constants;
 using BankConfigurationPortal.Utils.Helpers;
 using System;
+using System.Configuration;
 using System.Data.SqlClient;
 
-namespace BankConfigurationPortal.Data.Utils {
+namespace BankConfigurationPortal.Web.Utils {
     internal static class DbUtils {
         private static string GetConnectionString() {
-            return "server=(local);database=TSD;integrated security=sspi;";
+            return ConfigurationManager.ConnectionStrings["TsdConnectionString"].ConnectionString;
         }
 
         /// <summary>
