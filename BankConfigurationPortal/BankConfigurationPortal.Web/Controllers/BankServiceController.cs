@@ -1,18 +1,22 @@
 ﻿using BankConfigurationPortal.Data.Models;
 using BankConfigurationPortal.Data.Services;
 using BankConfigurationPortal.Utils.Helpers;
+using BankConfigurationPortal.Web.Attributes;
+using BankConfigurationPortal.Web.Models;
+using BankConfigurationPortal.Web.Utils;
 using System;
+using System.Text.Json;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace BankConfigurationPortal.Web.Controllers {
+    [CookieAuthorization]
     public class BankServiceController : Controller {
         private readonly IBankServiceData db;
-        private readonly string bankName;
 
         public BankServiceController() {
             try {
                 db = new SqlBankServiceData(); // TODO: use dependency injection
-                bankName = "bank1"; // TODO: get the actual bank name 
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);
@@ -21,7 +25,7 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Index() {
             try {
-                var model = db.GetAllBankServices(bankName);
+                var model = db.GetAllBankServices(CookieUtils.GetBankName(Request));
                 return View(model);
             }
             catch (Exception ex) {
@@ -36,7 +40,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     return RedirectToAction("Index");
                 }
 
-                var model = db.GetBankService(bankName, bankServiceId);
+                var model = db.GetBankService(CookieUtils.GetBankName(Request), bankServiceId);
                 if (model == null) {
                     return View("NotFound");
                 }
@@ -64,7 +68,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create(BankService bankService) {
             try {
-                bankService.BankName = bankName;
+                bankService.BankName = CookieUtils.GetBankName(Request);
 
                 if (ModelState.IsValid) {
                     int bankServiceId = db.Add(bankService);
@@ -84,7 +88,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Edit(int bankServiceId) {
             try {
-                var model = db.GetBankService(bankName, bankServiceId);
+                var model = db.GetBankService(CookieUtils.GetBankName(Request), bankServiceId);
                 if (model == null) {
                     return View("NotFound");
                 }
@@ -101,7 +105,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit(BankService bankService) {
             try {
-                bankService.BankName = bankName;
+                bankService.BankName = CookieUtils.GetBankName(Request);
                 if (ModelState.IsValid) {
                     db.Update(bankService);
                     return RedirectToAction("Details", new { bankServiceId = bankService.BankServiceId });
@@ -120,7 +124,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Delete(int bankServiceId) {
             try {
-                var model = db.GetBankService(bankName, bankServiceId);
+                var model = db.GetBankService(CookieUtils.GetBankName(Request), bankServiceId);
                 if (model == null) {
                     return View("NotFound");
                 }
@@ -137,7 +141,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int bankServiceId, FormCollection form) {
             try {
-                db.Delete(bankName, bankServiceId);
+                db.Delete(CookieUtils.GetBankName(Request), bankServiceId);
                 return RedirectToAction("Index");
             }
             catch (Exception ex) {

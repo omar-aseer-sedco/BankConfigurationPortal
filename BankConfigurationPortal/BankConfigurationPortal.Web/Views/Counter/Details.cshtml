@@ -71,7 +71,7 @@
     </dl>
 </div>
 <div>
-    <p><a class="btn btn-default" href=@string.Format($"/CounterService?branchId={Model.BranchId}&counterId={Model.CounterId}")>@WebResources.AllocateServices &raquo;</a></p>
+    <p><a class="btn btn-default" href=@Url.Action("Index", "CounterService", new { branchId = Model.BranchId, counterId = Model.CounterId })>@WebResources.AllocateServices &raquo;</a></p>
 </div>
 <p>
     @Html.ActionLink(WebResources.Edit, "Edit", new { branchId = Model.BranchId, counterId = Model.CounterId }) |

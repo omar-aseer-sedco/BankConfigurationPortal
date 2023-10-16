@@ -1,14 +1,35 @@
-﻿@model IEnumerable<BankConfigurationPortal.Web.ViewModels.CounterServiceViewModel>
+﻿@model BankConfigurationPortal.Web.ViewModels.SelectServicesViewModel
 @{
     ViewBag.Title = WebResources.BankServices;
 }
 
 <h2>@WebResources.BankServices</h2>
 
-@foreach (var item in Model) {
-    @Html.Partial("_CounterServiceSummary", item);
+@using (Html.BeginForm("ModifyServices", "CounterService", FormMethod.Post)) {
+    <div class="list-group">
+        @for (int i = 0; i < Model.CounterServices.Count(); ++i) {
+            var item = Model.CounterServices.ElementAt(i);
+            <div class="panel panel-default" style="margin-bottom: 8px; margin-top: 0">
+                <div class="panel-heading">
+                    @*<label class="panel-title">@Html.CheckBoxFor(model => model.CounterServices.ElementAt(i).Selected) &nbsp @item.Service.NameEn &nbsp&nbsp</label> <!--TODO: localization for service name-->*@
+                    <lable class="panel-title">&nbsp @item.Service.NameEn &nbsp&nbsp</lable>
+                    <label class="alert-link">
+                        @if (item.IsAvailableOnCounter) {
+                            @Html.ActionLink("Remove", "RemoveService", new { branchId = item.BranchId, counterId = item.CounterId, bankServiceId = item.Service.BankServiceId })
+                        }
+                        else {
+                            @Html.ActionLink("Add", "AddService", new { branchId = item.BranchId, counterId = item.CounterId, bankServiceId = item.Service.BankServiceId })
+                        }
+                    </label>
+                </div>
+            </div>
+        }
+    </div>
+
+    @*
+    <button class="btn btn-default" type="submit" formaction="@Url.Action("ModifyServices", "CounterService", new { branchId = ViewBag.BranchId, counterId = ViewBag.CounterId, operation = BankConfigurationPortal.Web.ViewModels.ServiceOperation.addServices, postData = Model })">@WebResources.AddSelectedServices</button>
+    <button class="btn btn-default" type="submit" formaction="@Url.Action("ModifyServices", "CounterService", new { branchId = ViewBag.BranchId, counterId = ViewBag.CounterId, operation = BankConfigurationPortal.Web.ViewModels.ServiceOperation.removeServices, postData = Model })">@WebResources.RemoveSelectedServices</button>
+    *@
 }
 
-<p>
-    @Html.ActionLink(WebResources.BackToCounter, "Details", "Counter", new { branchId = ViewBag.BranchId, counterId = ViewBag.CounterId }, null)
-</p>
+<p>@Html.ActionLink(WebResources.BackToCounter, "Details", "Counter", new { branchId = ViewBag.BranchId, counterId = ViewBag.CounterId }, null)</p>

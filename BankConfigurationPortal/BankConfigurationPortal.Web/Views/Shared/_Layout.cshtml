@@ -1,4 +1,27 @@
-﻿<!DOCTYPE html>
+﻿@using BankConfigurationPortal.Web.Models;
+@using System.Text.Json;
+
+@{ 
+    bool isRtl = false;
+    var languageCookie = Context.Request.Cookies["language"];
+    if (languageCookie != null) {
+        if (languageCookie.Value == "ar") {
+            isRtl = true;
+        }
+        else {
+            isRtl = false;
+        }
+    }
+    string username = null, bankName = null;
+    var authCookie = Context.Request.Cookies[FormsAuthentication.FormsCookieName];
+    if (authCookie != null) {
+        SerializableUserData userData = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(authCookie.Value).UserData, JsonSerializerOptions.Default);
+        username = userData.Username;
+        bankName = userData.BankName;
+    }
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -8,7 +31,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top"> <!--TODO: figure out how to RTL this (maybe)-->
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -24,16 +47,22 @@
                     <li>@Html.ActionLink(WebResources.Branches, "Index", "Branch")</li>
                     <li>@Html.ActionLink(WebResources.BankServices, "Index", "BankService")</li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right"> <!--TODO: figure out how to RTL this-->
-                    <li class="btn btn-sm nav-item">@Html.ActionLink(WebResources.SwitchLanguage + " (WIP)", "Index", "Home")</li>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (username == null) {
+                        <li class="btn nav-item">@Html.ActionLink(WebResources.Login, "Login", "Account")</li>
+                    }
+                    else {
+                        <li class="btn nav-item">@Html.ActionLink(WebResources.Logout, "Logout", "Account")</li>
+                    }
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content" dir="@(isRtl ? "rtl" : "auto")">
         @RenderBody()
         <hr />
         <footer>
+            <p>@Html.ActionLink(WebResources.SwitchLanguage, "ToggleLanguage", "Home")</p>
             <p>&copy; @DateTime.Now.Year - @WebResources.CopyrightHolder</p>
         </footer>
     </div>

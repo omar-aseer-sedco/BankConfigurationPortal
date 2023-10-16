@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 namespace BankConfigurationPortal.Data.Utils {
     internal static class DbUtils {
         private static string GetConnectionString() {
-            return "server=(local);database=BankConfigurationPortal;integrated security=sspi;";
+            return "server=(local);database=TSD;integrated security=sspi;";
         }
 
         /// <summary>

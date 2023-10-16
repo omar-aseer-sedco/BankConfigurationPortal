@@ -1,4 +1,4 @@
-:setvar DB BankConfigurationPortal
+:setvar DB TSD
 
 IF NOT EXISTS(SELECT Name FROM sys.databases WHERE Name = '$(DB)') BEGIN
 	CREATE DATABASE $(DB);
@@ -135,4 +135,34 @@ CREATE TRIGGER CascadeOnCounterDelete
 AS BEGIN
 	DELETE FROM ServicesCounters WHERE ServicesCounters.bank_name IN (SELECT deleted.bank_name FROM deleted) AND ServicesCounters.branch_id IN (SELECT deleted.branch_id FROM deleted) AND ServicesCounters.counter_id IN (SELECT deleted.counter_id FROM deleted);
 	DELETE FROM Counters WHERE Counters.bank_name IN (SELECT deleted.bank_name FROM deleted) AND Counters.branch_id IN (SELECT deleted.branch_id FROM deleted) AND Counters.counter_id IN (SELECT deleted.counter_id FROM deleted);
+END
+
+GO
+
+DROP TYPE IF EXISTS add_service_counter_parameter;
+
+CREATE TYPE add_service_counter_parameter AS TABLE(
+	bank_name VARCHAR(255) NOT NULL,
+	branch_id INT NOT NULL,
+	counter_id INT NOT NULL,
+	service_id INT NOT NULL
+);
+
+GO
+
+CREATE PROCEDURE AddServicesToCounters(@service_counters add_service_counter_parameter READONLY) AS BEGIN
+	DECLARE @bank_name VARCHAR(255);
+	DECLARE @branch_id INT;
+	DECLARE @counter_id INT;
+	DECLARE @service_id INT;
+
+	DECLARE parameter_cursor CURSOR FOR SELECT * FROM @service_counters;
+	OPEN parameter_cursor;
+
+	FETCH NEXT FROM parameter_cursor INTO @bank_name, @branch_id, @counter_id, @service_id;
+
+	WHILE @@FETCH_STATUS = 0 BEGIN
+		INSERT INTO ServicesCounters (bank_name, branch_id, counter_id, service_id) VALUES (@bank_name, @branch_id, @counter_id, @service_id);
+		FETCH NEXT FROM parameter_cursor INTO @bank_name, @branch_id, @counter_id, @service_id;
+	END
 END

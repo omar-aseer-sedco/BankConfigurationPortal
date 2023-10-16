@@ -43,7 +43,7 @@
     </dl>
 </div>
 <div>
-    <p><a class="btn btn-default" href=@string.Format($"/Counter?branchId={Model.BranchId}")>@WebResources.EditCounters &raquo;</a></p>
+    <p><a class="btn btn-default" href=@Url.Action("Index", "Counter", new { branchId = Model.BranchId }) )>@WebResources.EditCounters &raquo;</a></p>
 </div>
 <p>
     @Html.ActionLink(WebResources.Edit, "Edit", new { branchId = Model.BranchId }) |

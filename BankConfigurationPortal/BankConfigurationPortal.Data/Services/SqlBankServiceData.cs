@@ -175,6 +175,41 @@ namespace BankConfigurationPortal.Data.Services {
             return default;
         }
 
+        public int AddServices(string bankName, int branchId, int counterId, IEnumerable<int> bankServiceIds) {
+            try {
+                DataTable dataTable = new DataTable();
+                dataTable.Columns.Add(ServicesCountersConstants.BANK_NAME, typeof(string));
+                dataTable.Columns.Add(ServicesCountersConstants.BRANCH_ID, typeof(int));
+                dataTable.Columns.Add(ServicesCountersConstants.COUNTER_ID, typeof(int));
+                dataTable.Columns.Add(ServicesCountersConstants.BANK_SERVICE_ID, typeof(int));
+
+                foreach (int id in bankServiceIds) {
+                    DataRow row = dataTable.NewRow();
+
+                    row[ServicesCountersConstants.BANK_NAME] = bankName;
+                    row[ServicesCountersConstants.BRANCH_ID] = branchId;
+                    row[ServicesCountersConstants.COUNTER_ID] = counterId;
+                    row[ServicesCountersConstants.BANK_SERVICE_ID] = id;
+
+                    dataTable.Rows.Add(row);
+                }
+
+                SqlCommand command = new SqlCommand(ServicesCountersConstants.ADD_SERVICES_TO_COUNTER_PROCEDURE) {
+                    CommandType = CommandType.StoredProcedure
+                };
+                SqlParameter addServicesToCountersParameter = command.Parameters.AddWithValue(ServicesCountersConstants.ADD_SERVICES_TO_COUNTER_PARAMETER_NAME, dataTable);
+                addServicesToCountersParameter.SqlDbType = SqlDbType.Structured;
+                addServicesToCountersParameter.TypeName = ServicesCountersConstants.ADD_SERVICES_TO_COUNTER_PARAMETER_TYPE;
+
+                DbUtils.ExecuteNonQuery(command);
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
+        }
+
         public int RemoveService(string bankName, int branchId, int counterId, int bankServiceId) {
             try {
                 string query = $"DELETE FROM {ServicesCountersConstants.TABLE_NAME} WHERE {ServicesCountersConstants.BANK_NAME} = @bankName AND {ServicesCountersConstants.BRANCH_ID} = @branchId " +
@@ -184,6 +219,37 @@ namespace BankConfigurationPortal.Data.Services {
                 command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
                 command.Parameters.Add("@counterId", SqlDbType.Int).Value = counterId;
                 command.Parameters.Add("@bankServiceId", SqlDbType.Int).Value = bankServiceId;
+
+                return DbUtils.ExecuteNonQuery(command);
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
+        }
+
+        public int RemoveServices(string bankName, int branchId, int counterId, IEnumerable<int> bankServiceIds) {
+            try {
+                SqlCommand command = new SqlCommand();
+                command.Parameters.Add("@bankName", SqlDbType.VarChar, ServicesCountersConstants.BANK_NAME_SIZE).Value = bankName;
+                command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
+                command.Parameters.Add("@counterId", SqlDbType.Int).Value = counterId;
+
+                var query = new StringBuilder($"DELETE FROM {ServicesCountersConstants.TABLE_NAME} WHERE {ServicesCountersConstants.BANK_NAME} = @bankName AND {ServicesCountersConstants.BRANCH_ID} = @branchId " +
+                                              $"AND {ServicesCountersConstants.COUNTER_ID} = @counterId AND {ServicesCountersConstants.BANK_SERVICE_ID} IN (");
+
+                int i = 0;
+                foreach (var id in bankServiceIds) {
+                    query.Append("serviceId").Append(i).Append(',');
+                    command.Parameters.Add("serviceId" + i, SqlDbType.Int).Value = id;
+                    ++i;
+                }
+
+                query.Length--;
+                query.Append(");");
+
+                command.CommandText = query.ToString();
 
                 return DbUtils.ExecuteNonQuery(command);
             }

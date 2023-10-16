@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="AddSelectedServices" xml:space="preserve">
+    <value>Add selected</value>
+  </data>
   <data name="AllocateServices" xml:space="preserve">
     <value>Allocate services</value>
   </data>
@@ -201,6 +204,12 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Log out</value>
+  </data>
   <data name="None" xml:space="preserve">
     <value>None</value>
   </data>
@@ -215,6 +224,9 @@
   </data>
   <data name="NumberOfCounters" xml:space="preserve">
     <value>Number of counters</value>
+  </data>
+  <data name="RemoveSelectedServices" xml:space="preserve">
+    <value>Remove selected</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>

@@ -74,6 +74,10 @@
         public const string COUNTER_ID = "counter_id";
         public const string BANK_SERVICE_ID = "service_id";
 
+        public const string ADD_SERVICES_TO_COUNTER_PROCEDURE = "AddServicesToCounters";
+        public const string ADD_SERVICES_TO_COUNTER_PARAMETER_TYPE = "dbo.add_service_counter_parameter";
+        public const string ADD_SERVICES_TO_COUNTER_PARAMETER_NAME = "@service_counters";
+
         public const int BANK_NAME_SIZE = 255;
     }
 }

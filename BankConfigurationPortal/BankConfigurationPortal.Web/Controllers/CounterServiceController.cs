@@ -1,19 +1,20 @@
 ﻿using BankConfigurationPortal.Data.Services;
 using BankConfigurationPortal.Utils.Helpers;
+using BankConfigurationPortal.Web.Attributes;
+using BankConfigurationPortal.Web.Utils;
 using BankConfigurationPortal.Web.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace BankConfigurationPortal.Web.Controllers {
+    [CookieAuthorization]
     public class CounterServiceController : Controller {
         private readonly IBankServiceData db;
-        private readonly string bankName;
 
         public CounterServiceController() {
             try {
                 db = new SqlBankServiceData(); // TODO: use dependency injection
-                bankName = "bank1"; // TODO: get actual bank name
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);
@@ -25,17 +26,20 @@ namespace BankConfigurationPortal.Web.Controllers {
                 ViewBag.BranchId = branchId;
                 ViewBag.CounterId = counterId;
 
-                var model = new List<CounterServiceViewModel>();
-                var allServices = db.GetAllBankServices(bankName);
+                var list = new List<CounterServiceViewModel>();
+                var allServices = db.GetAllBankServices(CookieUtils.GetBankName(Request));
                 foreach (var service in allServices) {
-                    bool isAvailableOnCounter = db.IsAvailableOnCounter(bankName, branchId, counterId, service.BankServiceId);
-                    model.Add(new CounterServiceViewModel() {
+                    bool isAvailableOnCounter = db.IsAvailableOnCounter(CookieUtils.GetBankName(Request), branchId, counterId, service.BankServiceId);
+                    list.Add(new CounterServiceViewModel() {
                         Service = service,
                         BranchId = branchId,
                         CounterId = counterId,
                         IsAvailableOnCounter = isAvailableOnCounter,
                     });
                 }
+                var model = new SelectServicesViewModel() {
+                    CounterServices = list,
+                };
                 return View(model);
             }
             catch (Exception ex) {
@@ -46,7 +50,7 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult AddService(int branchId, int counterId, int bankServiceId) {
             try {
-                db.AddService(bankName, branchId, counterId, bankServiceId);
+                db.AddService(CookieUtils.GetBankName(Request), branchId, counterId, bankServiceId);
                 return RedirectToAction("Index", new { branchId, counterId });
             }
             catch (Exception ex) {
@@ -57,7 +61,32 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult RemoveService(int branchId, int counterId, int bankServiceId) {
             try {
-                db.RemoveService(bankName, branchId, counterId, bankServiceId);
+                db.RemoveService(CookieUtils.GetBankName(Request), branchId, counterId, bankServiceId);
+                return RedirectToAction("Index", new { branchId, counterId });
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ModifyServices(int branchId, int counterId, ServiceOperation operation, SelectServicesViewModel postData) {
+            try {
+                List<int> selectedServiceIds = new List<int>();
+                foreach (var counterService in postData.CounterServices) {
+                    if (counterService.Selected) {
+                        selectedServiceIds.Add(counterService.Service.BankServiceId);
+                    }
+                }
+
+                if (operation == ServiceOperation.addServices) {
+                    db.AddServices(CookieUtils.GetBankName(Request), branchId, counterId, selectedServiceIds);
+                }
+                else if (operation == ServiceOperation.removeServices) {
+                    db.RemoveServices(CookieUtils.GetBankName(Request), branchId, counterId, selectedServiceIds);
+                }
+
                 return RedirectToAction("Index", new { branchId, counterId });
             }
             catch (Exception ex) {

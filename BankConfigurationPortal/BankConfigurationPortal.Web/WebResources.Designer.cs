@@ -70,6 +70,15 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add selected.
+        /// </summary>
+        public static string AddSelectedServices {
+            get {
+                return ResourceManager.GetString("AddSelectedServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Allocate services.
         /// </summary>
         public static string AllocateServices {
@@ -313,6 +322,24 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log in.
+        /// </summary>
+        public static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log out.
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
         public static string None {
@@ -354,6 +381,15 @@ namespace BankConfigurationPortal.Web {
         public static string NumberOfCounters {
             get {
                 return ResourceManager.GetString("NumberOfCounters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove selected.
+        /// </summary>
+        public static string RemoveSelectedServices {
+            get {
+                return ResourceManager.GetString("RemoveSelectedServices", resourceCulture);
             }
         }
         

@@ -1,22 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
-using BankConfigurationPortal.Data.Services;
 
 namespace BankConfigurationPortal.Web.Controllers {
+    [AllowAnonymous]
     public class HomeController : Controller {
-        private readonly IBranchData db;
-
-        public HomeController() {
-            db = new SqlBranchData(); // TODO: use dependency injection
+        public ActionResult Index() {
+            return View();
         }
 
-        public ActionResult Index() {
-            int branchCount = db.GetAllBranches("bank1").Count();
-            ViewBag.BranchCount = branchCount;
-            return View();
+        public ActionResult ToggleLanguage() {
+            string currentLanguage = "en";
+            var languageCookie = HttpContext.Request.Cookies["language"];
+            if (languageCookie != null) {
+                currentLanguage = languageCookie.Value;
+            }
+
+            string newLanguage = currentLanguage == "en" ? "ar" : "en";
+
+            Response.Cookies.Remove("language");
+            Response.Cookies.Add(new HttpCookie("language") {
+                Value = newLanguage,
+                Expires = DateTime.Now.AddYears(1),
+                HttpOnly = false,
+            });
+
+            var cultureInfo = new CultureInfo(newLanguage);
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = cultureInfo;
+            
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }

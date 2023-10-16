@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 namespace BankConfigurationPortal.Data.Services {
-    class UserData {
+    public class SqlUserData : IUserData {
         public User GetUser(string username) {
             try {
                 string query = $"SELECT * FROM {UsersConstants.TABLE_NAME} WHERE {UsersConstants.USERNAME} = @username;";
@@ -34,9 +34,13 @@ namespace BankConfigurationPortal.Data.Services {
             return default;
         }
 
-        public string GetPassword(string username) {
+        public bool ValidateUser(User user) {
             try {
-                return GetUser(username).Password;
+                var _user = GetUser(user.Username);
+                if (_user.Username == string.Empty)
+                    return false;
+
+                return _user.Password == user.Password && _user.BankName.ToLower() == user.BankName.ToLower();
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);

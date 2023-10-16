@@ -1,18 +1,19 @@
 ﻿using BankConfigurationPortal.Data.Models;
 using BankConfigurationPortal.Data.Services;
 using BankConfigurationPortal.Utils.Helpers;
+using BankConfigurationPortal.Web.Attributes;
+using BankConfigurationPortal.Web.Utils;
 using System;
 using System.Web.Mvc;
 
 namespace BankConfigurationPortal.Web.Controllers {
+    [CookieAuthorization]
     public class CounterController : Controller {
         private readonly ICounterData db;
-        private readonly string bankName;
 
         public CounterController() {
             try {
                 db = new SqlCounterData(); // TODO: use dependency injection
-                bankName = "bank1"; // TODO: get actual bank name
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);
@@ -21,7 +22,7 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Index(int branchId) {
             try {
-                var model = db.GetAllCountersWithoutServices(bankName, branchId);
+                var model = db.GetAllCountersWithoutServices(CookieUtils.GetBankName(Request), branchId);
                 ViewBag.BranchId = branchId;
                 return View(model);
             }
@@ -33,7 +34,7 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Details(int branchId, int counterId) {
             try {
-                var model = db.GetCounter(bankName, branchId, counterId);
+                var model = db.GetCounter(CookieUtils.GetBankName(Request), branchId, counterId);
                 if (model == null) {
                     return View("NotFound", branchId);
                 }
@@ -62,7 +63,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create(int branchId, Counter counter) {
             try {
-                counter.BankName = bankName;
+                counter.BankName = CookieUtils.GetBankName(Request);
 
                 if (ModelState.IsValid) {
                     int counterId = db.Add(counter);
@@ -82,7 +83,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Edit(int branchId, int counterId) {
             try {
-                var model = db.GetCounter(bankName, branchId, counterId);
+                var model = db.GetCounter(CookieUtils.GetBankName(Request), branchId, counterId);
                 if (model == null) {
                     return View("NotFound", branchId);
                 }
@@ -99,7 +100,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int branchId, Counter counter) {
             try {
-                counter.BankName = bankName;
+                counter.BankName = CookieUtils.GetBankName(Request);
                 counter.BranchId = branchId;
 
                 if (ModelState.IsValid) {
@@ -120,7 +121,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Delete(int branchId, int counterId) {
             try {
-                var model = db.GetCounter(bankName, branchId, counterId);
+                var model = db.GetCounter(CookieUtils.GetBankName(Request), branchId, counterId);
                 if (model == null) {
                     return View("NotFound", branchId);
                 }
@@ -137,7 +138,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int branchId, int counterId, FormCollection form) {
             try {
-                db.Delete(bankName, branchId, counterId);
+                db.Delete(CookieUtils.GetBankName(Request), branchId, counterId);
                 return RedirectToAction("Index", new { branchId });
             }
             catch (Exception ex) {

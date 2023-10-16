@@ -10,7 +10,9 @@ namespace BankConfigurationPortal.Data.Services {
         int Delete(string bankName, int bankServiceId);
         int Delete(string bankName, IEnumerable<int> bankServiceIds);
         int AddService(string bankName, int branchId, int counterId, int bankServiceId);
+        int AddServices(string bankName, int branchId, int counterId, IEnumerable<int> bankServiceIds);
         int RemoveService(string bankName, int branchId, int counterId, int bankServiceId);
+        int RemoveServices(string bankName, int branchId, int counterId, IEnumerable<int> bankServiceIds);
         bool IsAvailableOnCounter(string bankName, int branchId, int counterId, int bankServiceId);
     }
 }
