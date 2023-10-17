@@ -22,6 +22,10 @@ namespace BankConfigurationPortal.Web {
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/chosen").Include(
+                      "~/Scripts/chosen.jquery.js",
+                      "~/Scripts/chosen.jquery.min.js"));
         }
     }
 }

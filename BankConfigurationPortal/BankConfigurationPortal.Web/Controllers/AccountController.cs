@@ -1,4 +1,5 @@
-﻿using BankConfigurationPortal.Web.Models;
+﻿using BankConfigurationPortal.Utils.Helpers;
+using BankConfigurationPortal.Web.Models;
 using BankConfigurationPortal.Web.Services;
 using System;
 using System.Text.Json;
@@ -12,45 +13,68 @@ namespace BankConfigurationPortal.Web.Controllers {
         private readonly IUserData db;
 
         public AccountController() {
-            db = new SqlUserData();
+            try {
+                db = new SqlUserData();
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
         }
 
         [HttpGet]
         public ActionResult Login(string returnUrl = "") {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
+            try {
+                ViewBag.ReturnUrl = returnUrl;
+                return View();
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+                return View("Error");
+            }
         }
 
         [HttpPost]
         public ActionResult Login(User user, string returnUrl = "") {
-            if (ModelState.IsValid) {
-                if (db.ValidateUser(user)) {
-                    string userData = JsonSerializer.Serialize(new SerializableUserData() { Username = user.Username, BankName = user.BankName });
-                    FormsAuthenticationTicket authenticationTicket = new FormsAuthenticationTicket(1, user.Username, DateTime.Now, DateTime.Now.AddDays(1), true, userData);
-                    string encryptedTicket = FormsAuthentication.Encrypt(authenticationTicket);
-                    Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket));
+            try {
+                if (ModelState.IsValid) {
+                    if (db.ValidateUser(user)) {
+                        string userData = JsonSerializer.Serialize(new SerializableUserData() { Username = user.Username, BankName = user.BankName });
+                        FormsAuthenticationTicket authenticationTicket = new FormsAuthenticationTicket(1, user.Username, DateTime.Now, DateTime.Now.AddDays(1), true, userData);
+                        string encryptedTicket = FormsAuthentication.Encrypt(authenticationTicket);
+                        Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket));
 
-                    if (Url.IsLocalUrl(returnUrl)) {
-                        return Redirect(returnUrl);
-                    }
-                    else {
-                        return RedirectToAction("Index", "Home");
+                        if (Url.IsLocalUrl(returnUrl)) {
+                            return Redirect(returnUrl);
+                        }
+                        else {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
-            }
 
-            ModelState.AddModelError("", "Bank name, username, or password is incorrect");
-            return View(user);
+                ModelState.AddModelError("", "Bank name, username, or password is incorrect");
+                return View(user);
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+                return View("Error");
+            }
         }
 
         public ActionResult Logout() {
-            Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName) {
-                Value = "",
-                Expires = DateTime.Now.AddDays(-1),
-            });
+            try {
+                Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName) {
+                    Value = "",
+                    Expires = DateTime.Now.AddDays(-1),
+                });
 
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+                return View("Error");
+            }
         }
     }
 }

@@ -5,15 +5,19 @@ using BankConfigurationPortal.Web.Attributes;
 using BankConfigurationPortal.Web.Utils;
 using System;
 using System.Web.Mvc;
+using BankConfigurationPortal.Web.ViewModels;
+using System.Collections.Generic;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [CookieAuthorization]
     public class CounterController : Controller {
         private readonly ICounterData db;
+        private readonly IBankServiceData serviceData;
 
         public CounterController() {
             try {
                 db = new SqlCounterData(); // TODO: use dependency injection
+                serviceData = new SqlBankServiceData(); // TODO: use dependency injection
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);
@@ -34,7 +38,28 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Details(int branchId, int counterId) {
             try {
-                var model = db.GetCounter(CookieUtils.GetBankName(Request), branchId, counterId);
+                ViewBag.BranchId = branchId;
+                ViewBag.CounterId = counterId;
+
+                var allServices = serviceData.GetAllBankServices(CookieUtils.GetBankName(Request));
+                List<CounterServiceViewModel> counterServices = new List<CounterServiceViewModel>();
+                foreach (var service in allServices) {
+                    counterServices.Add(new CounterServiceViewModel() {
+                        Service = service,
+                        IsAvailableOnCounter = serviceData.IsAvailableOnCounter(CookieUtils.GetBankName(Request), branchId, counterId, service.BankServiceId),
+                    });
+                }
+
+                var counter = db.GetCounter(CookieUtils.GetBankName(Request), branchId, counterId);
+                var model = new CounterDetailsViewModel() {
+                    BranchId = counter.BranchId,
+                    CounterId = counter.CounterId,
+                    NameEn = counter.NameEn,
+                    NameAr = counter.NameAr,
+                    Active = counter.Active,
+                    Type = counter.Type,
+                    Services = counterServices,
+                };
                 if (model == null) {
                     return View("NotFound", branchId);
                 }

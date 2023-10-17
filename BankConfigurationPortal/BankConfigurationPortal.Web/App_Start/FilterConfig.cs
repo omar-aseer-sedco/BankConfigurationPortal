@@ -1,5 +1,4 @@
 ﻿using BankConfigurationPortal.Web.Attributes;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BankConfigurationPortal.Web {

@@ -7,7 +7,13 @@ using System.Data.SqlClient;
 namespace BankConfigurationPortal.Web.Utils {
     internal static class DbUtils {
         private static string GetConnectionString() {
-            return ConfigurationManager.ConnectionStrings["TsdConnectionString"].ConnectionString;
+            try {
+                return ConfigurationManager.ConnectionStrings["TsdConnectionString"].ConnectionString;
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+                return string.Empty;
+            }
         }
 
         /// <summary>
