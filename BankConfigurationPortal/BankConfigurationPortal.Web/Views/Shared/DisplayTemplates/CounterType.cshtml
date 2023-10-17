@@ -1,3 +1,10 @@
-﻿@model BankConfigurationPortal.Web.Models.CounterType
+﻿@using BankConfigurationPortal.Web.Models;
 
-@Html.DisplayFor(m => m)
+@model CounterType
+
+@if (Model == CounterType.CustomerService) {
+    <p>@WebResources.CustomerService</p>
+}
+else {
+    <p>@WebResources.Teller</p>
+}
