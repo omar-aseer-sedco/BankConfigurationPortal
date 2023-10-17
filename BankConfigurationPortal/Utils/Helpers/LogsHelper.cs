@@ -38,7 +38,7 @@ namespace BankConfigurationPortal.Utils.Helpers {
     }
 
     public static class LogsHelper {
-        private static readonly string logsDirectoryPath = Path.Combine(@"C:\Users\omar.aseer\Desktop\Projects\Task 2 - Bank Configuration Portal", "logs");
+        private static readonly string logsDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
         private static readonly string logsFilePath = Path.Combine(logsDirectoryPath, "logs.json");
 
         private static void InitializeFile() {

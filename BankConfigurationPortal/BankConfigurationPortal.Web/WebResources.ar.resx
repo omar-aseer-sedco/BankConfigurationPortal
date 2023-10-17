@@ -195,6 +195,9 @@
   <data name="CreateNew" xml:space="preserve">
     <value>إضافة</value>
   </data>
+  <data name="CustomerService" xml:space="preserve">
+    <value>خدمة العملاء</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>حذف</value>
   </data>
@@ -266,6 +269,9 @@
   </data>
   <data name="SwitchLanguage" xml:space="preserve">
     <value>English</value>
+  </data>
+  <data name="Teller" xml:space="preserve">
+    <value>أمين صندوق</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>اسم المستخدم</value>

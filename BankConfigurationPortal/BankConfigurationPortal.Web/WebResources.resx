@@ -195,6 +195,9 @@
   <data name="CreateNew" xml:space="preserve">
     <value>Create New</value>
   </data>
+  <data name="CustomerService" xml:space="preserve">
+    <value>Customer service</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -266,6 +269,9 @@
   </data>
   <data name="SwitchLanguage" xml:space="preserve">
     <value>عربي</value>
+  </data>
+  <data name="Teller" xml:space="preserve">
+    <value>Teller</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>

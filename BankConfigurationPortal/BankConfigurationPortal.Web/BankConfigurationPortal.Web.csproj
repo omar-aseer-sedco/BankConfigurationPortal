@@ -246,6 +246,7 @@
     <Content Include="Views\Counter\Edit.cshtml" />
     <Content Include="Views\Counter\Delete.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CounterType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

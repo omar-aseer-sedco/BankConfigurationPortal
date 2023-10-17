@@ -295,6 +295,15 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer service.
+        /// </summary>
+        public static string CustomerService {
+            get {
+                return ResourceManager.GetString("CustomerService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -507,6 +516,15 @@ namespace BankConfigurationPortal.Web {
         public static string SwitchLanguage {
             get {
                 return ResourceManager.GetString("SwitchLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Teller.
+        /// </summary>
+        public static string Teller {
+            get {
+                return ResourceManager.GetString("Teller", resourceCulture);
             }
         }
         

@@ -1,8 +1,21 @@
 ﻿@model BankConfigurationPortal.Web.Models.Counter
 
+@{
+    string displayName = string.Empty;
+    var languageCookie = Context.Request.Cookies["language"];
+    if (languageCookie != null) {
+        if (languageCookie.Value == "ar") {
+            displayName = Model.NameAr;
+        }
+        else {
+            displayName = Model.NameEn;
+        }
+    }
+}
+
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">@Html.DisplayFor(model => model.NameEn)</h3>
+        <h3 class="panel-title">@displayName</h3>
     </div>
     <div class="panel-body">
         @Html.ActionLink(WebResources.Edit, "Edit", new { branchId = Model.BranchId, counterId = Model.CounterId }) |
