@@ -55,50 +55,34 @@
 <div>
     <h4>@WebResources.Counter</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.BranchId)
-        </dt>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.BranchId):</b>
+        @Html.DisplayFor(model => model.BranchId)
+    </p>
 
-        <dd>
-            @Html.DisplayFor(model => model.BranchId)
-        </dd>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.NameEn):</b>
+        @Html.DisplayFor(model => model.NameEn)
+    </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NameEn)
-        </dt>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.NameAr):</b>
+        @Html.DisplayFor(model => model.NameAr)
+    </p>
 
-        <dd>
-            @Html.DisplayFor(model => model.NameEn)
-        </dd>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.Active)</b>
+        @Html.DisplayFor(model => model.Active)
+    </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NameAr)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NameAr)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Active)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Active)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-    </dl>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.Type):</b>
+        @Html.DisplayFor(model => model.Type)
+    </p>
 </div>
 <div>
-    <p>@WebResources.AllocateServices:</p>
+    <hr />
+    <p><b>@WebResources.AllocateServices:</b></p>
     <select multiple id="servicesMultiSelect">
         @foreach (var service in Model.Services) {
             string serviceName = isArabic? service.Service.NameAr : service.Service.NameEn;
@@ -112,6 +96,7 @@
     </select>
 </div>
 <p>
+    <br />
     @Html.ActionLink(WebResources.Edit, "Edit", new { branchId = Model.BranchId, counterId = Model.CounterId }) |
     @Html.ActionLink(WebResources.BackToList, "Index", new { branchId = Model.BranchId })
 </p>

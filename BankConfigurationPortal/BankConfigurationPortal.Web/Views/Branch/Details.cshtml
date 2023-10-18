@@ -7,40 +7,27 @@
 <h2>@WebResources.Details</h2>
 
 <div>
+    <h4>@WebResources.Branch</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.NameEn)
-        </dt>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.NameEn):</b>
+        @Html.DisplayFor(model => model.NameEn)
+    </p>
 
-        <dd>
-            @Html.DisplayFor(model => model.NameEn)
-        </dd>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.NameAr):</b>
+        @Html.DisplayFor(model => model.NameAr)
+    </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NameAr)
-        </dt>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.Active)</b>
+        @Html.DisplayFor(model => model.Active)
+    </p>
 
-        <dd>
-            @Html.DisplayFor(model => model.NameAr)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Active)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Active)
-        </dd>
-
-        <dt>
-            @WebResources.NumberOfCounters
-        </dt>
-
-        <dd>
-            @ViewBag.NumberOfCounters
-        </dd>
-    </dl>
+    <p>
+        <b>@WebResources.NumberOfCounters:</b>
+        @ViewBag.NumberOfCounters
+    </p>
 </div>
 <div>
     <p><a class="btn btn-default" href=@Url.Action("Index", "Counter", new { branchId = Model.BranchId }) )>@WebResources.EditCounters &raquo;</a></p>

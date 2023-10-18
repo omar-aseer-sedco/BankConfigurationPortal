@@ -9,40 +9,25 @@
 <div>
     <h4>@WebResources.BankService</h4>
     <hr />
-    <dl class="dl-horizontal"> <!--TODO: fix RTL-->
-        <dt>
-            @Html.DisplayNameFor(model => model.NameEn)
-        </dt>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.NameEn):</b>
+        @Html.DisplayFor(model => model.NameEn)
+    </p>
 
-        <dd>
-            @Html.DisplayFor(model => model.NameEn)
-        </dd>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.NameAr):</b>
+        @Html.DisplayFor(model => model.NameAr)
+    </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NameAr)
-        </dt>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.Active)</b>
+        @Html.DisplayFor(model => model.Active)
+    </p>
 
-        <dd>
-            @Html.DisplayFor(model => model.NameAr)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Active)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Active)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MaxDailyTickets)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MaxDailyTickets)
-        </dd>
-
-    </dl>
+    <p>
+        <b>@Html.DisplayNameFor(model => model.MaxDailyTickets):</b>
+        @Html.DisplayFor(model => model.MaxDailyTickets)
+    </p>
 </div>
 <p>
     @Html.ActionLink(WebResources.Edit, "Edit", new { id = Model.BankServiceId }) |
