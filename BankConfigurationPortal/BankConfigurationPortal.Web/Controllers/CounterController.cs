@@ -14,10 +14,10 @@ namespace BankConfigurationPortal.Web.Controllers {
         private readonly ICounterData db;
         private readonly IBankServiceData serviceData;
 
-        public CounterController() {
+        public CounterController(ICounterData db, IBankServiceData serviceData) {
             try {
-                db = new SqlCounterData(); // TODO: use dependency injection
-                serviceData = new SqlBankServiceData(); // TODO: use dependency injection
+                this.db = db;
+                this.serviceData = serviceData;
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);

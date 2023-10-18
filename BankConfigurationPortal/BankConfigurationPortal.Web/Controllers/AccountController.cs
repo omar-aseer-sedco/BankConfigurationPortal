@@ -12,9 +12,9 @@ namespace BankConfigurationPortal.Web.Controllers {
     public class AccountController : Controller {
         private readonly IUserData db;
 
-        public AccountController() {
+        public AccountController(IUserData db) {
             try {
-                db = new SqlUserData();
+                this.db = db;
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);

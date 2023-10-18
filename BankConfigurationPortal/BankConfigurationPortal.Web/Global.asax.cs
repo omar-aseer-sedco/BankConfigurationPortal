@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using BankConfigurationPortal.Web.App_Start;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
@@ -9,6 +10,7 @@ namespace BankConfigurationPortal.Web {
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            ContainerConfig.RegisterContainer();
         }
     }
 }

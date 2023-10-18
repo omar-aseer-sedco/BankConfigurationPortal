@@ -11,9 +11,9 @@ namespace BankConfigurationPortal.Web.Controllers {
     public class BranchController : Controller {
         private readonly IBranchData db;
 
-        public BranchController() {
+        public BranchController(IBranchData db) {
             try {
-                db = new SqlBranchData(); // TODO: use dependency injection
+                this.db = db;
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);

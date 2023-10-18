@@ -10,9 +10,9 @@ namespace BankConfigurationPortal.Web.Controllers {
     public class CounterServiceController : Controller {
         private readonly IBankServiceData db;
 
-        public CounterServiceController() {
+        public CounterServiceController(IBankServiceData db) {
             try {
-                db = new SqlBankServiceData(); // TODO: use dependency injection
+                this.db = db;
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);

@@ -11,9 +11,9 @@ namespace BankConfigurationPortal.Web.Controllers {
     public class BankServiceController : Controller {
         private readonly IBankServiceData db;
 
-        public BankServiceController() {
+        public BankServiceController(IBankServiceData db) {
             try {
-                db = new SqlBankServiceData(); // TODO: use dependency injection
+                this.db = db;
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);
