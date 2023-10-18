@@ -75,6 +75,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Create(int branchId) {
             try {
+                ViewBag.BranchId = branchId;
                 var model = new Counter() { BranchId = branchId };
                 return View(model);
             }
