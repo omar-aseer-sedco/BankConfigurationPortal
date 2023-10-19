@@ -38,6 +38,11 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Details(int branchId, int counterId) {
             try {
+                var counter = db.GetCounter(CookieUtils.GetBankName(Request), branchId, counterId);
+                if (counter == null) {
+                    return View("NotFound");
+                }
+
                 ViewBag.BranchId = branchId;
                 ViewBag.CounterId = counterId;
 
@@ -50,7 +55,6 @@ namespace BankConfigurationPortal.Web.Controllers {
                     });
                 }
 
-                var counter = db.GetCounter(CookieUtils.GetBankName(Request), branchId, counterId);
                 var model = new CounterDetailsViewModel() {
                     BranchId = counter.BranchId,
                     CounterId = counter.CounterId,
