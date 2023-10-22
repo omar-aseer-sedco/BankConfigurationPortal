@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="C:\Users\omar.aseer\Desktop\Projects\Task 2 - Bank Configuration Portal\BankConfigurationPortal\BankConfigurationPortal.Web\obj\Release\Package\PackageTmp" />
+  <setAcl path="C:\Users\omar.aseer\Desktop\Projects\Task 2 - Bank Configuration Portal\BankConfigurationPortal\BankConfigurationPortal.Web\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="C:\Users\omar.aseer\Desktop\Projects\Task 2 - Bank Configuration Portal\BankConfigurationPortal\BankConfigurationPortal.Web\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+</sitemanifest>

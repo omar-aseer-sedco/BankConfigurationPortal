@@ -38,6 +38,10 @@ namespace BankConfigurationPortal.Web.Controllers {
             try {
                 if (ModelState.IsValid) {
                     if (db.ValidateUser(user)) {
+                        if (Response.Cookies[FormsAuthentication.FormsCookieName] != null) {
+                            Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
+                        }
+
                         string userData = JsonSerializer.Serialize(new SerializableUserData() { Username = user.Username, BankName = user.BankName });
                         FormsAuthenticationTicket authenticationTicket = new FormsAuthenticationTicket(1, user.Username, DateTime.Now, DateTime.Now.AddDays(1), true, userData);
                         string encryptedTicket = FormsAuthentication.Encrypt(authenticationTicket);
@@ -50,9 +54,10 @@ namespace BankConfigurationPortal.Web.Controllers {
                             return RedirectToAction("Index", "Home");
                         }
                     }
+
+                    ModelState.AddModelError("", "Bank name, username, or password is incorrect");
                 }
 
-                ModelState.AddModelError("", "Bank name, username, or password is incorrect");
                 return View(user);
             }
             catch (Exception ex) {

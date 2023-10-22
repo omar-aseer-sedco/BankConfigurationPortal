@@ -80,7 +80,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         public ActionResult Create(int branchId) {
             try {
                 ViewBag.BranchId = branchId;
-                var model = new Counter() { BranchId = branchId };
+                var model = new Counter() { BranchId = branchId, Type = CounterType.Teller };
                 return View(model);
             }
             catch (Exception ex) {

@@ -79,15 +79,6 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add selected.
-        /// </summary>
-        public static string AddSelectedServices {
-            get {
-                return ResourceManager.GetString("AddSelectedServices", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Allocate services.
         /// </summary>
         public static string AllocateServices {
@@ -412,6 +403,24 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Length must not exceed 100 characters.
+        /// </summary>
+        public static string MaxLengthValidationMessage100 {
+            get {
+                return ResourceManager.GetString("MaxLengthValidationMessage100", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Length must not exceed 255 characters.
+        /// </summary>
+        public static string MaxLengthValidationMessage255 {
+            get {
+                return ResourceManager.GetString("MaxLengthValidationMessage255", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name (Arabic).
         /// </summary>
         public static string NameAr {
@@ -484,11 +493,20 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove selected.
+        ///   Looks up a localized string similar to The number has to be between 1 and 100.
         /// </summary>
-        public static string RemoveSelectedServices {
+        public static string RangeValidationMessage1_100 {
             get {
-                return ResourceManager.GetString("RemoveSelectedServices", resourceCulture);
+                return ResourceManager.GetString("RangeValidationMessage1_100", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field is required.
+        /// </summary>
+        public static string RequiredValidationMessage {
+            get {
+                return ResourceManager.GetString("RequiredValidationMessage", resourceCulture);
             }
         }
         

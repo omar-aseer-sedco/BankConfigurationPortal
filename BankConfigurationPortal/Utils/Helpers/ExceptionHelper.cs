@@ -9,8 +9,10 @@ namespace BankConfigurationPortal.Utils.Helpers {
         }
 
         public static void HandleSqlException(SqlException exception) {
-            // temporary implementation
-            HandleGeneralException(exception);
+            foreach (SqlError error in exception.Errors) {
+                string message = $"Unhandled SQL Error. Code: {error.Number}\nMessage: {error.Message}";
+                LogsHelper.Log(new LogEvent(message, DateTime.Now, EventSeverity.Error, exception.Source, exception.StackTrace));
+            }
         }
     }
 }
