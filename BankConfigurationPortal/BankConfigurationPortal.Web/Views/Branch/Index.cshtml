@@ -1,7 +1,4 @@
 ﻿@model IEnumerable<BankConfigurationPortal.Web.Models.Branch>
-@{
-    ViewBag.Title = @WebResources.Branches;
-}
 
 <h2>@WebResources.Branches</h2>
 
@@ -9,6 +6,11 @@
     @Html.ActionLink(WebResources.CreateNew, "Create")
 </p>
 
-@foreach (var item in Model) {
-    @Html.Partial("_BranchSummary", item);
+@{
+    var viewDataDictionary = new ViewDataDictionary();
+    viewDataDictionary.Add("language", ViewBag.Language);
+
+    foreach (var item in Model) {
+        @Html.Partial("_BranchSummary", item, viewDataDictionary);
+    }
 }

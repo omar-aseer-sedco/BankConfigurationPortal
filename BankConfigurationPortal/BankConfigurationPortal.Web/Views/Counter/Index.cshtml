@@ -1,7 +1,4 @@
 ﻿@model IEnumerable<BankConfigurationPortal.Web.Models.Counter>
-@{
-    ViewBag.Title = WebResources.Counters;
-}
 
 <h2>@WebResources.Counters</h2>
 
@@ -9,8 +6,13 @@
     @Html.ActionLink(WebResources.CreateNew, "Create", new { branchId = ViewBag.BranchId })
 </p>
 
-@foreach (var item in Model) {
-    @Html.Partial("_CounterSummary", item);
+@{
+    var viewDataDictionary = new ViewDataDictionary();
+    viewDataDictionary.Add("language", ViewBag.Language);
+
+    foreach (var item in Model) {
+        @Html.Partial("_CounterSummary", item, viewDataDictionary);
+    }
 }
 
 <p>

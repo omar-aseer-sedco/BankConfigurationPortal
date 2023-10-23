@@ -1,16 +1,7 @@
 ﻿@model BankConfigurationPortal.Web.Models.Counter
 
 @{
-    string displayName = string.Empty;
-    var languageCookie = Context.Request.Cookies["language"];
-    if (languageCookie != null) {
-        if (languageCookie.Value == "ar") {
-            displayName = Model.NameAr;
-        }
-        else {
-            displayName = Model.NameEn;
-        }
-    }
+    string displayName = ((string) ViewData["language"] == BankConfigurationPortal.Web.Constants.Languages.ARABIC) ? Model.NameAr : Model.NameEn;
 }
 
 <div class="panel panel-default">

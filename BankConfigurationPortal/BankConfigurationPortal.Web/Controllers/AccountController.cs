@@ -24,6 +24,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Login(string returnUrl = "") {
             try {
+                ViewBag.Title = WebResources.Login;
                 ViewBag.ReturnUrl = returnUrl;
                 return View();
             }

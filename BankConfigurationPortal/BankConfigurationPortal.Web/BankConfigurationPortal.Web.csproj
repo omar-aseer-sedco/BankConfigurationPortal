@@ -164,6 +164,7 @@
     <Compile Include="Attributes\CookieAuthorizationAttribute.cs" />
     <Compile Include="Attributes\InternationalizationAttribute.cs" />
     <Compile Include="Constants\DbConstants.cs" />
+    <Compile Include="Constants\Languages.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BankServiceController.cs" />
     <Compile Include="Controllers\BranchController.cs" />

@@ -1,4 +1,5 @@
 ﻿using BankConfigurationPortal.Utils.Helpers;
+using BankConfigurationPortal.Web.Constants;
 using System;
 using System.Globalization;
 using System.Threading;
@@ -10,6 +11,8 @@ namespace BankConfigurationPortal.Web.Controllers {
     public class HomeController : Controller {
         public ActionResult Index() {
             try {
+                ViewBag.Title = WebResources.Home;
+
                 return View();
             }
             catch (Exception ex) {
@@ -20,13 +23,13 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult ToggleLanguage() {
             try {
-                string currentLanguage = "en";
+                string currentLanguage = Languages.ENGLISH;
                 var languageCookie = HttpContext.Request.Cookies["language"];
                 if (languageCookie != null) {
                     currentLanguage = languageCookie.Value;
                 }
 
-                string newLanguage = currentLanguage == "en" ? "ar" : "en";
+                string newLanguage = currentLanguage == Languages.ENGLISH ? Languages.ARABIC : Languages.ENGLISH;
 
                 Response.Cookies.Remove("language");
                 Response.Cookies.Add(new HttpCookie("language") {

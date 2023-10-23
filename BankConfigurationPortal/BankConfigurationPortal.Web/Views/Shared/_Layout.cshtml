@@ -5,7 +5,7 @@
     bool isRtl = false;
     var languageCookie = Context.Request.Cookies["language"];
     if (languageCookie != null) {
-        if (languageCookie.Value == "ar") {
+        if (languageCookie.Value == BankConfigurationPortal.Web.Constants.Languages.ARABIC) {
             isRtl = true;
         }
         else {

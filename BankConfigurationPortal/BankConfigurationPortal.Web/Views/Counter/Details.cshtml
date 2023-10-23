@@ -1,18 +1,7 @@
 ﻿@model BankConfigurationPortal.Web.ViewModels.CounterDetailsViewModel
 
 @{
-    bool isArabic = false;
-    var languageCookie = Context.Request.Cookies["language"];
-    if (languageCookie != null) {
-        if (languageCookie.Value == "ar") {
-            isArabic = true;
-        }
-        else {
-            isArabic = false;
-        }
-    }
-
-    ViewBag.Title = WebResources.Details;
+    bool isRtl = ViewBag.Language == BankConfigurationPortal.Web.Constants.Languages.ARABIC;
 }
 
 <link rel="stylesheet" href="~/Content/chosen.css" />
@@ -22,7 +11,7 @@
 
     <script>
     $(document).ready(function () {
-        $("#servicesMultiSelect").chosen({ width: "100%", rtl: true });
+        $("#servicesMultiSelect").chosen({ width: "100%" });
     });
 
     $("#servicesMultiSelect").on("change", function (event, params) {
@@ -83,9 +72,9 @@
 <div>
     <hr />
     <p><b>@WebResources.AllocateServices:</b></p>
-    <select multiple id="servicesMultiSelect" class="@(isArabic ? "chosen-rtl" : "")">
+    <select multiple id="servicesMultiSelect" class="@(isRtl ? "chosen-rtl" : "")">
         @foreach (var service in Model.Services) {
-            string serviceName = isArabic? service.Service.NameAr : service.Service.NameEn;
+            string serviceName = isRtl ? service.Service.NameAr : service.Service.NameEn;
             if (service.IsAvailableOnCounter) {
                 <option selected value="@service.Service.BankServiceId">@serviceName</option>
             }

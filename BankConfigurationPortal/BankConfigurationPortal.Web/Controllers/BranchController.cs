@@ -5,6 +5,7 @@ using BankConfigurationPortal.Web.Attributes;
 using BankConfigurationPortal.Web.Utils;
 using System;
 using System.Web.Mvc;
+using BankConfigurationPortal.Web.Constants;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [CookieAuthorization]
@@ -22,6 +23,15 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Index() {
             try {
+                ViewBag.Title = WebResources.Branches;
+
+                if (Request.Cookies["language"] != null) {
+                    ViewBag.Language = Request.Cookies["language"].Value;
+                }
+                else {
+                    ViewBag.Language = Languages.ENGLISH;
+                }
+
                 var model = db.GetAllBranches(CookieUtils.GetBankName(Request));
                 return View(model);
             }
@@ -33,6 +43,8 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Details(int branchId) {
             try {
+                ViewBag.Title = WebResources.Details;
+
                 var model = db.GetBranch(CookieUtils.GetBankName(Request), branchId);
                 if (model == null) {
                     return View("NotFound");
@@ -50,6 +62,8 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Create() {
             try {
+                ViewBag.Title = WebResources.Create;
+
                 return View();
             }
             catch (Exception ex) {
@@ -82,6 +96,8 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Edit(int branchId) {
             try {
+                ViewBag.Title = WebResources.Edit;
+
                 var model = db.GetBranch(CookieUtils.GetBankName(Request), branchId);
                 if (model == null) {
                     return View("NotFound");
@@ -118,6 +134,8 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Delete(int branchId) {
             try {
+                ViewBag.Title = WebResources.Delete;
+
                 var model = db.GetBranch(CookieUtils.GetBankName(Request), branchId);
                 if (model == null) {
                     return View("NotFound");

@@ -7,6 +7,7 @@ using System;
 using System.Web.Mvc;
 using BankConfigurationPortal.Web.ViewModels;
 using System.Collections.Generic;
+using BankConfigurationPortal.Web.Constants;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [CookieAuthorization]
@@ -26,6 +27,15 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Index(int branchId) {
             try {
+                ViewBag.Title = WebResources.Counters;
+
+                if (Request.Cookies["language"] != null) {
+                    ViewBag.Language = Request.Cookies["language"].Value;
+                }
+                else {
+                    ViewBag.Language = Languages.ENGLISH;
+                }
+
                 var model = db.GetAllCountersWithoutServices(CookieUtils.GetBankName(Request), branchId);
                 ViewBag.BranchId = branchId;
                 return View(model);
@@ -38,6 +48,15 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Details(int branchId, int counterId) {
             try {
+                ViewBag.Title = WebResources.Details;
+
+                if (Request.Cookies["language"] != null) {
+                    ViewBag.Language = Request.Cookies["language"].Value;
+                }
+                else {
+                    ViewBag.Language = Languages.ENGLISH;
+                }
+
                 var counter = db.GetCounter(CookieUtils.GetBankName(Request), branchId, counterId);
                 if (counter == null) {
                     return View("NotFound");
@@ -79,6 +98,8 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Create(int branchId) {
             try {
+                ViewBag.Title = WebResources.Create;
+
                 ViewBag.BranchId = branchId;
                 var model = new Counter() { BranchId = branchId, Type = CounterType.Teller };
                 return View(model);
@@ -113,6 +134,8 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Edit(int branchId, int counterId) {
             try {
+                ViewBag.Title = WebResources.Edit;
+
                 var model = db.GetCounter(CookieUtils.GetBankName(Request), branchId, counterId);
                 if (model == null) {
                     return View("NotFound", branchId);
@@ -151,6 +174,8 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Delete(int branchId, int counterId) {
             try {
+                ViewBag.Title = WebResources.Delete;
+
                 var model = db.GetCounter(CookieUtils.GetBankName(Request), branchId, counterId);
                 if (model == null) {
                     return View("NotFound", branchId);
