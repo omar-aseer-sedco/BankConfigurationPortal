@@ -12,13 +12,12 @@
             isRtl = false;
         }
     }
-    string username = null, bankName = null;
+    string username = null;
     var authCookie = Context.Request.Cookies[FormsAuthentication.FormsCookieName];
     if (authCookie != null) {
         try {
             SerializableUserData userData = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(authCookie.Value).UserData, JsonSerializerOptions.Default);
             username = userData.Username;
-            bankName = userData.BankName;
         }
         catch (Exception ex) {
             BankConfigurationPortal.Utils.Helpers.ExceptionHelper.HandleGeneralException(ex);
@@ -27,75 +26,46 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html dir="@(isRtl ? "rtl" : "ltr")">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - @WebResources.ApplicationName</title>
     @Styles.Render("~/Content/css")
+    @if (isRtl) {
+        @Styles.Render("~/Content/css-rtl")
+    }
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @if (isRtl) {
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header navbar-right">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink(WebResources.ApplicationName, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        &nbsp&nbsp&nbsp&nbsp
-                        <li>@Html.ActionLink(WebResources.BankServices, "Index", "BankService")</li>
-                        <li>@Html.ActionLink(WebResources.Branches, "Index", "Branch")</li>
-                        <li>@Html.ActionLink(WebResources.Home, "Index", "Home")</li>
-                    </ul>
-                    <ul class="nav navbar-nav">
-                        @if (username == null) {
-                            <li class="btn nav-item">@Html.ActionLink(WebResources.Login, "Login", "Account")</li>
-                        }
-                        else {
-                            <li class="btn nav-item">@Html.ActionLink(WebResources.Logout, "Logout", "Account")</li>
-                        }
-                    </ul>
-                </div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink(WebResources.ApplicationName, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink(WebResources.Home, "Index", "Home")</li>
+                    <li>@Html.ActionLink(WebResources.Branches, "Index", "Branch")</li>
+                    <li>@Html.ActionLink(WebResources.BankServices, "Index", "BankService")</li>
+                </ul>
+                <ul class="nav navbar-nav @(isRtl ? "navbar-left" : "navbar-right")">
+                    @if (username == null) {
+                        <li class="btn nav-item">@Html.ActionLink(WebResources.Login, "Login", "Account")</li>
+                    }
+                    else {
+                        <li class="btn nav-item">@Html.ActionLink(WebResources.Logout, "Logout", "Account")</li>
+                    }
+                </ul>
             </div>
         </div>
-    }
-    else {
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink(WebResources.ApplicationName, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink(WebResources.Home, "Index", "Home")</li>
-                        <li>@Html.ActionLink(WebResources.Branches, "Index", "Branch")</li>
-                        <li>@Html.ActionLink(WebResources.BankServices, "Index", "BankService")</li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        @if (username == null) {
-                            <li class="btn nav-item">@Html.ActionLink(WebResources.Login, "Login", "Account")</li>
-                        }
-                        else {
-                            <li class="btn nav-item">@Html.ActionLink(WebResources.Logout, "Logout", "Account")</li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-    }
-    <div class="container body-content" dir="@(isRtl ? "rtl" : "auto")">
+    </div>
+    <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
@@ -106,7 +76,12 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/bootstrap")
+    @if (isRtl) {
+        @Scripts.Render("~/bundles/bootstrap-rtl")
+    }
+    else {
+        @Scripts.Render("~/bundles/bootstrap")
+    }
     @RenderSection("scripts", required: false)
 </body>
 </html>

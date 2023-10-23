@@ -22,7 +22,7 @@
 
     <script>
     $(document).ready(function () {
-        $("#servicesMultiSelect").chosen({width: "100%"});
+        $("#servicesMultiSelect").chosen({ width: "100%", rtl: true });
     });
 
     $("#servicesMultiSelect").on("change", function (event, params) {
@@ -83,7 +83,7 @@
 <div>
     <hr />
     <p><b>@WebResources.AllocateServices:</b></p>
-    <select multiple id="servicesMultiSelect">
+    <select multiple id="servicesMultiSelect" class="@(isArabic ? "chosen-rtl" : "")">
         @foreach (var service in Model.Services) {
             string serviceName = isArabic? service.Service.NameAr : service.Service.NameEn;
             if (service.IsAvailableOnCounter) {

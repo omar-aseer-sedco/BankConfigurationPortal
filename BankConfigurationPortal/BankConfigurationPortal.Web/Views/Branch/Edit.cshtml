@@ -1,17 +1,6 @@
 ﻿@model BankConfigurationPortal.Web.Models.Branch
 
 @{
-    bool isArabic = false;
-    var languageCookie = Context.Request.Cookies["language"];
-    if (languageCookie != null) {
-        if (languageCookie.Value == "ar") {
-            isArabic = true;
-        }
-        else {
-            isArabic = false;
-        }
-    }
-
     ViewBag.Title = WebResources.Edit;
 }
 
@@ -29,44 +18,29 @@
         @Html.HiddenFor(model => model.BranchId)
 
         <div class="form-group">
-            @if (!isArabic) {
-                @Html.LabelFor(model => model.NameEn, htmlAttributes: new { @class = "control-label col-md-2" })
-            }
+            @Html.LabelFor(model => model.NameEn, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NameEn, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.NameEn, "", new { @class = "text-danger" })
             </div>
-            @if (isArabic) {
-                @Html.LabelFor(model => model.NameEn, htmlAttributes: new { @class = "control-label col-md-2" })
-            }
         </div>
 
         <div class="form-group">
-            @if (!isArabic) {
-                @Html.LabelFor(model => model.NameAr, htmlAttributes: new { @class = "control-label col-md-2" })
-            }
+            @Html.LabelFor(model => model.NameAr, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NameAr, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.NameAr, "", new { @class = "text-danger" })
             </div>
-            @if (isArabic) {
-                @Html.LabelFor(model => model.NameAr, htmlAttributes: new { @class = "control-label col-md-2" })
-            }
         </div>
 
         <div class="form-group">
-            @if (!isArabic) {
-                @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
-            }
+            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.Active)
                     @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
                 </div>
             </div>
-            @if (isArabic) {
-                @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
-            }
         </div>
 
         <div class="form-group">
