@@ -21,24 +21,20 @@ namespace BankConfigurationPortal.Web.Controllers {
             }
         }
 
-        public ActionResult ToggleLanguage() {
+        public ActionResult ChangeLanguage(string languageString) {
             try {
-                string currentLanguage = Languages.ENGLISH;
-                var languageCookie = HttpContext.Request.Cookies["language"];
-                if (languageCookie != null) {
-                    currentLanguage = languageCookie.Value;
+                if (!Languages.IsValidLanguageString(languageString)) {
+                    languageString = Languages.ENGLISH;
                 }
-
-                string newLanguage = currentLanguage == Languages.ENGLISH ? Languages.ARABIC : Languages.ENGLISH;
 
                 Response.Cookies.Remove("language");
                 Response.Cookies.Add(new HttpCookie("language") {
-                    Value = newLanguage,
+                    Value = languageString,
                     Expires = DateTime.Now.AddYears(1),
                     HttpOnly = false,
                 });
 
-                var cultureInfo = new CultureInfo(newLanguage);
+                var cultureInfo = new CultureInfo(languageString);
                 Thread.CurrentThread.CurrentCulture = cultureInfo;
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
             

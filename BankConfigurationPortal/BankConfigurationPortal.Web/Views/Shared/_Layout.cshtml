@@ -12,12 +12,13 @@
             isRtl = false;
         }
     }
-    string username = null;
+    string username = null, bankName = null;
     var authCookie = Context.Request.Cookies[FormsAuthentication.FormsCookieName];
     if (authCookie != null) {
         try {
             SerializableUserData userData = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(authCookie.Value).UserData, JsonSerializerOptions.Default);
             username = userData.Username;
+            bankName = userData.BankName;
         }
         catch (Exception ex) {
             BankConfigurationPortal.Utils.Helpers.ExceptionHelper.HandleGeneralException(ex);
@@ -69,7 +70,13 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>@Html.ActionLink(WebResources.SwitchLanguage, "ToggleLanguage", "Home")</p>
+            <p>@Html.ActionLink(WebResources.SwitchLanguage, "ChangeLanguage", "Home", new { languageString = isRtl ? BankConfigurationPortal.Web.Constants.Languages.ENGLISH : BankConfigurationPortal.Web.Constants.Languages.ARABIC }, null)</p>
+            @if (username != null) {
+                <p>@string.Format(WebResources.LoggedInAs, username, bankName).</p>
+            }
+            else {
+                <p>@WebResources.NotLoggedIn</p>
+            }
             <p>&copy; @DateTime.Now.Year - @WebResources.CopyrightHolder</p>
         </footer>
     </div>

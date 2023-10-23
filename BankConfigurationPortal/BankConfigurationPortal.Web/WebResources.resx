@@ -222,6 +222,9 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="LoggedInAs" xml:space="preserve">
+    <value>Logged in as {0} into {1}</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Log in</value>
   </data>
@@ -254,6 +257,9 @@
   </data>
   <data name="NotFoundTitle" xml:space="preserve">
     <value>Page not found</value>
+  </data>
+  <data name="NotLoggedIn" xml:space="preserve">
+    <value>You're not logged in</value>
   </data>
   <data name="NumberOfCounters" xml:space="preserve">
     <value>Number of counters</value>

@@ -10,5 +10,6 @@ namespace BankConfigurationPortal.Web.Services {
         int Update(Counter counter);
         int Delete(string bankName, int branchId, int counterId);
         int Delete(string bankName, int branchId, IEnumerable<int> counterIds);
+        bool CheckIfBranchExists(string bankName, int branchId);
     }
 }

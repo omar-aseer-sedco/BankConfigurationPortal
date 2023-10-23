@@ -27,6 +27,10 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Index(int branchId) {
             try {
+                if (!db.CheckIfBranchExists(CookieUtils.GetBankName(Request), branchId)) {
+                    return View("NotFound");
+                }
+
                 ViewBag.Title = WebResources.Counters;
 
                 if (Request.Cookies["language"] != null) {

@@ -204,5 +204,21 @@ namespace BankConfigurationPortal.Web.Services {
 
             return default;
         }
+
+        public bool CheckIfBranchExists(string bankName, int branchId) {
+            try {
+                string query = $"SELECT COUNT(*) FROM {BranchesConstants.TABLE_NAME} WHERE {BranchesConstants.BANK_NAME} = @bankName AND {BranchesConstants.BRANCH_ID} = @branchId;";
+                SqlCommand command = new SqlCommand(query);
+                command.Parameters.Add("@bankName", SqlDbType.VarChar, BranchesConstants.BANK_NAME_SIZE).Value = bankName;
+                command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
+
+                return (int) DbUtils.ExecuteScalar(command) == 1;
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
+        }
     }
 }
