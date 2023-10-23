@@ -2,6 +2,7 @@
 using BankConfigurationPortal.Web.Models;
 using BankConfigurationPortal.Web.Services;
 using System;
+using System.Linq;
 using System.Text.Json;
 using System.Web;
 using System.Web.Mvc;
@@ -24,6 +25,15 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Login(string returnUrl = "") {
             try {
+                if (Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName)) {
+                    if (Url.IsLocalUrl(returnUrl)) {
+                        return Redirect(returnUrl);
+                    }
+                    else {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
                 ViewBag.Title = WebResources.Login;
                 ViewBag.ReturnUrl = returnUrl;
                 return View();
@@ -39,7 +49,7 @@ namespace BankConfigurationPortal.Web.Controllers {
             try {
                 if (ModelState.IsValid) {
                     if (db.ValidateUser(user)) {
-                        if (Response.Cookies[FormsAuthentication.FormsCookieName] != null) {
+                        if (Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName)) {
                             Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
                         }
 
