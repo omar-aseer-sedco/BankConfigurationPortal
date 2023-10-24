@@ -376,6 +376,15 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bank name, username, or password is incorrect.
+        /// </summary>
+        public static string IncorrectCredentials {
+            get {
+                return ResourceManager.GetString("IncorrectCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logged in as {0} into {1}.
         /// </summary>
         public static string LoggedInAs {

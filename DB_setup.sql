@@ -139,6 +139,7 @@ END
 
 GO
 
+DROP PROCEDURE IF EXISTS AddServicesToCounters;
 DROP TYPE IF EXISTS add_service_counter_parameter;
 
 CREATE TYPE add_service_counter_parameter AS TABLE(

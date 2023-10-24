@@ -3,6 +3,7 @@ using BankConfigurationPortal.Web.Models;
 using BankConfigurationPortal.Web.Services;
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Web;
 using System.Web.Mvc;
@@ -22,10 +23,28 @@ namespace BankConfigurationPortal.Web.Controllers {
             }
         }
 
+        private bool IsAuthenticated() {
+            try {
+                if (Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName) && Session["UserSessionId"] != null) {
+                    var authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                    int cookieId = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(authCookie.Value).UserData, JsonSerializerOptions.Default).UserSessionId;
+
+                    return cookieId == (int) Session["UserSessionId"];
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+                return default;
+            }
+        }
+
         [HttpGet]
         public ActionResult Login(string returnUrl = "") {
             try {
-                if (Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName)) {
+                if (IsAuthenticated()) {
                     if (Url.IsLocalUrl(returnUrl)) {
                         return Redirect(returnUrl);
                     }
@@ -53,12 +72,18 @@ namespace BankConfigurationPortal.Web.Controllers {
                             Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
                         }
 
-                        string userData = JsonSerializer.Serialize(new SerializableUserData() { Username = user.Username, BankName = user.BankName });
+                        byte[] rngBytes = new byte[4];
+                        RandomNumberGenerator.Create().GetBytes(rngBytes);
+                        int userSessionId = BitConverter.ToInt32(rngBytes, 0);
+
+                        string userData = JsonSerializer.Serialize(new SerializableUserData() { Username = user.Username, BankName = user.BankName, UserSessionId = userSessionId });
                         FormsAuthenticationTicket authenticationTicket = new FormsAuthenticationTicket(1, user.Username, DateTime.Now, DateTime.Now.AddDays(1), true, userData);
                         string encryptedTicket = FormsAuthentication.Encrypt(authenticationTicket);
                         Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket));
+                        Session["UserSessionId"] = userSessionId;
 
                         if (Url.IsLocalUrl(returnUrl)) {
+                            LogsHelper.Log("Unnecessary redirect", EventSeverity.Warning);
                             return Redirect(returnUrl);
                         }
                         else {
@@ -66,7 +91,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                         }
                     }
 
-                    ModelState.AddModelError("", "Bank name, username, or password is incorrect");
+                    ModelState.AddModelError("", WebResources.IncorrectCredentials);
                 }
 
                 return View(user);
@@ -79,12 +104,14 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Logout() {
             try {
+                Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
                 Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName) {
                     Value = "",
                     Expires = DateTime.Now.AddDays(-1),
                 });
 
                 FormsAuthentication.SignOut();
+                Session.Abandon();
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception ex) {
