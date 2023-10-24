@@ -1,5 +1,6 @@
 ﻿using BankConfigurationPortal.Utils.Helpers;
 using BankConfigurationPortal.Web.Models;
+using BankConfigurationPortal.Web.Services;
 using System;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,12 @@ using System.Web.Security;
 
 namespace BankConfigurationPortal.Web.Attributes {
     public class CookieAuthorizationAttribute : ActionFilterAttribute, IAuthorizationFilter {
+        private readonly IUserData db;
+
+        public CookieAuthorizationAttribute() : base() {
+            db = new SqlUserData(); // TODO: maybe figure out dependency injection for this
+        }
+
         public void OnAuthorization(AuthorizationContext filterContext) {
             try {
                 filterContext.HttpContext.Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -17,7 +24,7 @@ namespace BankConfigurationPortal.Web.Attributes {
                 filterContext.HttpContext.Response.Cache.SetNoStore();
                 filterContext.HttpContext.Response.AppendHeader("Pragma", "no-cache");
 
-                if (!IsUserAuthenticated(filterContext.HttpContext)) {
+                if (!IsUserAuthenticated(filterContext.HttpContext, db)) {
                     var returnUrl = new StringBuilder($"returnUrl={filterContext.HttpContext.Request.Path}");
                     var queryString = filterContext.HttpContext.Request.QueryString;
                     if (queryString.Count > 0) {
@@ -32,21 +39,24 @@ namespace BankConfigurationPortal.Web.Attributes {
             }
         }
         
-        private bool IsUserAuthenticated(HttpContextBase context) {
+        public static bool IsUserAuthenticated(HttpContextBase context, IUserData db) {
             try {
-                if (context.Session["UserSessionId"] == null) {
+                if (!context.Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName) || context.Session["UserSessionId"] == null) {
                     return false;
                 }
 
-                if (context.Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName)) {
-                    var authCookie = context.Request.Cookies[FormsAuthentication.FormsCookieName];
-                    int cookieId = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(authCookie.Value).UserData, JsonSerializerOptions.Default).UserSessionId;
+                var userData = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(context.Request.Cookies[FormsAuthentication.FormsCookieName].Value).UserData, JsonSerializerOptions.Default);
+                string username = userData.Username;
+                int cookieId = userData.UserSessionId;
 
-                    return cookieId == (int) context.Session["UserSessionId"];
-                }
-                else {
+                Session session = db.GetSession(cookieId);
+
+                if (session.Expires <= DateTime.Now) {
+                    db.DeleteSession(cookieId);
                     return false;
                 }
+
+                return cookieId == (int) context.Session["UserSessionId"] && username == session.Username && context.Request.UserAgent == session.UserAgent && context.Request.UserHostAddress == session.IpAddress;
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);

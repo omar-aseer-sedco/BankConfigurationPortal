@@ -80,4 +80,18 @@
 
         public const int BANK_NAME_SIZE = 255;
     }
+
+    public static class SessionsConstants {
+        public const string TABLE_NAME = "Sessions";
+
+        public const string USERNAME = "username";
+        public const string SESSION_ID = "session_id";
+        public const string EXPIRES = "expires";
+        public const string USER_AGENT = "user_agent";
+        public const string IP_ADDRESS = "ip_address";
+
+        public const int USERNAME_SIZE = 255;
+        public const int USER_AGENT_SIZE = 255;
+        public const int IP_ADDRESS_SIZE = 39;
+    }
 }

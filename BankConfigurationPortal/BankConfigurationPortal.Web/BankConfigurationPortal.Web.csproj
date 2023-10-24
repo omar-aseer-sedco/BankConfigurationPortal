@@ -181,6 +181,7 @@
     <Compile Include="Models\Counter.cs" />
     <Compile Include="Models\CounterType.cs" />
     <Compile Include="Models\SerializableUserData.cs" />
+    <Compile Include="Models\Session.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IBankServiceData.cs" />

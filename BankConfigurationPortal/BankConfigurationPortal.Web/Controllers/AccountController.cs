@@ -1,4 +1,5 @@
 ﻿using BankConfigurationPortal.Utils.Helpers;
+using BankConfigurationPortal.Web.Attributes;
 using BankConfigurationPortal.Web.Models;
 using BankConfigurationPortal.Web.Services;
 using System;
@@ -26,10 +27,13 @@ namespace BankConfigurationPortal.Web.Controllers {
         private bool IsAuthenticated() {
             try {
                 if (Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName) && Session["UserSessionId"] != null) {
-                    var authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                    int cookieId = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(authCookie.Value).UserData, JsonSerializerOptions.Default).UserSessionId;
+                    var userData = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).UserData, JsonSerializerOptions.Default);
+                    string username = userData.Username;
+                    int cookieId = userData.UserSessionId;
 
-                    return cookieId == (int) Session["UserSessionId"];
+                    Session session = db.GetSession(cookieId);
+
+                    return cookieId == (int) Session["UserSessionId"] && username == session.Username && Request.UserAgent == session.UserAgent && Request.UserHostAddress == session.IpAddress && session.Expires < DateTime.Now;
                 }
                 else {
                     return false;
@@ -44,7 +48,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Login(string returnUrl = "") {
             try {
-                if (IsAuthenticated()) {
+                if (CookieAuthorizationAttribute.IsUserAuthenticated(HttpContext, db)) {
                     if (Url.IsLocalUrl(returnUrl)) {
                         return Redirect(returnUrl);
                     }
@@ -71,7 +75,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                         if (Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName)) {
                             Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
                         }
-
+                        
                         byte[] rngBytes = new byte[4];
                         RandomNumberGenerator.Create().GetBytes(rngBytes);
                         int userSessionId = BitConverter.ToInt32(rngBytes, 0);
@@ -81,6 +85,16 @@ namespace BankConfigurationPortal.Web.Controllers {
                         string encryptedTicket = FormsAuthentication.Encrypt(authenticationTicket);
                         Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket));
                         Session["UserSessionId"] = userSessionId;
+
+                        Session session = new Session() { 
+                            Username = user.Username,
+                            SessionId = userSessionId,
+                            Expires = DateTime.Now.AddMinutes(30),
+                            UserAgent = Request.UserAgent,
+                            IpAddress = Request.UserHostAddress
+                        };
+
+                        db.SetSession(session);
 
                         if (Url.IsLocalUrl(returnUrl)) {
                             return Redirect(returnUrl);
@@ -103,6 +117,13 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         public ActionResult Logout() {
             try {
+                if (!CookieAuthorizationAttribute.IsUserAuthenticated(HttpContext, db)) {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                int cookieId = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).UserData, JsonSerializerOptions.Default).UserSessionId;
+                db.DeleteSession(cookieId);
+
                 Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
                 Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName) {
                     Value = "",
