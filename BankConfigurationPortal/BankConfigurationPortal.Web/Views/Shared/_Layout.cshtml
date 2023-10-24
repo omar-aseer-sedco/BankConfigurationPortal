@@ -14,11 +14,13 @@
     }
     string username = null, bankName = null;
     var authCookie = Context.Request.Cookies[FormsAuthentication.FormsCookieName];
-    if (authCookie != null) {
+    if (authCookie != null && Context.Session["UserSessionId"] != null) {
         try {
             SerializableUserData userData = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(authCookie.Value).UserData, JsonSerializerOptions.Default);
-            username = userData.Username;
-            bankName = userData.BankName;
+            if (userData.UserSessionId == (int) Context.Session["UserSessionId"]) {
+                username = userData.Username;
+                bankName = userData.BankName;
+            }
         }
         catch (Exception ex) {
             BankConfigurationPortal.Utils.Helpers.ExceptionHelper.HandleGeneralException(ex);

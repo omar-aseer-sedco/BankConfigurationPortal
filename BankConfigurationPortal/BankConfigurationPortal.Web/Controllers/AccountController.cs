@@ -83,7 +83,6 @@ namespace BankConfigurationPortal.Web.Controllers {
                         Session["UserSessionId"] = userSessionId;
 
                         if (Url.IsLocalUrl(returnUrl)) {
-                            LogsHelper.Log("Unnecessary redirect", EventSeverity.Warning);
                             return Redirect(returnUrl);
                         }
                         else {
