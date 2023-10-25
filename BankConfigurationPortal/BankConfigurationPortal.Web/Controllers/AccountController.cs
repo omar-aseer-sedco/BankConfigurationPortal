@@ -24,27 +24,6 @@ namespace BankConfigurationPortal.Web.Controllers {
             }
         }
 
-        private bool IsAuthenticated() {
-            try {
-                if (Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName) && Session["UserSessionId"] != null) {
-                    var userData = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).UserData, JsonSerializerOptions.Default);
-                    string username = userData.Username;
-                    int cookieId = userData.UserSessionId;
-
-                    Session session = db.GetSession(cookieId);
-
-                    return cookieId == (int) Session["UserSessionId"] && username == session.Username && Request.UserAgent == session.UserAgent && Request.UserHostAddress == session.IpAddress && session.Expires < DateTime.Now;
-                }
-                else {
-                    return false;
-                }
-            }
-            catch (Exception ex) {
-                ExceptionHelper.HandleGeneralException(ex);
-                return default;
-            }
-        }
-
         [HttpGet]
         public ActionResult Login(string returnUrl = "") {
             try {
@@ -68,6 +47,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(User user, string returnUrl = "") {
             try {
                 if (ModelState.IsValid) {
@@ -94,7 +74,11 @@ namespace BankConfigurationPortal.Web.Controllers {
                             IpAddress = Request.UserHostAddress
                         };
 
-                        db.SetSession(session);
+                        if (db.SetSession(session) != 1) { // failed to save the session
+                            Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
+                            Session["UserSessionId"] = null;
+                            return View("Error");
+                        }
 
                         if (Url.IsLocalUrl(returnUrl)) {
                             return Redirect(returnUrl);
@@ -115,6 +99,8 @@ namespace BankConfigurationPortal.Web.Controllers {
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Logout() {
             try {
                 if (!CookieAuthorizationAttribute.IsUserAuthenticated(HttpContext, db)) {

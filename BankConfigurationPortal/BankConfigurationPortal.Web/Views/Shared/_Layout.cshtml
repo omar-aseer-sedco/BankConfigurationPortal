@@ -62,7 +62,12 @@
                         <li class="btn nav-item">@Html.ActionLink(WebResources.Login, "Login", "Account")</li>
                     }
                     else {
-                        <li class="btn nav-item">@Html.ActionLink(WebResources.Logout, "Logout", "Account")</li>
+                        using (Html.BeginForm("Logout", "Account", FormMethod.Post)) {
+                            @Html.AntiForgeryToken();
+                            <li class="btn nav-item">
+                                <button type="submit" class="logout-button" style="background: none; border: none; color: #9d9d9d; padding: 15px 15px; line-height: 20px;">@WebResources.Logout</button>
+                            </li>
+                        }
                     }
                 </ul>
             </div>

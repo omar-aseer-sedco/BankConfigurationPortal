@@ -51,6 +51,10 @@ namespace BankConfigurationPortal.Web.Attributes {
 
                 Session session = db.GetSession(cookieId);
 
+                if (session == null) {
+                    return false;
+                }
+
                 if (session.Expires <= DateTime.Now) {
                     db.DeleteSession(cookieId);
                     return false;
