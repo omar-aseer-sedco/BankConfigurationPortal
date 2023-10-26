@@ -1,17 +1,14 @@
 ﻿using BankConfigurationPortal.Utils.Helpers;
-using BankConfigurationPortal.Web.Models;
 using System;
-using System.Text.Json;
-using System.Web;
-using System.Web.Security;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace BankConfigurationPortal.Web.Utils {
     public class CookieUtils {
-        public static string GetBankName(HttpRequestBase request) {
+        public static string GetBankName(IPrincipal user) {
             try {
-                var authCookie = request.Cookies[FormsAuthentication.FormsCookieName];
-                SerializableUserData userData = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(authCookie.Value).UserData, JsonSerializerOptions.Default);
-                return userData.BankName;
+                var claimsIdentity = user.Identity as ClaimsIdentity;
+                return claimsIdentity.FindFirst("BankName").Value;
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);

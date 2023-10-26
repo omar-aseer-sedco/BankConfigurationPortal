@@ -9,7 +9,7 @@ using BankConfigurationPortal.Web.Constants;
 using System.Diagnostics;
 
 namespace BankConfigurationPortal.Web.Controllers {
-    [CookieAuthorization]
+    [OwinCookieAuthorization]
     public class BranchController : BaseController {
         private readonly IBranchData db;
 
@@ -33,7 +33,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     ViewBag.Language = Languages.ENGLISH;
                 }
 
-                var model = db.GetAllBranches(CookieUtils.GetBankName(Request));
+                var model = db.GetAllBranches(CookieUtils.GetBankName(User));
                 return View(model);
             }
             catch (Exception ex) {
@@ -46,12 +46,12 @@ namespace BankConfigurationPortal.Web.Controllers {
             try {
                 ViewBag.Title = WebResources.Details;
 
-                var model = db.GetBranch(CookieUtils.GetBankName(Request), branchId);
+                var model = db.GetBranch(CookieUtils.GetBankName(User), branchId);
                 if (model == null) {
                     return View("NotFound");
                 }
 
-                ViewBag.NumberOfCounters = db.GetNumberOfCounters(CookieUtils.GetBankName(Request), branchId);
+                ViewBag.NumberOfCounters = db.GetNumberOfCounters(CookieUtils.GetBankName(User), branchId);
                 return View(model);
             }
             catch (Exception ex) {
@@ -77,7 +77,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create(Branch branch) {
             try {
-                branch.BankName = CookieUtils.GetBankName(Request);
+                branch.BankName = CookieUtils.GetBankName(User);
 
                 if (ModelState.IsValid) {
                     int branchId = db.Add(branch);
@@ -99,7 +99,7 @@ namespace BankConfigurationPortal.Web.Controllers {
             try {
                 ViewBag.Title = WebResources.Edit;
 
-                var model = db.GetBranch(CookieUtils.GetBankName(Request), branchId);
+                var model = db.GetBranch(CookieUtils.GetBankName(User), branchId);
                 if (model == null) {
                     return View("NotFound");
                 }
@@ -116,7 +116,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Branch branch) {
             try {
-                branch.BankName = CookieUtils.GetBankName(Request);
+                branch.BankName = CookieUtils.GetBankName(User);
                 if (ModelState.IsValid) {
                     db.Update(branch);
                     return RedirectToAction("Details", new { branchId = branch.BranchId });
@@ -137,7 +137,7 @@ namespace BankConfigurationPortal.Web.Controllers {
             try {
                 ViewBag.Title = WebResources.Delete;
 
-                var model = db.GetBranch(CookieUtils.GetBankName(Request), branchId);
+                var model = db.GetBranch(CookieUtils.GetBankName(User), branchId);
                 if (model == null) {
                     return View("NotFound");
                 }
@@ -154,7 +154,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int branchId, FormCollection form) {
             try {
-                db.Delete(CookieUtils.GetBankName(Request), branchId);
+                db.Delete(CookieUtils.GetBankName(User), branchId);
                 return RedirectToAction("Index");
             }
             catch (Exception ex) {

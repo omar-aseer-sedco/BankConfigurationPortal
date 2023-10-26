@@ -6,7 +6,7 @@ using System;
 using System.Web.Mvc;
 
 namespace BankConfigurationPortal.Web.Controllers {
-    [CookieAuthorization]
+    [OwinCookieAuthorization]
     public class CounterServiceController : BaseController {
         private readonly IBankServiceData db;
 
@@ -22,7 +22,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpPost]
         public ActionResult AddService(int branchId, int counterId, int bankServiceId) {
             try {
-                db.AddService(CookieUtils.GetBankName(Request), branchId, counterId, bankServiceId);
+                db.AddService(CookieUtils.GetBankName(User), branchId, counterId, bankServiceId);
                 return RedirectToAction("Index", new { branchId, counterId });
             }
             catch (Exception ex) {
@@ -34,7 +34,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpPost]
         public ActionResult RemoveService(int branchId, int counterId, int bankServiceId) {
             try {
-                db.RemoveService(CookieUtils.GetBankName(Request), branchId, counterId, bankServiceId);
+                db.RemoveService(CookieUtils.GetBankName(User), branchId, counterId, bankServiceId);
                 return RedirectToAction("Index", new { branchId, counterId });
             }
             catch (Exception ex) {

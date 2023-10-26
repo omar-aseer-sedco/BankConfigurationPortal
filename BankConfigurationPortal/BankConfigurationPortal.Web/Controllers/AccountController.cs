@@ -4,11 +4,10 @@ using BankConfigurationPortal.Web.Models;
 using BankConfigurationPortal.Web.Services;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text.Json;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [AllowAnonymous]
@@ -27,7 +26,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         [HttpGet]
         public ActionResult Login(string returnUrl = "") {
             try {
-                if (CookieAuthorizationAttribute.IsUserAuthenticated(HttpContext, db)) {
+                if (OwinCookieAuthorizationAttribute.IsUserAuthenticated(HttpContext, db)) {
                     if (Url.IsLocalUrl(returnUrl)) {
                         return Redirect(returnUrl);
                     }
@@ -52,18 +51,14 @@ namespace BankConfigurationPortal.Web.Controllers {
             try {
                 if (ModelState.IsValid) {
                     if (db.ValidateUser(user)) {
-                        if (Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName)) {
-                            Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
+                        if (Request.Cookies.AllKeys.Contains(".AspNet.ApplicationCookie")) {
+                            Response.Cookies.Remove(".AspNet.ApplicationCookie");
                         }
                         
                         byte[] rngBytes = new byte[4];
                         RandomNumberGenerator.Create().GetBytes(rngBytes);
                         int userSessionId = BitConverter.ToInt32(rngBytes, 0);
 
-                        string userData = JsonSerializer.Serialize(new SerializableUserData() { Username = user.Username, BankName = user.BankName, UserSessionId = userSessionId });
-                        FormsAuthenticationTicket authenticationTicket = new FormsAuthenticationTicket(1, user.Username, DateTime.Now, DateTime.Now.AddDays(1), true, userData);
-                        string encryptedTicket = FormsAuthentication.Encrypt(authenticationTicket);
-                        Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket));
                         Session["UserSessionId"] = userSessionId;
 
                         Session session = new Session() { 
@@ -75,10 +70,19 @@ namespace BankConfigurationPortal.Web.Controllers {
                         };
 
                         if (db.SetSession(session) != 1) { // failed to save the session
-                            Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
                             Session["UserSessionId"] = null;
                             return View("Error");
                         }
+
+                        var claims = new[] {
+                            new Claim(ClaimTypes.Name, user.Username),
+                            new Claim("BankName", user.BankName),
+                            new Claim("UserSessionId", userSessionId.ToString()),
+                            new Claim("UserAgent", Request.UserAgent),
+                            new Claim("IpAddress", Request.UserHostAddress),
+                        };
+                        var identity = new ClaimsIdentity(claims, "ApplicationCookie");
+                        Request.GetOwinContext().Authentication.SignIn(identity);
 
                         if (Url.IsLocalUrl(returnUrl)) {
                             return Redirect(returnUrl);
@@ -103,20 +107,15 @@ namespace BankConfigurationPortal.Web.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Logout() {
             try {
-                if (!CookieAuthorizationAttribute.IsUserAuthenticated(HttpContext, db)) {
+                if (!OwinCookieAuthorizationAttribute.IsUserAuthenticated(HttpContext, db)) {
                     return RedirectToAction("Index", "Home");
                 }
 
-                int cookieId = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(Request.Cookies[FormsAuthentication.FormsCookieName].Value).UserData, JsonSerializerOptions.Default).UserSessionId;
-                db.DeleteSession(cookieId);
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                int userSessionId = int.Parse(claimsIdentity.FindFirst("UserSessionId").Value);
+                db.DeleteSession(userSessionId);
 
-                Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
-                Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName) {
-                    Value = "",
-                    Expires = DateTime.Now.AddDays(-1),
-                });
-
-                FormsAuthentication.SignOut();
+                Request.GetOwinContext().Authentication.SignOut("ApplicationCookie");
                 Session.Abandon();
                 return RedirectToAction("Index", "Home");
             }

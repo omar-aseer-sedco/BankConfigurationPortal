@@ -185,10 +185,11 @@
     <Compile Include="App_Start\ContainerConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Attributes\CookieAuthorizationAttribute.cs" />
+    <Compile Include="App_Start\OwinStartup.cs" />
     <Compile Include="Attributes\InternationalizationAttribute.cs" />
     <Compile Include="Attributes\MaxServiceTimeValidationAttribute.cs" />
     <Compile Include="Attributes\MinServiceTimeValidationAttribute.cs" />
+    <Compile Include="Attributes\OwinCookieAuthorizationAttribute.cs" />
     <Compile Include="Constants\DbConstants.cs" />
     <Compile Include="Constants\Languages.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -244,7 +245,6 @@
     <Content Include="Content\site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="logs\logs.json" />
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.rtl.min.js" />

@@ -1,9 +1,7 @@
 ﻿using BankConfigurationPortal.Utils.Helpers;
 using BankConfigurationPortal.Web.Constants;
-using BankConfigurationPortal.Web.Models;
-using System.Text.Json;
+using System.Security.Claims;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace BankConfigurationPortal.Web.Controllers {
     public class BaseController : Controller {
@@ -15,14 +13,15 @@ namespace BankConfigurationPortal.Web.Controllers {
             }
             ViewBag.IsRtl = isRtl;
 
-            var authCookie = filterContext.HttpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
-            var sessionId = filterContext.HttpContext.Session["UserSessionId"];
             string username = null, bankName = null;
-            if (authCookie != null && sessionId != null) {
-                SerializableUserData userData = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(authCookie.Value).UserData, JsonSerializerOptions.Default);
-                if (userData.UserSessionId == (int) sessionId) {
-                    username = userData.Username;
-                    bankName = userData.BankName;
+            var sessionId = filterContext.HttpContext.Session["UserSessionId"];
+            if (User != null && sessionId != null) {
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                int userSessionId = int.Parse(claimsIdentity.FindFirst("UserSessionId").Value);
+
+                if (userSessionId == (int) sessionId) {
+                    username = claimsIdentity.FindFirst(ClaimTypes.Name).Value;
+                    bankName = claimsIdentity.FindFirst("BankName").Value;
                 }
             }
             ViewBag.Username = username;
