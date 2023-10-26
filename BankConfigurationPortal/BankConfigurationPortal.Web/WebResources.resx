@@ -243,6 +243,18 @@
   <data name="MaxLengthValidationMessage255" xml:space="preserve">
     <value>Length must not exceed 255 characters</value>
   </data>
+  <data name="MaxServiceTime" xml:space="preserve">
+    <value>Maximum service time (seconds)</value>
+  </data>
+  <data name="MaxServiceTimeValidationMessage" xml:space="preserve">
+    <value>The maximum service time must be greater than or equal to the minimum service time</value>
+  </data>
+  <data name="MinServiceTime" xml:space="preserve">
+    <value>Minimum service time (seconds)</value>
+  </data>
+  <data name="MinServiceTimeValidationMessage" xml:space="preserve">
+    <value>The minimum service time must be less than or equal to the maximum service time</value>
+  </data>
   <data name="NameAr" xml:space="preserve">
     <value>Name (Arabic)</value>
   </data>
@@ -272,6 +284,9 @@
   </data>
   <data name="RangeValidationMessage1_100" xml:space="preserve">
     <value>The number has to be between 1 and 100</value>
+  </data>
+  <data name="RangeValidationMessage30_999999" xml:space="preserve">
+    <value>The number has to be between 30 and 999999</value>
   </data>
   <data name="RequiredValidationMessage" xml:space="preserve">
     <value>This field is required</value>

@@ -83,7 +83,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     return RedirectToAction("Details", new { branchId });
                 }
                 else {
-                    LogsHelper.Log("Invalid model state - create branch", EventSeverity.Warning);
+                    JsonLogsHelper.Log("Invalid model state - create branch", EventSeverity.Warning);
                     return View();
                 }
             }
@@ -121,7 +121,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     return RedirectToAction("Details", new { branchId = branch.BranchId });
                 }
                 else {
-                    LogsHelper.Log("Invalid model state - edit branch", EventSeverity.Warning);
+                    JsonLogsHelper.Log("Invalid model state - edit branch", EventSeverity.Warning);
                     return View(branch);
                 }
             }

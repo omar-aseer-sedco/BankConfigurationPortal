@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankConfigurationPortal.Uti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankConfigurationPortal.Web", "BankConfigurationPortal.Web\BankConfigurationPortal.Web.csproj", "{EFAA2372-5B4F-4285-885E-37BAA772CAF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankConfigurationPortal.Setup", "BankConfigurationPortal.Setup\BankConfigurationPortal.Setup.csproj", "{473AF82E-0B49-4CFA-8804-85F21F1BFDE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EFAA2372-5B4F-4285-885E-37BAA772CAF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFAA2372-5B4F-4285-885E-37BAA772CAF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFAA2372-5B4F-4285-885E-37BAA772CAF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{473AF82E-0B49-4CFA-8804-85F21F1BFDE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{473AF82E-0B49-4CFA-8804-85F21F1BFDE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{473AF82E-0B49-4CFA-8804-85F21F1BFDE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{473AF82E-0B49-4CFA-8804-85F21F1BFDE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

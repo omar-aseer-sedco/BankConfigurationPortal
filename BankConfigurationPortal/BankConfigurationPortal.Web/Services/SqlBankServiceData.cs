@@ -24,6 +24,8 @@ namespace BankConfigurationPortal.Web.Services {
                         string nameAr = (string) reader[BankServicesConstants.NAME_AR];
                         bool active = (bool) reader[BankServicesConstants.ACTIVE];
                         int maxDailyTickets = (int) reader[BankServicesConstants.MAX_DAILY_TICKETS];
+                        int minServiceTime = (int) reader[BankServicesConstants.MIN_SERVICE_TIME];
+                        int maxServiceTime = (int) reader[BankServicesConstants.MAX_SERVICE_TIME];
 
                         bankServices.Add(new BankService() {
                             BankName = bankName,
@@ -32,6 +34,8 @@ namespace BankConfigurationPortal.Web.Services {
                             NameAr = nameAr,
                             Active = active,
                             MaxDailyTickets = maxDailyTickets,
+                            MinServiceTime = minServiceTime,
+                            MaxServiceTime = maxServiceTime,
                         });
                     }
 
@@ -61,6 +65,8 @@ namespace BankConfigurationPortal.Web.Services {
                         string nameAr = (string) reader[BankServicesConstants.NAME_AR];
                         bool active = (bool) reader[BankServicesConstants.ACTIVE];
                         int maxDailyTickets = (int) reader[BankServicesConstants.MAX_DAILY_TICKETS];
+                        int minServiceTime = (int) reader[BankServicesConstants.MIN_SERVICE_TIME];
+                        int maxServiceTime = (int) reader[BankServicesConstants.MAX_SERVICE_TIME];
 
                         bankService = new BankService() {
                             BankName = bankName,
@@ -69,6 +75,8 @@ namespace BankConfigurationPortal.Web.Services {
                             NameAr = nameAr,
                             Active = active,
                             MaxDailyTickets = maxDailyTickets,
+                            MinServiceTime = minServiceTime,
+                            MaxServiceTime = maxServiceTime,
                         };
                     }
 
@@ -87,13 +95,16 @@ namespace BankConfigurationPortal.Web.Services {
         public int Add(BankService bankService) {
             try {
                 string query = $"INSERT INTO {BankServicesConstants.TABLE_NAME} ({BankServicesConstants.BANK_NAME}, {BankServicesConstants.NAME_EN}, {BankServicesConstants.NAME_AR}, {BankServicesConstants.ACTIVE}, " +
-                               $"{BankServicesConstants.MAX_DAILY_TICKETS}) VALUES (@bankName, @nameEn, @nameAr, @active, @maxDailyTickets); SELECT CAST(IDENT_CURRENT('{BankServicesConstants.TABLE_NAME}') AS INT);";
+                               $"{BankServicesConstants.MAX_DAILY_TICKETS}, {BankServicesConstants.MIN_SERVICE_TIME}, {BankServicesConstants.MAX_SERVICE_TIME}) VALUES (@bankName, @nameEn, @nameAr, @active, " +
+                               $"@maxDailyTickets, @minServiceTime, @maxServiceTime); SELECT CAST(IDENT_CURRENT('{BankServicesConstants.TABLE_NAME}') AS INT);";
                 SqlCommand command = new SqlCommand(query);
                 command.Parameters.Add("@bankName", SqlDbType.VarChar, BankServicesConstants.BANK_NAME_SIZE).Value = bankService.BankName;
                 command.Parameters.Add("@nameEn", SqlDbType.VarChar, BankServicesConstants.NAME_EN_SIZE).Value = bankService.NameEn;
                 command.Parameters.Add("@nameAr", SqlDbType.NVarChar, BankServicesConstants.NAME_AR_SIZE).Value = bankService.NameAr;
                 command.Parameters.Add("@active", SqlDbType.Bit).Value = bankService.Active;
                 command.Parameters.Add("@maxDailyTickets", SqlDbType.Int).Value = bankService.MaxDailyTickets;
+                command.Parameters.Add("@minServiceTime", SqlDbType.Int).Value = bankService.MinServiceTime;
+                command.Parameters.Add("@maxServiceTime", SqlDbType.Int).Value = bankService.MaxServiceTime;
 
                 return (int) DbUtils.ExecuteScalar(command);
             }
@@ -106,12 +117,16 @@ namespace BankConfigurationPortal.Web.Services {
 
         public int Update(BankService bankService) {
             try {
-                string query = $"UPDATE {BankServicesConstants.TABLE_NAME} SET {BankServicesConstants.NAME_EN} = @nameEn, {BankServicesConstants.NAME_AR} = @nameAr, {BankServicesConstants.ACTIVE} = @active, {BankServicesConstants.MAX_DAILY_TICKETS} = @maxDailyTickets WHERE {BankServicesConstants.BANK_NAME} = @bankName AND {BankServicesConstants.BANK_SERVICE_ID} = @bankServiceId;";
+                string query = $"UPDATE {BankServicesConstants.TABLE_NAME} SET {BankServicesConstants.NAME_EN} = @nameEn, {BankServicesConstants.NAME_AR} = @nameAr, {BankServicesConstants.ACTIVE} = @active, " +
+                $"{BankServicesConstants.MAX_DAILY_TICKETS} = @maxDailyTickets, {BankServicesConstants.MIN_SERVICE_TIME} = @minServiceTime, {BankServicesConstants.MAX_SERVICE_TIME} = @maxServiceTime WHERE " +
+                $"{BankServicesConstants.BANK_NAME} = @bankName AND {BankServicesConstants.BANK_SERVICE_ID} = @bankServiceId;";
                 SqlCommand command = new SqlCommand(query);
                 command.Parameters.Add("@nameEn", SqlDbType.VarChar, BankServicesConstants.NAME_EN_SIZE).Value = bankService.NameEn;
                 command.Parameters.Add("@nameAr", SqlDbType.NVarChar, BankServicesConstants.NAME_AR_SIZE).Value = bankService.NameAr;
                 command.Parameters.Add("@active", SqlDbType.Bit).Value = bankService.Active;
                 command.Parameters.Add("@maxDailyTickets", SqlDbType.Int).Value = bankService.MaxDailyTickets;
+                command.Parameters.Add("@minServiceTime", SqlDbType.Int).Value = bankService.MinServiceTime;
+                command.Parameters.Add("@maxServiceTime", SqlDbType.Int).Value = bankService.MaxServiceTime;
                 command.Parameters.Add("@bankName", SqlDbType.VarChar, BankServicesConstants.BANK_NAME_SIZE).Value = bankService.BankName;
                 command.Parameters.Add("@bankServiceId", SqlDbType.Int).Value = bankService.BankServiceId;
 

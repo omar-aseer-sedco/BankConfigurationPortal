@@ -243,6 +243,18 @@
   <data name="MaxLengthValidationMessage255" xml:space="preserve">
     <value>يجب ألا يتجاوز الطول 255 حرفًا</value>
   </data>
+  <data name="MaxServiceTime" xml:space="preserve">
+    <value>الحد الأعلى لوقت الخدمة (ثواني)</value>
+  </data>
+  <data name="MaxServiceTimeValidationMessage" xml:space="preserve">
+    <value>يجب أن يكون الحد الأعلى لوقت الخدمة أكبر من أو يساوي الحد الأدنى لوقت الخدمة</value>
+  </data>
+  <data name="MinServiceTime" xml:space="preserve">
+    <value>الحد الأدنى لوقت الخدمة (ثواني)</value>
+  </data>
+  <data name="MinServiceTimeValidationMessage" xml:space="preserve">
+    <value>يجب أن يكون الحد الأدنى لوقت الخدمة أقل من أو يساوي الحد الأعلى لوقت الخدمة</value>
+  </data>
   <data name="NameAr" xml:space="preserve">
     <value>الاسم (عربي)</value>
   </data>
@@ -272,6 +284,9 @@
   </data>
   <data name="RangeValidationMessage1_100" xml:space="preserve">
     <value>يجب أن يكون الرقم بين 1 و100</value>
+  </data>
+  <data name="RangeValidationMessage30_999999" xml:space="preserve">
+    <value>يجب أن يكون الرقم بين 30 و999999</value>
   </data>
   <data name="RequiredValidationMessage" xml:space="preserve">
     <value>هذه الخانة مطلوبة</value>

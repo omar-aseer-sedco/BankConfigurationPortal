@@ -125,7 +125,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     return RedirectToAction("Details", new { branchId, counterId });
                 }
                 else {
-                    LogsHelper.Log("Invalid model state - create counter", EventSeverity.Warning);
+                    JsonLogsHelper.Log("Invalid model state - create counter", EventSeverity.Warning);
                     return View();
                 }
             }
@@ -165,7 +165,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     return RedirectToAction("Details", new { branchId, counterId = counter.CounterId });
                 }
                 else {
-                    LogsHelper.Log("Invalid model state - edit counter", EventSeverity.Warning);
+                    JsonLogsHelper.Log("Invalid model state - edit counter", EventSeverity.Warning);
                     return View(counter);
                 }
             }

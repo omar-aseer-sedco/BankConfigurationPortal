@@ -107,6 +107,8 @@ namespace BankConfigurationPortal.Web.Services {
                         string nameAr = (string) reader[BankServicesConstants.NAME_AR];
                         bool active = (bool) reader[BankServicesConstants.ACTIVE];
                         int maxDailyTickets = (int) reader[BankServicesConstants.MAX_DAILY_TICKETS];
+                        int minServiceTime = (int) reader[BankServicesConstants.MIN_SERVICE_TIME];
+                        int maxServiceTime = (int) reader[BankServicesConstants.MAX_SERVICE_TIME];
 
                         bankServices.Add(new BankService() {
                             BankName = bankName,
@@ -115,6 +117,8 @@ namespace BankConfigurationPortal.Web.Services {
                             NameAr = nameAr,
                             Active = active,
                             MaxDailyTickets = maxDailyTickets,
+                            MinServiceTime = minServiceTime,
+                            MaxServiceTime = maxServiceTime,
                         });
                     }
 

@@ -44,6 +44,8 @@
         public const string NAME_AR = "name_ar";
         public const string ACTIVE = "active";
         public const string MAX_DAILY_TICKETS = "max_daily_tickets";
+        public const string MIN_SERVICE_TIME = "min_service_time";
+        public const string MAX_SERVICE_TIME = "max_service_time";
 
         public const int BANK_NAME_SIZE = 255;
         public const int NAME_EN_SIZE = 100;

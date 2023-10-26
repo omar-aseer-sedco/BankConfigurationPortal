@@ -37,7 +37,7 @@ namespace BankConfigurationPortal.Utils.Helpers {
         }
     }
 
-    public static class LogsHelper {
+    public static class JsonLogsHelper {
         private static readonly string logsDirectoryPath = @"C:\ProgramData\BankConfigurationPortal\logs";
         private static readonly string logsFilePath = Path.Combine(logsDirectoryPath, "logs.json");
 

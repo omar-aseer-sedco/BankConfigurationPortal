@@ -439,6 +439,42 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum service time (seconds).
+        /// </summary>
+        public static string MaxServiceTime {
+            get {
+                return ResourceManager.GetString("MaxServiceTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The maximum service time must be greater than or equal to the minimum service time.
+        /// </summary>
+        public static string MaxServiceTimeValidationMessage {
+            get {
+                return ResourceManager.GetString("MaxServiceTimeValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum service time (seconds).
+        /// </summary>
+        public static string MinServiceTime {
+            get {
+                return ResourceManager.GetString("MinServiceTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The minimum service time must be less than or equal to the maximum service time.
+        /// </summary>
+        public static string MinServiceTimeValidationMessage {
+            get {
+                return ResourceManager.GetString("MinServiceTimeValidationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name (Arabic).
         /// </summary>
         public static string NameAr {
@@ -525,6 +561,15 @@ namespace BankConfigurationPortal.Web {
         public static string RangeValidationMessage1_100 {
             get {
                 return ResourceManager.GetString("RangeValidationMessage1_100", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number has to be between 30 and 999999.
+        /// </summary>
+        public static string RangeValidationMessage30_999999 {
+            get {
+                return ResourceManager.GetString("RangeValidationMessage30_999999", resourceCulture);
             }
         }
         

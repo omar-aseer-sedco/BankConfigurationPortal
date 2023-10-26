@@ -24,6 +24,16 @@
         <b>@Html.DisplayNameFor(model => model.MaxDailyTickets):</b>
         @Html.DisplayFor(model => model.MaxDailyTickets)
     </p>
+
+    <p>
+        <b>@Html.DisplayNameFor(model => model.MinServiceTime):</b>
+        @Html.DisplayFor(model => model.MinServiceTime)
+    </p>
+
+    <p>
+        <b>@Html.DisplayNameFor(model => model.MaxServiceTime):</b>
+        @Html.DisplayFor(model => model.MaxServiceTime)
+    </p>
 </div>
 <p>
     @Html.ActionLink(WebResources.Edit, "Edit", new { bankServiceId = Model.BankServiceId }) |
