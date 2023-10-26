@@ -234,6 +234,12 @@
   <data name="Logout" xml:space="preserve">
     <value>تسجيل خروج</value>
   </data>
+  <data name="LogsNotInitializedErrorMessage" xml:space="preserve">
+    <value>مصدر السجلات غير موجود. تأكد من تشغيل أداة الإعداد لتهيئة السجلات</value>
+  </data>
+  <data name="LogsNotInitializedErrorTitle" xml:space="preserve">
+    <value>السجلات غير موجودة</value>
+  </data>
   <data name="MaxDailyTickets" xml:space="preserve">
     <value>عدد التذاكر الأعلى يوميًا</value>
   </data>

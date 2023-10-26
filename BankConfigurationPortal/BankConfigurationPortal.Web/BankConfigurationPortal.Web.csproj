@@ -293,6 +293,7 @@
     <Content Include="Views\Counter\Delete.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CounterType.cshtml" />
+    <Content Include="Views\Shared\LogsNotInitializedError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -5,6 +5,7 @@ using BankConfigurationPortal.Web.Models;
 using BankConfigurationPortal.Web.Services;
 using BankConfigurationPortal.Web.Utils;
 using System;
+using System.Diagnostics;
 using System.Web.Mvc;
 
 namespace BankConfigurationPortal.Web.Controllers {
@@ -86,7 +87,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     return RedirectToAction("Details", new { bankServiceId });
                 }
                 else {
-                    JsonLogsHelper.Log("Invalid model state - create bank service", EventSeverity.Warning);
+                    WindowsLogsHelper.Log("Invalid model state - create bank service", EventLogEntryType.Warning);
                     return View();
                 }
             }
@@ -124,7 +125,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     return RedirectToAction("Details", new { bankServiceId = bankService.BankServiceId });
                 }
                 else {
-                    JsonLogsHelper.Log("Invalid model state - update bank service", EventSeverity.Warning);
+                    WindowsLogsHelper.Log("Invalid model state - update bank service", EventLogEntryType.Warning);
                     return View();
                 }
             }

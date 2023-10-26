@@ -412,6 +412,24 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The log event source is not initialized. Make sure you run the setup utility to initialize it.
+        /// </summary>
+        public static string LogsNotInitializedErrorMessage {
+            get {
+                return ResourceManager.GetString("LogsNotInitializedErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logs not Initialized.
+        /// </summary>
+        public static string LogsNotInitializedErrorTitle {
+            get {
+                return ResourceManager.GetString("LogsNotInitializedErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximum tickets per day.
         /// </summary>
         public static string MaxDailyTickets {

@@ -1,4 +1,5 @@
-﻿using BankConfigurationPortal.Web.Constants;
+﻿using BankConfigurationPortal.Utils.Helpers;
+using BankConfigurationPortal.Web.Constants;
 using BankConfigurationPortal.Web.Models;
 using System.Text.Json;
 using System.Web.Mvc;
@@ -26,6 +27,10 @@ namespace BankConfigurationPortal.Web.Controllers {
             }
             ViewBag.Username = username;
             ViewBag.BankName = bankName;
+
+            if (!WindowsLogsHelper.IsLogSourceInitialized()) {
+                filterContext.Result = View("LogsNotInitializedError");
+            }
 
             base.OnActionExecuting(filterContext);
         }

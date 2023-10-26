@@ -234,6 +234,12 @@
   <data name="Logout" xml:space="preserve">
     <value>Log out</value>
   </data>
+  <data name="LogsNotInitializedErrorMessage" xml:space="preserve">
+    <value>The log event source is not initialized. Make sure you run the setup utility to initialize it</value>
+  </data>
+  <data name="LogsNotInitializedErrorTitle" xml:space="preserve">
+    <value>Logs not Initialized</value>
+  </data>
   <data name="MaxDailyTickets" xml:space="preserve">
     <value>Maximum tickets per day</value>
   </data>

@@ -6,6 +6,7 @@ using BankConfigurationPortal.Web.Utils;
 using System;
 using System.Web.Mvc;
 using BankConfigurationPortal.Web.Constants;
+using System.Diagnostics;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [CookieAuthorization]
@@ -83,7 +84,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     return RedirectToAction("Details", new { branchId });
                 }
                 else {
-                    JsonLogsHelper.Log("Invalid model state - create branch", EventSeverity.Warning);
+                    WindowsLogsHelper.Log("Invalid model state - create branch", EventLogEntryType.Warning);
                     return View();
                 }
             }
@@ -121,7 +122,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     return RedirectToAction("Details", new { branchId = branch.BranchId });
                 }
                 else {
-                    JsonLogsHelper.Log("Invalid model state - edit branch", EventSeverity.Warning);
+                    WindowsLogsHelper.Log("Invalid model state - edit branch", EventLogEntryType.Warning);
                     return View(branch);
                 }
             }

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using BankConfigurationPortal.Web.ViewModels;
 using System.Collections.Generic;
 using BankConfigurationPortal.Web.Constants;
+using System.Diagnostics;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [CookieAuthorization]
@@ -125,7 +126,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     return RedirectToAction("Details", new { branchId, counterId });
                 }
                 else {
-                    JsonLogsHelper.Log("Invalid model state - create counter", EventSeverity.Warning);
+                    WindowsLogsHelper.Log("Invalid model state - create counter", EventLogEntryType.Warning);
                     return View();
                 }
             }
@@ -165,7 +166,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                     return RedirectToAction("Details", new { branchId, counterId = counter.CounterId });
                 }
                 else {
-                    JsonLogsHelper.Log("Invalid model state - edit counter", EventSeverity.Warning);
+                    WindowsLogsHelper.Log("Invalid model state - edit counter", EventLogEntryType.Warning);
                     return View(counter);
                 }
             }
