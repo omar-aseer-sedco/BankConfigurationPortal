@@ -68,7 +68,7 @@ namespace BankConfigurationPortal.Web.Controllers {
             try {
                 ViewBag.Title = WebResources.Create;
 
-                return View();
+                return View(new BankService());
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);

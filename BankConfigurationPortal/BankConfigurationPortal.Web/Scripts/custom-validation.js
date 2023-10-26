@@ -1,5 +1,5 @@
 ﻿$.validator.addMethod("minservicetimevalidation", function (value, element, params) {
-    return value < $(params).val();
+    return parseInt(value) < parseInt($(params).val());
 });
 
 $.validator.unobtrusive.adapters.add("minservicetimevalidation", ['maxservicetime'], function (options) {
@@ -8,7 +8,7 @@ $.validator.unobtrusive.adapters.add("minservicetimevalidation", ['maxservicetim
 });
 
 $.validator.addMethod("maxservicetimevalidation", function (value, element, params) {
-    return value > $(params).val();
+    return parseInt(value) > parseInt($(params).val());
 });
 
 $.validator.unobtrusive.adapters.add("maxservicetimevalidation", ['minservicetime'], function (options) {
