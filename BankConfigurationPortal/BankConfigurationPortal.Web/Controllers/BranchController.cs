@@ -9,7 +9,7 @@ using BankConfigurationPortal.Web.Constants;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [CookieAuthorization]
-    public class BranchController : Controller {
+    public class BranchController : BaseController {
         private readonly IBranchData db;
 
         public BranchController(IBranchData db) {

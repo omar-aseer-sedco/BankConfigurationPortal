@@ -1,31 +1,7 @@
-﻿@using BankConfigurationPortal.Web.Models;
-@using System.Text.Json;
-
-@{ 
-    bool isRtl = false;
-    var languageCookie = Context.Request.Cookies["language"];
-    if (languageCookie != null) {
-        if (languageCookie.Value == BankConfigurationPortal.Web.Constants.Languages.ARABIC) {
-            isRtl = true;
-        }
-        else {
-            isRtl = false;
-        }
-    }
-    string username = null, bankName = null;
-    var authCookie = Context.Request.Cookies[FormsAuthentication.FormsCookieName];
-    if (authCookie != null && Context.Session["UserSessionId"] != null) {
-        try {
-            SerializableUserData userData = JsonSerializer.Deserialize<SerializableUserData>(FormsAuthentication.Decrypt(authCookie.Value).UserData, JsonSerializerOptions.Default);
-            if (userData.UserSessionId == (int) Context.Session["UserSessionId"]) {
-                username = userData.Username;
-                bankName = userData.BankName;
-            }
-        }
-        catch (Exception ex) {
-            BankConfigurationPortal.Utils.Helpers.ExceptionHelper.HandleGeneralException(ex);
-        }
-    }
+﻿@{ 
+    bool isRtl = ViewBag.IsRtl;
+    string username = ViewBag.Username;
+    string bankName = ViewBag.BankName;
 }
 
 <!DOCTYPE html>

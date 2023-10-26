@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [CookieAuthorization]
-    public class BankServiceController : Controller {
+    public class BankServiceController : BaseController {
         private readonly IBankServiceData db;
 
         public BankServiceController(IBankServiceData db) {

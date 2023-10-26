@@ -71,7 +71,8 @@
   <ItemGroup>
     <Compile Include="Constants\ConnectionStatus.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
-    <Compile Include="Helpers\LogsHelper.cs" />
+    <Compile Include="Helpers\JsonLogsHelper.cs" />
+    <Compile Include="Helpers\WindowsLogsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

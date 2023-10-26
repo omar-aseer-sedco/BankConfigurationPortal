@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [CookieAuthorization]
-    public class CounterServiceController : Controller {
+    public class CounterServiceController : BaseController {
         private readonly IBankServiceData db;
 
         public CounterServiceController(IBankServiceData db) {

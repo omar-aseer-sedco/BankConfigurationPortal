@@ -11,7 +11,7 @@ using BankConfigurationPortal.Web.Constants;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [CookieAuthorization]
-    public class CounterController : Controller {
+    public class CounterController : BaseController {
         private readonly ICounterData db;
         private readonly IBankServiceData serviceData;
 

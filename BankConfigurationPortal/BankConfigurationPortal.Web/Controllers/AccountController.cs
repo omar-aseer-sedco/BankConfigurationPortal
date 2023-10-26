@@ -12,7 +12,7 @@ using System.Web.Security;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [AllowAnonymous]
-    public class AccountController : Controller {
+    public class AccountController : BaseController {
         private readonly IUserData db;
 
         public AccountController(IUserData db) {

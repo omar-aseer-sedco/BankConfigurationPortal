@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [AllowAnonymous]
-    public class HomeController : Controller {
+    public class HomeController : BaseController {
         public ActionResult Index() {
             try {
                 ViewBag.Title = WebResources.Home;
