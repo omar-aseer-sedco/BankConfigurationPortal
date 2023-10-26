@@ -27,7 +27,7 @@ namespace BankConfigurationPortal.Web.Controllers {
         public ActionResult Login(string returnUrl = "") {
             try {
                 if (OwinCookieAuthorizationAttribute.IsUserAuthenticated(HttpContext, db)) {
-                    if (Url.IsLocalUrl(returnUrl)) {
+                    if (Url.IsLocalUrl(HttpUtility.UrlDecode(returnUrl))) {
                         return Redirect(returnUrl);
                     }
                     else {
@@ -84,7 +84,7 @@ namespace BankConfigurationPortal.Web.Controllers {
                         var identity = new ClaimsIdentity(claims, "ApplicationCookie");
                         Request.GetOwinContext().Authentication.SignIn(identity);
 
-                        if (Url.IsLocalUrl(returnUrl)) {
+                        if (Url.IsLocalUrl(HttpUtility.UrlDecode(returnUrl))) {
                             return Redirect(returnUrl);
                         }
                         else {

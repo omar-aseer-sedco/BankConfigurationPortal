@@ -214,6 +214,15 @@ namespace BankConfigurationPortal.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose services.
+        /// </summary>
+        public static string ChooseServices {
+            get {
+                return ResourceManager.GetString("ChooseServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete this entry? This action cannot be undone..
         /// </summary>
         public static string ConfirmDeleteMessage {

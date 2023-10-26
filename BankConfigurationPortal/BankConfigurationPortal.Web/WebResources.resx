@@ -168,6 +168,9 @@
   <data name="BranchId" xml:space="preserve">
     <value>Branch ID</value>
   </data>
+  <data name="ChooseServices" xml:space="preserve">
+    <value>Choose services</value>
+  </data>
   <data name="ConfirmDeleteMessage" xml:space="preserve">
     <value>Are you sure you want to delete this entry? This action cannot be undone.</value>
   </data>

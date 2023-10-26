@@ -168,6 +168,9 @@
   <data name="BranchId" xml:space="preserve">
     <value>رقم الفرع</value>
   </data>
+  <data name="ChooseServices" xml:space="preserve">
+    <value>اختيار الخدمات</value>
+  </data>
   <data name="ConfirmDeleteMessage" xml:space="preserve">
     <value>هل أنت متأكد أنك تريد حذف هذا السجل؟ لا يمكنك التراجع عن هذا الإجراء</value>
   </data>

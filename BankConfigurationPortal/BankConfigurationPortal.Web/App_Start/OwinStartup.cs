@@ -1,6 +1,7 @@
 ﻿using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+using System;
 using System.Security.Claims;
 using System.Web.Helpers;
 
@@ -13,6 +14,8 @@ namespace BankConfigurationPortal.Web.App_Start {
             app.UseCookieAuthentication(new CookieAuthenticationOptions() {
                 AuthenticationType = "ApplicationCookie",
                 LoginPath = new PathString("/Account/Login"),
+                ExpireTimeSpan = TimeSpan.FromMinutes(30),
+                SlidingExpiration = true,
             });
         }
     }

@@ -72,7 +72,7 @@
 <div>
     <hr />
     <p><b>@WebResources.AllocateServices:</b></p>
-    <select multiple id="servicesMultiSelect" class="@(isRtl ? "chosen-rtl" : "")">
+    <select multiple id="servicesMultiSelect" class="@(isRtl ? "chosen-rtl" : "")" data-placeholder="@(WebResources.ChooseServices)...">
         @foreach (var service in Model.Services) {
             string serviceName = isRtl ? service.Service.NameAr : service.Service.NameEn;
             if (service.IsAvailableOnCounter) {

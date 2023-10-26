@@ -24,13 +24,13 @@ namespace BankConfigurationPortal.Web.Attributes {
                 filterContext.HttpContext.Response.AppendHeader("Pragma", "no-cache");
 
                 if (!IsUserAuthenticated(filterContext.HttpContext, db)) {
-                    var returnUrl = new StringBuilder($"returnUrl={filterContext.HttpContext.Request.Path}");
+                    var returnUrl = new StringBuilder(filterContext.HttpContext.Request.Path);
                     var queryString = filterContext.HttpContext.Request.QueryString;
                     if (queryString.Count > 0) {
                         returnUrl.Append('?').Append(queryString);
                     }
 
-                    filterContext.Result = new RedirectResult($"/Account/Login?{returnUrl}");
+                    filterContext.Result = new RedirectResult($"/Account/Login?returnUrl={HttpUtility.UrlEncode(returnUrl.ToString())}");
                 }
             }
             catch (Exception ex) {
