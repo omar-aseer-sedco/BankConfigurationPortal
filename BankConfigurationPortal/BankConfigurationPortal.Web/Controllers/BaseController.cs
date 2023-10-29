@@ -14,14 +14,14 @@ namespace BankConfigurationPortal.Web.Controllers {
             ViewBag.IsRtl = isRtl;
 
             string username = null, bankName = null;
-            var sessionId = filterContext.HttpContext.Session["UserSessionId"];
+            var sessionId = filterContext.HttpContext.Session[AuthenticationConstants.USER_SESSION_ID];
             if (User != null && sessionId != null) {
                 var claimsIdentity = User.Identity as ClaimsIdentity;
-                int userSessionId = int.Parse(claimsIdentity.FindFirst("UserSessionId").Value);
+                int userSessionId = int.Parse(claimsIdentity.FindFirst(AuthenticationConstants.USER_SESSION_ID).Value);
 
                 if (userSessionId == (int) sessionId) {
                     username = claimsIdentity.FindFirst(ClaimTypes.Name).Value;
-                    bankName = claimsIdentity.FindFirst("BankName").Value;
+                    bankName = claimsIdentity.FindFirst(AuthenticationConstants.BANK_NAME).Value;
                 }
             }
             ViewBag.Username = username;

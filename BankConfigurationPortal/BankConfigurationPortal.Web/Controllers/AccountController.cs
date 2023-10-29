@@ -1,5 +1,6 @@
 ﻿using BankConfigurationPortal.Utils.Helpers;
 using BankConfigurationPortal.Web.Attributes;
+using BankConfigurationPortal.Web.Constants;
 using BankConfigurationPortal.Web.Models;
 using BankConfigurationPortal.Web.Services;
 using System;
@@ -51,15 +52,15 @@ namespace BankConfigurationPortal.Web.Controllers {
             try {
                 if (ModelState.IsValid) {
                     if (db.ValidateUser(user)) {
-                        if (Request.Cookies.AllKeys.Contains(".AspNet.ApplicationCookie")) {
-                            Response.Cookies.Remove(".AspNet.ApplicationCookie");
+                        if (Request.Cookies.AllKeys.Contains(AuthenticationConstants.AUTHENTICATION_COOKIE_NAME)) {
+                            Response.Cookies.Remove(AuthenticationConstants.AUTHENTICATION_COOKIE_NAME);
                         }
                         
                         byte[] rngBytes = new byte[4];
                         RandomNumberGenerator.Create().GetBytes(rngBytes);
                         int userSessionId = BitConverter.ToInt32(rngBytes, 0);
 
-                        Session["UserSessionId"] = userSessionId;
+                        Session[AuthenticationConstants.USER_SESSION_ID] = userSessionId;
 
                         Session session = new Session() { 
                             Username = user.Username,
@@ -70,18 +71,18 @@ namespace BankConfigurationPortal.Web.Controllers {
                         };
 
                         if (db.SetSession(session) != 1) { // failed to save the session
-                            Session["UserSessionId"] = null;
+                            Session[AuthenticationConstants.USER_SESSION_ID] = null;
                             return View("Error");
                         }
 
                         var claims = new[] {
                             new Claim(ClaimTypes.Name, user.Username),
-                            new Claim("BankName", user.BankName),
-                            new Claim("UserSessionId", userSessionId.ToString()),
-                            new Claim("UserAgent", Request.UserAgent),
-                            new Claim("IpAddress", Request.UserHostAddress),
+                            new Claim(AuthenticationConstants.BANK_NAME, user.BankName),
+                            new Claim(AuthenticationConstants.USER_SESSION_ID, userSessionId.ToString()),
+                            new Claim(AuthenticationConstants.USER_AGENT, Request.UserAgent),
+                            new Claim(AuthenticationConstants.IP_ADDRESS, Request.UserHostAddress),
                         };
-                        var identity = new ClaimsIdentity(claims, "ApplicationCookie");
+                        var identity = new ClaimsIdentity(claims, AuthenticationConstants.AUTHENTICATION_TYPE);
                         Request.GetOwinContext().Authentication.SignIn(identity);
 
                         if (Url.IsLocalUrl(HttpUtility.UrlDecode(returnUrl))) {
@@ -112,10 +113,10 @@ namespace BankConfigurationPortal.Web.Controllers {
                 }
 
                 var claimsIdentity = User.Identity as ClaimsIdentity;
-                int userSessionId = int.Parse(claimsIdentity.FindFirst("UserSessionId").Value);
+                int userSessionId = int.Parse(claimsIdentity.FindFirst(AuthenticationConstants.USER_SESSION_ID).Value);
                 db.DeleteSession(userSessionId);
 
-                Request.GetOwinContext().Authentication.SignOut("ApplicationCookie");
+                Request.GetOwinContext().Authentication.SignOut(AuthenticationConstants.AUTHENTICATION_TYPE);
                 Session.Abandon();
                 return RedirectToAction("Index", "Home");
             }

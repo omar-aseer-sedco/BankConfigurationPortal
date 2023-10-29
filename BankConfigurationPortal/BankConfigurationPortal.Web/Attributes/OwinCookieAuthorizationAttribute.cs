@@ -1,4 +1,5 @@
 ﻿using BankConfigurationPortal.Utils.Helpers;
+using BankConfigurationPortal.Web.Constants;
 using BankConfigurationPortal.Web.Models;
 using BankConfigurationPortal.Web.Services;
 using System;
@@ -40,15 +41,15 @@ namespace BankConfigurationPortal.Web.Attributes {
 
         public static bool IsUserAuthenticated(HttpContextBase context, IUserData db) {
             try {
-                if (!context.Request.Cookies.AllKeys.Contains(".AspNet.ApplicationCookie") || context.Session["UserSessionId"] == null) {
+                if (!context.Request.Cookies.AllKeys.Contains(AuthenticationConstants.AUTHENTICATION_COOKIE_NAME) || context.Session[AuthenticationConstants.USER_SESSION_ID] == null) {
                     return false;
                 }
 
                 var claimsIdentity = context.User.Identity as ClaimsIdentity;
                 string username = claimsIdentity.FindFirst(ClaimTypes.Name).Value;
-                int userSessionId = int.Parse(claimsIdentity.FindFirst("UserSessionId").Value);
-                string userAgent = claimsIdentity.FindFirst("UserAgent").Value;
-                string ipAddress = claimsIdentity.FindFirst("IpAddress").Value;
+                int userSessionId = int.Parse(claimsIdentity.FindFirst(AuthenticationConstants.USER_SESSION_ID).Value);
+                string userAgent = claimsIdentity.FindFirst(AuthenticationConstants.USER_AGENT).Value;
+                string ipAddress = claimsIdentity.FindFirst(AuthenticationConstants.IP_ADDRESS).Value;
 
                 Session session = db.GetSession(userSessionId);
 
@@ -61,7 +62,7 @@ namespace BankConfigurationPortal.Web.Attributes {
                     return false;
                 }
 
-                return userSessionId == (int) context.Session["UserSessionId"] && username == session.Username && context.Request.UserAgent == session.UserAgent && context.Request.UserHostAddress == session.IpAddress;
+                return userSessionId == (int) context.Session[AuthenticationConstants.USER_SESSION_ID] && username == session.Username && context.Request.UserAgent == session.UserAgent && context.Request.UserHostAddress == session.IpAddress;
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);

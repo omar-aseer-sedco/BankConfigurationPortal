@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using BankConfigurationPortal.Web.Constants;
+using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using System;
@@ -12,7 +13,7 @@ namespace BankConfigurationPortal.Web.App_Start {
         public void Configuration(IAppBuilder app) {
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
             app.UseCookieAuthentication(new CookieAuthenticationOptions() {
-                AuthenticationType = "ApplicationCookie",
+                AuthenticationType = AuthenticationConstants.AUTHENTICATION_TYPE,
                 LoginPath = new PathString("/Account/Login"),
                 ExpireTimeSpan = TimeSpan.FromMinutes(30),
                 SlidingExpiration = true,
