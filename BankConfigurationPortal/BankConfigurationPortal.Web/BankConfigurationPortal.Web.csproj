@@ -190,6 +190,7 @@
     <Compile Include="Attributes\MaxServiceTimeValidationAttribute.cs" />
     <Compile Include="Attributes\MinServiceTimeValidationAttribute.cs" />
     <Compile Include="Attributes\OwinCookieAuthorizationAttribute.cs" />
+    <Compile Include="Constants\AuthenticationConstants.cs" />
     <Compile Include="Constants\DbConstants.cs" />
     <Compile Include="Constants\Languages.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -208,7 +209,6 @@
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Counter.cs" />
     <Compile Include="Models\CounterType.cs" />
-    <Compile Include="Models\SerializableUserData.cs" />
     <Compile Include="Models\Session.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
