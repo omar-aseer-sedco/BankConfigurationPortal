@@ -4,6 +4,7 @@ using BankConfigurationPortal.Web.Constants;
 using BankConfigurationPortal.Web.Models;
 using BankConfigurationPortal.Web.Services;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -70,8 +71,9 @@ namespace BankConfigurationPortal.Web.Controllers {
                             IpAddress = Request.UserHostAddress
                         };
 
-                        if (db.SetSession(session) != 1) { // failed to save the session
+                        if (db.SetSession(session) != 1) {
                             Session[AuthenticationConstants.USER_SESSION_ID] = null;
+                            WindowsLogsHelper.Log("Failed to save session", EventLogEntryType.Error);
                             return View("Error");
                         }
 
