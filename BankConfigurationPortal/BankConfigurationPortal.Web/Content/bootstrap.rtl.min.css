@@ -735,7 +735,7 @@ input[type=search] { -webkit-appearance: none; }
 .form-group { margin-bottom: 15px; }
 .checkbox, .radio { position: relative; display: block; margin-top: 10px; margin-bottom: 10px; }
  .checkbox label, .radio label { min-height: 20px; padding-right: 20px; margin-bottom: 0; font-weight: 400; cursor: pointer; }
- .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] { position: absolute; margin-top: 4px\9; margin-right: -20px; }
+ .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] { position: absolute; margin-top: 4px\9; margin-right: 0px; }
  .checkbox + .checkbox, .radio + .radio { margin-top: -5px; }
 .checkbox-inline, .radio-inline { position: relative; display: inline-block; padding-right: 20px; margin-bottom: 0; font-weight: 400; vertical-align: middle; cursor: pointer; }
  .checkbox-inline + .checkbox-inline, .radio-inline + .radio-inline { margin-top: 0; margin-right: 10px; }
@@ -801,7 +801,7 @@ select[multiple].input-lg, textarea.input-lg { height: auto; }
 .form-horizontal .form-group { margin-left: -15px; margin-right: -15px; }
 
 @media (min-width:768px) {
- .form-horizontal .control-label { padding-top: 7px; margin-bottom: 0; text-align: left; }
+ .form-horizontal .control-label { padding-top: 7px; margin-bottom: 0; text-align: right; }
 }
 
 .form-horizontal .has-feedback .form-control-feedback { left: 15px; }

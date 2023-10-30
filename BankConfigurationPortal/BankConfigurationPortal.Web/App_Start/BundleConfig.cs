@@ -30,7 +30,8 @@ namespace BankConfigurationPortal.Web {
                           "~/Content/site.css"));
 
                 bundles.Add(new StyleBundle("~/Content/css-rtl").Include(
-                          "~/Content/bootstrap.rtl.min.css"));
+                          "~/Content/bootstrap.rtl.min.css",
+                          "~/Content/site.rtl.css"));
 
                 bundles.Add(new ScriptBundle("~/bundles/chosen").Include(
                           "~/Scripts/chosen.jquery.js",
