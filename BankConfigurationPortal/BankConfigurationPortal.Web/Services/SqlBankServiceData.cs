@@ -140,7 +140,14 @@ namespace BankConfigurationPortal.Web.Services {
         }
 
         public int Delete(string bankName, int bankServiceId) {
-            return Delete(bankName, new List<int>() { bankServiceId });
+            try {
+                return Delete(bankName, new List<int>() { bankServiceId });
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
         }
 
         public int Delete(string bankName, IEnumerable<int> bankServiceIds) {

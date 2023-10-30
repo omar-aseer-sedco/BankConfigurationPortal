@@ -3,7 +3,6 @@ using BankConfigurationPortal.Web.Constants;
 using BankConfigurationPortal.Web.Models;
 using BankConfigurationPortal.Web.Services;
 using System;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Web;
@@ -14,7 +13,12 @@ namespace BankConfigurationPortal.Web.Attributes {
         private readonly IUserData db;
 
         public OwinCookieAuthorizationAttribute() : base() {
-            db = new SqlUserData();
+            try {
+                db = new SqlUserData();
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
         }
 
         public override void OnAuthorization(AuthorizationContext filterContext) {
@@ -41,7 +45,7 @@ namespace BankConfigurationPortal.Web.Attributes {
 
         public static bool IsUserAuthenticated(HttpContextBase context, IUserData db) {
             try {
-                if (!context.Request.Cookies.AllKeys.Contains(AuthenticationConstants.AUTHENTICATION_COOKIE_NAME) || context.Session[AuthenticationConstants.USER_SESSION_ID] == null) {
+                if (!context.User.Identity.IsAuthenticated || context.Session[AuthenticationConstants.USER_SESSION_ID] == null) {
                     return false;
                 }
 

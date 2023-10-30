@@ -177,7 +177,14 @@ namespace BankConfigurationPortal.Web.Services {
         }
 
         public int Delete(string bankName, int branchId, int counterId) {
-            return Delete(bankName, branchId, new List<int>() { counterId });
+            try {
+                return Delete(bankName, branchId, new List<int>() { counterId });
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
         }
 
         public int Delete(string bankName, int branchId, IEnumerable<int> counterIds) {

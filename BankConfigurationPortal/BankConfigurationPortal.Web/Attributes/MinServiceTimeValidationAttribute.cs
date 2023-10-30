@@ -9,7 +9,12 @@ namespace BankConfigurationPortal.Web.Attributes {
         private readonly string maxServiceTimePropertyName;
 
         public MinServiceTimeValidationAttribute(string maxServiceTimePropertyName) {
-            this.maxServiceTimePropertyName = maxServiceTimePropertyName;
+            try {
+                this.maxServiceTimePropertyName = maxServiceTimePropertyName;
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext) {
@@ -29,13 +34,19 @@ namespace BankConfigurationPortal.Web.Attributes {
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context) {
-            var rule = new ModelClientValidationRule {
-                ErrorMessage = WebResources.MinServiceTimeValidationMessage,
-                ValidationType = "minservicetimevalidation"
-            };
-            rule.ValidationParameters.Add("maxservicetime", maxServiceTimePropertyName);
+            try {
+                var rule = new ModelClientValidationRule {
+                    ErrorMessage = WebResources.MinServiceTimeValidationMessage,
+                    ValidationType = "minservicetimevalidation"
+                };
+                rule.ValidationParameters.Add("maxservicetime", maxServiceTimePropertyName);
 
-            yield return rule;
+                return new List<ModelClientValidationRule>() { rule };
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+                return default;
+            }
         }
     }
 }
