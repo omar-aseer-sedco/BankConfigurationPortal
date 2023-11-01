@@ -73,6 +73,38 @@ namespace BankConfigurationPortal.Web.Services {
             return default;
         }
 
+        public IEnumerable<TicketingButton> GetButtons(string bankName, int screenId, int branchId) {
+            try {
+                string query = $"SELECT * FROM {ButtonsConstants.TABLE_NAME} WHERE {ButtonsConstants.BANK_NAME} = @bankName AND {ButtonsConstants.SCREEN_ID} = @screenId AND ({ButtonsConstants.TYPE} = {(int) ButtonsConstants.Types.SHOW_MESSAGE} OR " +
+                               $"service_id IN (SELECT {ServicesCountersConstants.BANK_SERVICE_ID} FROM {ServicesCountersConstants.TABLE_NAME} WHERE {ServicesCountersConstants.BANK_NAME} = @servicesCountersBankName AND " +
+                               $"{ServicesCountersConstants.BRANCH_ID} = @branchId));";
+                SqlCommand command = new SqlCommand(query);
+                command.Parameters.Add("@bankName", SqlDbType.VarChar, ButtonsConstants.BANK_NAME_SIZE).Value = bankName;
+                command.Parameters.Add("@screenId", SqlDbType.Int).Value = screenId;
+                command.Parameters.Add("@servicesCountersBankName", SqlDbType.VarChar, ServicesCountersConstants.BANK_NAME_SIZE).Value = bankName;
+                command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
+
+                List<TicketingButton> buttons = new List<TicketingButton>();
+                DbUtils.ExecuteReader(command, (reader) => {
+                    while (reader.Read()) {
+                        var button = ButtonFromReader(reader, bankName, screenId);
+                        if (button != null) {
+                            buttons.Add(button);
+                        }
+                    }
+
+                    reader.Close();
+                });
+
+                return buttons;
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
+        }
+
         public IEnumerable<TicketingButton> GetButtons(string bankName, int screenId, int branchId, int counterId) {
             try {
                 string query = $"SELECT * FROM {ButtonsConstants.TABLE_NAME} WHERE {ButtonsConstants.BANK_NAME} = @bankName AND {ButtonsConstants.SCREEN_ID} = @screenId AND ({ButtonsConstants.TYPE} = {(int) ButtonsConstants.Types.SHOW_MESSAGE} OR " +

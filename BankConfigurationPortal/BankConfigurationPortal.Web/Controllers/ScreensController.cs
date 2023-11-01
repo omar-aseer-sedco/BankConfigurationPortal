@@ -27,15 +27,19 @@ namespace BankConfigurationPortal.Web.Controllers {
                 if (branchId == 0 && counterId == 0) {
                     buttons = db.GetButtons(GetBankName(), screen.ScreenId);
                 }
+                else if (branchId != 0 && counterId == 0) {
+                    buttons = db.GetButtons(GetBankName(), screen.ScreenId, branchId);
+                }
                 else if (branchId != 0 && counterId != 0) {
                     buttons = db.GetButtons(GetBankName(), screen.ScreenId, branchId, counterId);
                 }
                 else {
-                    return BadRequest("You must supply both the counter ID and the branch ID to filter buttons, or neither to get all buttons.");
+                    return BadRequest("You must supply the branch ID to filter the buttons.");
                 }
 
                 ScreenModel ret = new ScreenModel() {
                     BankName = screen.BankName,
+                    ScreenId = screen.ScreenId,
                     ScreenTitle = screen.ScreenTitle,
                     ButtonCount = buttons.Count(),
                     Buttons = new ButtonModel[buttons.Count()],
@@ -54,7 +58,8 @@ namespace BankConfigurationPortal.Web.Controllers {
                     }
 
                     ret.Buttons[i] = new ButtonModel {
-                        Type = button.Type,
+                        ButtonId = button.ButtonId,
+                        Type = Enum.GetName(typeof(ButtonsConstants.Types), button.Type),
                         NameEn = button.NameEn,
                         NameAr = button.NameAr,
                         ServiceId = serviceId,
@@ -78,13 +83,15 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         private class ScreenModel {
             public string BankName { get; set; }
+            public int ScreenId { get; set; }
             public string ScreenTitle { get; set; }
             public int ButtonCount { get; set; }
             public ButtonModel[] Buttons { get; set; }
         }
 
         private class ButtonModel {
-            public ButtonsConstants.Types Type { get; set; }
+            public int ButtonId { get; set; }
+            public string Type { get; set; }
             public string NameEn { get; set; }
             public string NameAr { get; set; }
             public int ServiceId { get; set; }
