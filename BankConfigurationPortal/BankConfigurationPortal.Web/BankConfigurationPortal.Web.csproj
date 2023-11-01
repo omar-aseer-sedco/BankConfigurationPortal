@@ -236,6 +236,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\OwinStartup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\ApiAuthorizationAttribute.cs" />
     <Compile Include="Attributes\InternationalizationAttribute.cs" />
     <Compile Include="Attributes\MaxServiceTimeValidationAttribute.cs" />
     <Compile Include="Attributes\MinServiceTimeValidationAttribute.cs" />

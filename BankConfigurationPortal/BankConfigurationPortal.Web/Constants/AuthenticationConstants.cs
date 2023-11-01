@@ -5,6 +5,7 @@ using System.Web;
 
 namespace BankConfigurationPortal.Web.Constants {
     public static class AuthenticationConstants {
+        public const string AUTHORIZATION_HEADER_NAME = "Authorization";
         public const string AUTHENTICATION_COOKIE_NAME = ".AspNet.ApplicationCookie";
         public const string AUTHENTICATION_TYPE = "ApplicationCookie";
         public const string USER_SESSION_ID = "UserSessionId";

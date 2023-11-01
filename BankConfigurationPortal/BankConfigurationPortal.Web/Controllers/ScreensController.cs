@@ -1,10 +1,12 @@
 ﻿using BankConfigurationPortal.Utils.Helpers;
+using BankConfigurationPortal.Web.Attributes;
 using BankConfigurationPortal.Web.Constants;
 using BankConfigurationPortal.Web.Models;
 using BankConfigurationPortal.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Http;
 
 namespace BankConfigurationPortal.Web.Controllers {
@@ -15,9 +17,12 @@ namespace BankConfigurationPortal.Web.Controllers {
             this.db = db;
         }
 
+        [ApiAuthorization]
         public IHttpActionResult Get(int branchId = 0, int counterId = 0) {
             try {
-                var screen = db.GetActiveScreen(GetBankName());
+                string bankName = Encoding.UTF8.GetString(Convert.FromBase64String(Request.Headers.FirstOrDefault(h => h.Key.Equals(AuthenticationConstants.AUTHORIZATION_HEADER_NAME)).Value.First())).Split(':')[0];
+
+                var screen = db.GetActiveScreen(bankName);
                 if (screen.ScreenId == 0) {
                     return NotFound();
                 }
@@ -25,13 +30,13 @@ namespace BankConfigurationPortal.Web.Controllers {
                 IEnumerable<TicketingButton> buttons;
 
                 if (branchId == 0 && counterId == 0) {
-                    buttons = db.GetButtons(GetBankName(), screen.ScreenId);
+                    buttons = db.GetButtons(bankName, screen.ScreenId);
                 }
                 else if (branchId != 0 && counterId == 0) {
-                    buttons = db.GetButtons(GetBankName(), screen.ScreenId, branchId);
+                    buttons = db.GetButtons(bankName, screen.ScreenId, branchId);
                 }
                 else if (branchId != 0 && counterId != 0) {
-                    buttons = db.GetButtons(GetBankName(), screen.ScreenId, branchId, counterId);
+                    buttons = db.GetButtons(bankName, screen.ScreenId, branchId, counterId);
                 }
                 else {
                     return BadRequest("You must supply the branch ID to filter the buttons.");
@@ -75,10 +80,6 @@ namespace BankConfigurationPortal.Web.Controllers {
                 ExceptionHelper.HandleGeneralException(ex);
                 return InternalServerError();
             }
-        }
-
-        private string GetBankName() {
-            return "bank1"; // TODO: fix this
         }
 
         private class ScreenModel {

@@ -1,10 +1,8 @@
 ﻿using System.Web.Http;
 
 namespace BankConfigurationPortal.Web {
-    public static class WebApiConfig
-    {
-        public static void Register(HttpConfiguration config)
-        {
+    public static class WebApiConfig {
+        public static void Register(HttpConfiguration config) {
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

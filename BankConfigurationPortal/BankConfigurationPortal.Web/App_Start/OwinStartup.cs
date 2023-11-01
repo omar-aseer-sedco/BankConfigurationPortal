@@ -16,7 +16,6 @@ namespace BankConfigurationPortal.Web.App_Start {
                 AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
                 app.UseCookieAuthentication(new CookieAuthenticationOptions() {
                     AuthenticationType = AuthenticationConstants.AUTHENTICATION_TYPE,
-                    LoginPath = new PathString("/Account/Login"),
                     ExpireTimeSpan = TimeSpan.FromMinutes(30),
                     SlidingExpiration = true,
                 });
