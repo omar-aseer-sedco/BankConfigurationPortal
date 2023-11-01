@@ -96,4 +96,41 @@
         public const int USER_AGENT_SIZE = 255;
         public const int IP_ADDRESS_SIZE = 39;
     }
+
+    public static class ScreensConstants {
+        public const string TABLE_NAME = "TicketingScreens";
+        public const string BANK_NAME = "bank_name";
+        public const string SCREEN_ID = "screen_id";
+        public const string IS_ACTIVE = "is_active";
+        public const string SCREEN_TITLE = "screen_title";
+
+        public const int BANK_NAME_SIZE = 255;
+        public const int SCREEN_TITLE_SIZE = 255;
+    }
+
+    public static class ButtonsConstants {
+        public const string TABLE_NAME = "TicketingButtons";
+        public const string BANK_NAME = "bank_name";
+        public const string SCREEN_ID = "screen_id";
+        public const string BUTTON_ID = "button_id";
+        public const string TYPE = "type";
+        public const string NAME_EN = "name_en";
+        public const string NAME_AR = "name_ar";
+        public const string SERVICE_ID = "service_id";
+        public const string MESSAGE_EN = "message_en";
+        public const string MESSAGE_AR = "message_ar";
+
+        public const int BANK_NAME_SIZE = 255;
+        public const int NAME_EN_SIZE = 255;
+        public const int NAME_AR_SIZE = 255;
+        public const int SERVICE_SIZE = 255;
+        public const int MESSAGE_EN_SIZE = 1000;
+        public const int MESSAGE_AR_SIZE = 1000;
+
+        public enum Types {
+            UNDEFINED = 0,
+            ISSUE_TICKET = 1,
+            SHOW_MESSAGE = 2,
+        }
+    }
 }
