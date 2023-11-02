@@ -78,7 +78,7 @@ namespace BankConfigurationPortal.Web.Controllers {
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);
-                return InternalServerError();
+                return InternalServerError(new Exception("An unexpected error has occurred."));
             }
         }
 
