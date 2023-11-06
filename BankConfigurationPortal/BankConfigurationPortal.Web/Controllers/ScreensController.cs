@@ -33,13 +33,21 @@ namespace BankConfigurationPortal.Web.Controllers {
                     buttons = db.GetButtons(bankName, screen.ScreenId);
                 }
                 else if (branchId != 0 && counterId == 0) {
+                    if (!db.CheckIfBranchExists(bankName, branchId)) {
+                        return NotFound();
+                    }
+                    
                     buttons = db.GetButtons(bankName, screen.ScreenId, branchId);
                 }
                 else if (branchId != 0 && counterId != 0) {
+                    if (!db.CheckIfCounterExists(bankName, branchId, counterId)) {
+                        return NotFound();
+                    }
+
                     buttons = db.GetButtons(bankName, screen.ScreenId, branchId, counterId);
                 }
                 else {
-                    return BadRequest("You must supply the branch ID to filter the buttons.");
+                    return BadRequest("Missing branch ID.");
                 }
 
                 ScreenModel ret = new ScreenModel() {

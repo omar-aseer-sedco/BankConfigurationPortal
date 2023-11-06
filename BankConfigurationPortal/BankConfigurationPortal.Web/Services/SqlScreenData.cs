@@ -138,6 +138,39 @@ namespace BankConfigurationPortal.Web.Services {
             return default;
         }
 
+        public bool CheckIfBranchExists(string bankName, int branchId) {
+            try {
+                string query = $"SELECT COUNT(*) FROM {BranchesConstants.TABLE_NAME} WHERE {BranchesConstants.BANK_NAME} = @bankName AND {BranchesConstants.BRANCH_ID} = @branchId;";
+                SqlCommand command = new SqlCommand(query);
+                command.Parameters.Add("@bankName", SqlDbType.VarChar, BranchesConstants.BANK_NAME_SIZE).Value = bankName;
+                command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
+
+                return (int) DbUtils.ExecuteScalar(command) == 1;
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
+        }
+
+        public bool CheckIfCounterExists(string bankName, int branchId, int counterId) {
+            try {
+                string query = $"SELECT COUNT(*) FROM {CountersConstants.TABLE_NAME} WHERE {CountersConstants.BANK_NAME} = @bankName AND {CountersConstants.BRANCH_ID} = @branchId AND {CountersConstants.COUNTER_ID} = @counterId;";
+                SqlCommand command = new SqlCommand(query);
+                command.Parameters.Add("@bankName", SqlDbType.VarChar, CountersConstants.BANK_NAME_SIZE).Value = bankName;
+                command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
+                command.Parameters.Add("@counterId", SqlDbType.Int).Value = counterId;
+
+                return (int) DbUtils.ExecuteScalar(command) == 1;
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
+        }
+
         private TicketingButton ButtonFromReader(SqlDataReader reader, string bankName, int screenId) {
             try {
                 TicketingButton button = null;

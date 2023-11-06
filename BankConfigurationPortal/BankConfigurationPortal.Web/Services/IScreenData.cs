@@ -7,5 +7,7 @@ namespace BankConfigurationPortal.Web.Services {
         IEnumerable<TicketingButton> GetButtons(string bankName, int screenId);
         IEnumerable<TicketingButton> GetButtons(string bankName, int screenId, int branchId);
         IEnumerable<TicketingButton> GetButtons(string bankName, int screenId, int branchId, int counterId);
+        bool CheckIfBranchExists(string bankName, int branchId);
+        bool CheckIfCounterExists(string bankName, int branchid, int counterId);
     }
 }
