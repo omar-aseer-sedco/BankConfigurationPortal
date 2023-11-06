@@ -280,8 +280,7 @@
     <Compile Include="Services\SqlUserData.cs" />
     <Compile Include="Utils\CookieUtils.cs" />
     <Compile Include="Utils\DbUtils.cs" />
-    <Compile Include="ViewModels\CounterDetailsViewModel.cs" />
-    <Compile Include="ViewModels\CounterServiceViewModel.cs" />
+    <Compile Include="ViewModels\ServiceViewModel.cs" />
     <Compile Include="WebResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

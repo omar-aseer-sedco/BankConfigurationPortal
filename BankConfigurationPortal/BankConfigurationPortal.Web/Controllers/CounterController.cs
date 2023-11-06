@@ -9,6 +9,7 @@ using BankConfigurationPortal.Web.ViewModels;
 using System.Collections.Generic;
 using BankConfigurationPortal.Web.Constants;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [OwinCookieAuthorization]
@@ -62,35 +63,13 @@ namespace BankConfigurationPortal.Web.Controllers {
                     ViewBag.Language = Languages.ENGLISH;
                 }
 
-                var counter = db.GetCounter(CookieUtils.GetBankName(User), branchId, counterId);
-                if (counter == null) {
+                var model = db.GetCounter(CookieUtils.GetBankName(User), branchId, counterId);
+                if (model == null) {
                     return View("NotFound");
                 }
 
                 ViewBag.BranchId = branchId;
                 ViewBag.CounterId = counterId;
-
-                var allServices = serviceData.GetAllBankServices(CookieUtils.GetBankName(User));
-                List<CounterServiceViewModel> counterServices = new List<CounterServiceViewModel>();
-                foreach (var service in allServices) {
-                    counterServices.Add(new CounterServiceViewModel() {
-                        Service = service,
-                        IsAvailableOnCounter = serviceData.IsAvailableOnCounter(CookieUtils.GetBankName(User), branchId, counterId, service.BankServiceId),
-                    });
-                }
-
-                var model = new CounterDetailsViewModel() {
-                    BranchId = counter.BranchId,
-                    CounterId = counter.CounterId,
-                    NameEn = counter.NameEn,
-                    NameAr = counter.NameAr,
-                    Active = counter.Active,
-                    Type = counter.Type,
-                    Services = counterServices,
-                };
-                if (model == null) {
-                    return View("NotFound", branchId);
-                }
 
                 return View(model);
             }
@@ -141,9 +120,32 @@ namespace BankConfigurationPortal.Web.Controllers {
             try {
                 ViewBag.Title = WebResources.Edit;
 
+                if (Request.Cookies["language"] != null) {
+                    ViewBag.Language = Request.Cookies["language"].Value;
+                }
+                else {
+                    ViewBag.Language = Languages.ENGLISH;
+                }
+
                 var model = db.GetCounter(CookieUtils.GetBankName(User), branchId, counterId);
                 if (model == null) {
                     return View("NotFound", branchId);
+                }
+
+                HashSet<int> counterServiceIds = new HashSet<int>();
+                foreach (var service in model.Services) {
+                    counterServiceIds.Add(service.BankServiceId);
+                }
+                model.Services = new List<ServiceViewModel>();
+
+                var allServices = serviceData.GetAllBankServices(CookieUtils.GetBankName(User));
+                foreach (var service in allServices) {
+                    if (counterServiceIds.Contains(service.BankServiceId)) {
+                        ((List<ServiceViewModel>) model.Services).Add(new ServiceViewModel(service) { IsAvailableOnCounter = true });
+                    }
+                    else {
+                        ((List<ServiceViewModel>) model.Services).Add(new ServiceViewModel(service) { IsAvailableOnCounter = false });
+                    }
                 }
 
                 return View(model);
@@ -156,13 +158,19 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int branchId, Counter counter) {
+        public ActionResult Edit(int branchId, Counter counter, [System.Web.Http.FromBody] string[] addedButtonIds, [System.Web.Http.FromBody] string[] removedButtonIds) {
             try {
                 counter.BankName = CookieUtils.GetBankName(User);
                 counter.BranchId = branchId;
 
                 if (ModelState.IsValid) {
                     db.Update(counter);
+                    var addedButtonIdsDeserialized = JsonSerializer.Deserialize<int[]>(addedButtonIds[0]);
+                    var removedButtonIdsDeserialized = JsonSerializer.Deserialize<int[]>(removedButtonIds[0]);
+
+                    serviceData.AddServices(CookieUtils.GetBankName(User), branchId, counter.CounterId, addedButtonIdsDeserialized);
+                    serviceData.RemoveServices(CookieUtils.GetBankName(User), branchId, counter.CounterId, removedButtonIdsDeserialized);
+
                     return RedirectToAction("Details", new { branchId, counterId = counter.CounterId });
                 }
                 else {

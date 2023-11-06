@@ -1,42 +1,7 @@
-﻿@model BankConfigurationPortal.Web.ViewModels.CounterDetailsViewModel
+﻿@model BankConfigurationPortal.Web.Models.Counter
 
 @{
     bool isRtl = ViewBag.Language == BankConfigurationPortal.Web.Constants.Languages.ARABIC;
-}
-
-<link rel="stylesheet" href="~/Content/chosen.css" />
-
-@section Scripts {
-    @Scripts.Render("~/bundles/chosen")
-
-    <script>
-    $(document).ready(function () {
-        $("#servicesMultiSelect").chosen({ width: "100%" });
-    });
-
-    $("#servicesMultiSelect").on("change", function (event, params) {
-        if (params.selected) {
-            console.log("selected: " + params.selected);
-            $.ajax({
-                type: "POST",
-                url: "/CounterService/AddService?branchId=" + @ViewBag.BranchId + "&counterId=" + @ViewBag.CounterId + "&bankServiceId=" + params.selected,
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-        else {
-            console.log("deselected: " + params.deselected);
-            $.ajax({
-                type: "POST",
-                url: "/CounterService/RemoveService?branchId=" + @ViewBag.BranchId + "&counterId=" + @ViewBag.CounterId + "&bankServiceId=" + params.deselected,
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-    });
-    </script>
 }
 
 <h2>@WebResources.Details</h2>
@@ -79,22 +44,24 @@
         <dd>
             @Html.DisplayFor(model => model.Type)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Services)
+        </dt>
+        <dd>
+            @{int i = 0;}
+            @foreach (var service in Model.Services) {
+                string displayName = isRtl ? service.NameAr : service.NameEn;
+                ++i;
+                if (i == Model.Services.Count()) {
+                    <text>@displayName</text>
+                }
+                else {
+                    <text>@displayName, </text>
+                }
+            }
+        </dd>
     </dl>
-</div>
-<div>
-    <hr />
-    <p><b>@WebResources.AllocateServices:</b></p>
-    <select multiple id="servicesMultiSelect" class="@(isRtl ? "chosen-rtl" : "")" data-placeholder="@(WebResources.ChooseServices)...">
-        @foreach (var service in Model.Services) {
-            string serviceName = isRtl ? service.Service.NameAr : service.Service.NameEn;
-            if (service.IsAvailableOnCounter) {
-                <option selected value="@service.Service.BankServiceId">@serviceName</option>
-            }
-            else {
-                <option value="@service.Service.BankServiceId">@serviceName</option>
-            }
-        }
-    </select>
 </div>
 <p>
     <br />

@@ -263,8 +263,8 @@ namespace BankConfigurationPortal.Web.Services {
 
                 int i = 0;
                 foreach (var id in bankServiceIds) {
-                    query.Append("serviceId").Append(i).Append(',');
-                    command.Parameters.Add("serviceId" + i, SqlDbType.Int).Value = id;
+                    query.Append("@serviceId").Append(i).Append(',');
+                    command.Parameters.Add("@serviceId" + i, SqlDbType.Int).Value = id;
                     ++i;
                 }
 

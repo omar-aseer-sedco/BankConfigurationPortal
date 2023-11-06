@@ -1,8 +1,72 @@
 ﻿@model BankConfigurationPortal.Web.Models.Counter
 
+@{
+    bool isRtl = ViewBag.Language == BankConfigurationPortal.Web.Constants.Languages.ARABIC;
+}
+
+<link rel="stylesheet" href="~/Content/chosen.css" />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/chosen")
+
+    <script>
+        $(document).ready(function () {
+            $("#servicesMultiSelect").chosen({ width: "100%" });
+        });
+
+        const addedButtonIds = new Set();
+        const removedButtonIds = new Set();
+        $("#servicesMultiSelect").on("change", function (event, params) {
+            if (params.selected) {
+                console.log("selected: " + params.selected);
+
+                if (removedButtonIds.has(parseInt(params.selected))) {
+                    removedButtonIds.delete(parseInt(params.selected));
+                }
+                else {
+                    addedButtonIds.add(parseInt(params.selected));
+                }
+            }
+            else {
+                console.log("deselected: " + params.deselected);
+
+                if (addedButtonIds.has(parseInt(params.deselected))) {
+                    addedButtonIds.delete(parseInt(params.deselected));
+                }
+                else {
+                    removedButtonIds.add(parseInt(params.deselected));
+                }
+            }
+        });
+
+        function handleFormSubmission() {
+            var addedButtonIdsArray = Array.from(addedButtonIds);
+            var addedButtonIdsJson = JSON.stringify(addedButtonIdsArray);
+            var removedButtonIdsArray = Array.from(removedButtonIds);
+            var removedButtonIdsJson = JSON.stringify(removedButtonIdsArray);
+
+            var addedButtonsHiddenInput = document.createElement("input");
+            addedButtonsHiddenInput.type = "hidden";
+            addedButtonsHiddenInput.name = "addedButtonIds";
+            addedButtonsHiddenInput.value = addedButtonIdsJson;
+            var removedButtonsHiddenInput = document.createElement("input");
+            removedButtonsHiddenInput.type = "hidden";
+            removedButtonsHiddenInput.name = "removedButtonIds";
+            removedButtonsHiddenInput.value = removedButtonIdsJson;
+
+            document.getElementById("editCounterForm").appendChild(addedButtonsHiddenInput);
+            document.getElementById("editCounterForm").appendChild(removedButtonsHiddenInput);
+
+            document.getElementById("editCounterForm").submit();
+        }
+
+        document.getElementById("submitButton").addEventListener("click", handleFormSubmission);
+    </script>
+}
+
 <h2>@WebResources.Edit</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Edit", "Counter", FormMethod.Post, new { id = "editCounterForm" })) {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -49,8 +113,25 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Services, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="max-width: 310px"> <!--make same width as other form elements-->
+                <select multiple id="servicesMultiSelect" class="@(isRtl ? "chosen-rtl" : "")" data-placeholder="@(WebResources.ChooseServices)...">
+                    @foreach (var service in (List<BankConfigurationPortal.Web.ViewModels.ServiceViewModel>) Model.Services) {
+                        string serviceName = isRtl ? service.NameAr : service.NameEn;
+                        if (service.IsAvailableOnCounter) {
+                            <option selected value="@service.BankServiceId">@serviceName</option>
+                        }
+                        else {
+                            <option value="@service.BankServiceId">@serviceName</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value=@WebResources.Save class="btn btn-default" />
+                <input id="submitButton" type="submit" value=@WebResources.Save class="btn btn-default" />
             </div>
         </div>
     </div>
