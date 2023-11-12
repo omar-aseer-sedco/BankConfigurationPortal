@@ -10,6 +10,9 @@ using System.Diagnostics;
 
 namespace BankConfigurationPortal.Web.Services {
     public class SqlScreenData : IScreenData {
+        const string SERVICE_NAME_EN = "service_name_en";
+        const string SERVICE_NAME_AR = "service_name_ar";
+
         public TicketingScreen GetActiveScreen(string bankName) {
             try {
                 string query = $"SELECT * FROM {ScreensConstants.TABLE_NAME} WHERE {ScreensConstants.BANK_NAME} = @bankName AND {ScreensConstants.IS_ACTIVE} = 1;";
@@ -47,7 +50,25 @@ namespace BankConfigurationPortal.Web.Services {
 
         public IEnumerable<TicketingButton> GetButtons(string bankName, int screenId) {
             try {
-                string query = $"SELECT * FROM {ButtonsConstants.TABLE_NAME} WHERE {ButtonsConstants.BANK_NAME} = @bankName AND {ButtonsConstants.SCREEN_ID} = @screenId;";
+                string query = $"SELECT " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.BANK_NAME}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SCREEN_ID}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.BUTTON_ID}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.TYPE}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.NAME_EN}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.NAME_AR}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SERVICE_ID}, " +
+                                   $"{BankServicesConstants.TABLE_NAME}.{BankServicesConstants.NAME_EN} AS {SERVICE_NAME_EN}, " +
+                                   $"{BankServicesConstants.TABLE_NAME}.{BankServicesConstants.NAME_AR} AS {SERVICE_NAME_AR}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.MESSAGE_EN}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.MESSAGE_AR} " +
+                               $"FROM " +
+                                   $"{ButtonsConstants.TABLE_NAME} LEFT JOIN {BankServicesConstants.TABLE_NAME} " +
+                               $"ON " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SERVICE_ID} = {BankServicesConstants.TABLE_NAME}.{BankServicesConstants.BANK_SERVICE_ID} " +
+                               $"WHERE " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.BANK_NAME} = @bankName AND " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SCREEN_ID} = @screenId;";
                 SqlCommand command = new SqlCommand(query);
                 command.Parameters.Add("@bankName", SqlDbType.VarChar, ButtonsConstants.BANK_NAME_SIZE).Value = bankName;
                 command.Parameters.Add("@screenId", SqlDbType.Int).Value = screenId;
@@ -75,9 +96,34 @@ namespace BankConfigurationPortal.Web.Services {
 
         public IEnumerable<TicketingButton> GetButtons(string bankName, int screenId, int branchId) {
             try {
-                string query = $"SELECT * FROM {ButtonsConstants.TABLE_NAME} WHERE {ButtonsConstants.BANK_NAME} = @bankName AND {ButtonsConstants.SCREEN_ID} = @screenId AND ({ButtonsConstants.TYPE} = {(int) ButtonsConstants.Types.SHOW_MESSAGE} OR " +
-                               $"service_id IN (SELECT {ServicesCountersConstants.BANK_SERVICE_ID} FROM {ServicesCountersConstants.TABLE_NAME} WHERE {ServicesCountersConstants.BANK_NAME} = @servicesCountersBankName AND " +
-                               $"{ServicesCountersConstants.BRANCH_ID} = @branchId));";
+                string query = $"SELECT " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.BANK_NAME}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SCREEN_ID}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.BUTTON_ID}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.TYPE}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.NAME_EN}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.NAME_AR}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SERVICE_ID}, " +
+                                   $"{BankServicesConstants.TABLE_NAME}.{BankServicesConstants.NAME_EN} AS {SERVICE_NAME_EN}, " +
+                                   $"{BankServicesConstants.TABLE_NAME}.{BankServicesConstants.NAME_AR} AS {SERVICE_NAME_AR}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.MESSAGE_EN}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.MESSAGE_AR} " +
+                               $"FROM " +
+                                   $"{ButtonsConstants.TABLE_NAME} LEFT JOIN {BankServicesConstants.TABLE_NAME} " +
+                               $"ON " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SERVICE_ID} = {BankServicesConstants.TABLE_NAME}.{BankServicesConstants.BANK_SERVICE_ID} " +
+                               $"WHERE " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.BANK_NAME} = @bankName AND " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SCREEN_ID} = @screenId AND " +
+                                   $"({ButtonsConstants.TABLE_NAME}.{ButtonsConstants.TYPE} = {(int) ButtonsConstants.Types.SHOW_MESSAGE} OR " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SERVICE_ID} IN " +
+                                       $"(SELECT " +
+                                           $"{ServicesCountersConstants.TABLE_NAME}.{ServicesCountersConstants.BANK_SERVICE_ID} " +
+                                       $"FROM " +
+                                           $"{ServicesCountersConstants.TABLE_NAME} " +
+                                       $"WHERE " +
+                                           $"{ServicesCountersConstants.TABLE_NAME}.{ServicesCountersConstants.BANK_NAME} = @servicesCountersBankName AND " +
+                                           $"{ServicesCountersConstants.TABLE_NAME}.{ServicesCountersConstants.BRANCH_ID} = @branchId));";
                 SqlCommand command = new SqlCommand(query);
                 command.Parameters.Add("@bankName", SqlDbType.VarChar, ButtonsConstants.BANK_NAME_SIZE).Value = bankName;
                 command.Parameters.Add("@screenId", SqlDbType.Int).Value = screenId;
@@ -107,9 +153,35 @@ namespace BankConfigurationPortal.Web.Services {
 
         public IEnumerable<TicketingButton> GetButtons(string bankName, int screenId, int branchId, int counterId) {
             try {
-                string query = $"SELECT * FROM {ButtonsConstants.TABLE_NAME} WHERE {ButtonsConstants.BANK_NAME} = @bankName AND {ButtonsConstants.SCREEN_ID} = @screenId AND ({ButtonsConstants.TYPE} = {(int) ButtonsConstants.Types.SHOW_MESSAGE} OR " +
-                               $"service_id IN (SELECT {ServicesCountersConstants.BANK_SERVICE_ID} FROM {ServicesCountersConstants.TABLE_NAME} WHERE {ServicesCountersConstants.BANK_NAME} = @servicesCountersBankName AND " +
-                               $"{ServicesCountersConstants.BRANCH_ID} = @branchId AND {ServicesCountersConstants.COUNTER_ID} = @counterId));";
+                string query = $"SELECT " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.BANK_NAME}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SCREEN_ID}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.BUTTON_ID}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.TYPE}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.NAME_EN}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.NAME_AR}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SERVICE_ID}, " +
+                                   $"{BankServicesConstants.TABLE_NAME}.{BankServicesConstants.NAME_EN} AS {SERVICE_NAME_EN}, " +
+                                   $"{BankServicesConstants.TABLE_NAME}.{BankServicesConstants.NAME_AR} AS {SERVICE_NAME_AR}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.MESSAGE_EN}, " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.MESSAGE_AR} " +
+                               $"FROM " +
+                                   $"{ButtonsConstants.TABLE_NAME} LEFT JOIN {BankServicesConstants.TABLE_NAME} " +
+                               $"ON " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SERVICE_ID} = {BankServicesConstants.TABLE_NAME}.{BankServicesConstants.BANK_SERVICE_ID} " +
+                               $"WHERE " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.BANK_NAME} = @bankName AND " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SCREEN_ID} = @screenId AND " +
+                                   $"({ButtonsConstants.TABLE_NAME}.{ButtonsConstants.TYPE} = {(int) ButtonsConstants.Types.SHOW_MESSAGE} OR " +
+                                   $"{ButtonsConstants.TABLE_NAME}.{ButtonsConstants.SERVICE_ID} IN " +
+                                       $"(SELECT " +
+                                           $"{ServicesCountersConstants.TABLE_NAME}.{ServicesCountersConstants.BANK_SERVICE_ID} " +
+                                       $"FROM " +
+                                           $"{ServicesCountersConstants.TABLE_NAME} " +
+                                       $"WHERE " +
+                                           $"{ServicesCountersConstants.TABLE_NAME}.{ServicesCountersConstants.BANK_NAME} = @servicesCountersBankName AND " +
+                                           $"{ServicesCountersConstants.TABLE_NAME}.{ServicesCountersConstants.BRANCH_ID} = @branchId AND " +
+                                           $"{ServicesCountersConstants.TABLE_NAME}.{ServicesCountersConstants.COUNTER_ID} = @counterId));";
                 SqlCommand command = new SqlCommand(query);
                 command.Parameters.Add("@bankName", SqlDbType.VarChar, ButtonsConstants.BANK_NAME_SIZE).Value = bankName;
                 command.Parameters.Add("@screenId", SqlDbType.Int).Value = screenId;
@@ -182,11 +254,16 @@ namespace BankConfigurationPortal.Web.Services {
 
                 if (type == ButtonsConstants.Types.ISSUE_TICKET) {
                     int serviceId;
+                    string serviceNameEn, serviceNameAr;
                     try {
                         serviceId = (int) reader[ButtonsConstants.SERVICE_ID];
+                        serviceNameEn = (string) reader[SERVICE_NAME_EN];
+                        serviceNameAr = (string) reader[SERVICE_NAME_AR];
                     }
                     catch (InvalidCastException) { // service ID is null
                         serviceId = 0;
+                        serviceNameEn = string.Empty;
+                        serviceNameAr = string.Empty;
                     }
 
                     button = new IssueTicketButton() {
@@ -196,7 +273,9 @@ namespace BankConfigurationPortal.Web.Services {
                         Type = type,
                         NameEn = nameEn,
                         NameAr = nameAr,
-                        ServiceId = serviceId
+                        ServiceId = serviceId,
+                        ServiceNameEn = serviceNameEn,
+                        ServiceNameAr = serviceNameAr,
                     };
                 }
                 else if (type == ButtonsConstants.Types.SHOW_MESSAGE) {

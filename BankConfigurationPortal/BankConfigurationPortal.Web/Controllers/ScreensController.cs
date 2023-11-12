@@ -8,9 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace BankConfigurationPortal.Web.Controllers {
     [ApiAuthorization]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ScreensController : ApiController {
         private readonly IScreenData db;
 
@@ -84,9 +86,11 @@ namespace BankConfigurationPortal.Web.Controllers {
             int i = 0;
             foreach (var button in buttons) {
                 int serviceId = 0;
-                string messageEn = string.Empty, messageAr = string.Empty;
+                string messageEn = string.Empty, messageAr = string.Empty, serviceNameEn = string.Empty, serviceNameAr = string.Empty;
                 if (button is IssueTicketButton issueTicketButton) {
                     serviceId = issueTicketButton.ServiceId;
+                    serviceNameEn = issueTicketButton.ServiceNameEn;
+                    serviceNameAr = issueTicketButton.ServiceNameAr;
                 }
                 if (button is ShowMessageButton showMessageButton) {
                     messageEn = showMessageButton.MessageEn;
@@ -99,6 +103,8 @@ namespace BankConfigurationPortal.Web.Controllers {
                     NameEn = button.NameEn,
                     NameAr = button.NameAr,
                     ServiceId = serviceId,
+                    ServiceNameEn = serviceNameEn,
+                    ServiceNameAr = serviceNameAr,
                     MessageEn = messageEn,
                     MessageAr = messageAr
                 };
@@ -126,6 +132,8 @@ namespace BankConfigurationPortal.Web.Controllers {
             public string NameEn { get; set; }
             public string NameAr { get; set; }
             public int ServiceId { get; set; }
+            public string ServiceNameEn { get; set; }
+            public string ServiceNameAr { get; set; }
             public string MessageEn { get; set; }
             public string MessageAr { get; set; }
         }
