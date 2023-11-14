@@ -66,7 +66,15 @@ namespace BankConfigurationPortal.Web.Controllers {
                 if (screen.ScreenId == 0) return NotFound();
 
                 IEnumerable<TicketingButton> buttons = db.GetButtons(bankName, screen.ScreenId, branchId.Value, counterId.Value);
-                return Ok(GetScreenModel(screen, buttons));
+
+                var screenModel = GetScreenModel(screen, buttons);
+                var counterInformation = db.GetCounterInformation(bankName, branchId.Value, counterId.Value);
+                screenModel.BranchNameEn = counterInformation.BranchNameEn;
+                screenModel.BranchNameAr = counterInformation.BranchNameAr;
+                screenModel.CounterNameEn = counterInformation.CounterNameEn;
+                screenModel.CounterNameAr = counterInformation.CounterNameAr;
+
+                return Ok(screenModel);
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);
@@ -120,6 +128,10 @@ namespace BankConfigurationPortal.Web.Controllers {
 
         private class ScreenModel {
             public string BankName { get; set; }
+            public string BranchNameEn { get; set; }
+            public string BranchNameAr { get; set; }
+            public string CounterNameEn { get; set; }
+            public string CounterNameAr { get; set; }
             public int ScreenId { get; set; }
             public string ScreenTitle { get; set; }
             public int ButtonCount { get; set; }

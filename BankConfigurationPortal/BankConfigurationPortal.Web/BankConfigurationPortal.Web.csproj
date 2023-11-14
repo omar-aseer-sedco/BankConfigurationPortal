@@ -266,6 +266,7 @@
     <Compile Include="Models\BankService.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Counter.cs" />
+    <Compile Include="Models\CounterInformation.cs" />
     <Compile Include="Models\CounterType.cs" />
     <Compile Include="Models\IssueTicketButton.cs" />
     <Compile Include="Models\Session.cs" />

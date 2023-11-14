@@ -9,5 +9,6 @@ namespace BankConfigurationPortal.Web.Services {
         IEnumerable<TicketingButton> GetButtons(string bankName, int screenId, int branchId, int counterId);
         bool CheckIfBranchExists(string bankName, int branchId);
         bool CheckIfCounterExists(string bankName, int branchid, int counterId);
+        CounterInformation GetCounterInformation(string bankName, int branchId, int counterId);
     }
 }

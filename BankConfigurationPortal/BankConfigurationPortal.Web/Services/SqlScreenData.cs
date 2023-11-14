@@ -12,6 +12,10 @@ namespace BankConfigurationPortal.Web.Services {
     public class SqlScreenData : IScreenData {
         const string SERVICE_NAME_EN = "service_name_en";
         const string SERVICE_NAME_AR = "service_name_ar";
+        const string BRANCH_NAME_EN = "branch_name_en";
+        const string BRANCH_NAME_AR = "branch_name_ar";
+        const string COUNTER_NAME_EN = "counter_name_en";
+        const string COUNTER_NAME_AR = "counter_name_ar";
 
         public TicketingScreen GetActiveScreen(string bankName) {
             try {
@@ -235,6 +239,56 @@ namespace BankConfigurationPortal.Web.Services {
                 command.Parameters.Add("@counterId", SqlDbType.Int).Value = counterId;
 
                 return (int) DbUtils.ExecuteScalar(command) == 1;
+            }
+            catch (Exception ex) {
+                ExceptionHelper.HandleGeneralException(ex);
+            }
+
+            return default;
+        }
+
+        public CounterInformation GetCounterInformation(string bankName, int branchId, int counterId) {
+            try {
+                string query = $"SELECT " +
+                                   $"{BranchesConstants.TABLE_NAME}.{BranchesConstants.NAME_EN} AS {BRANCH_NAME_EN}, " +
+                                   $"{BranchesConstants.TABLE_NAME}.{BranchesConstants.NAME_AR} AS {BRANCH_NAME_AR}, " +
+                                   $"{CountersConstants.TABLE_NAME}.{CountersConstants.NAME_EN} AS {COUNTER_NAME_EN}, " +
+                                   $"{CountersConstants.TABLE_NAME}.{CountersConstants.NAME_AR} AS {COUNTER_NAME_AR} " +
+                               $"FROM " +
+                                   $"{BranchesConstants.TABLE_NAME} INNER JOIN {CountersConstants.TABLE_NAME} " +
+                                   $"ON {BranchesConstants.TABLE_NAME}.{BranchesConstants.BRANCH_ID} = {CountersConstants.TABLE_NAME}.{CountersConstants.BRANCH_ID} " +
+                               $"WHERE " +
+                                   $"{CountersConstants.TABLE_NAME}.{CountersConstants.BANK_NAME} = @bankName AND " +
+                                   $"{CountersConstants.TABLE_NAME}.{CountersConstants.BRANCH_ID} = @branchId AND " +
+                                   $"{CountersConstants.TABLE_NAME}.{CountersConstants.COUNTER_ID} = @counterId;";
+                SqlCommand command = new SqlCommand(query);
+                command.Parameters.Add("@bankName", SqlDbType.VarChar, CountersConstants.BANK_NAME_SIZE).Value = bankName;
+                command.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
+                command.Parameters.Add("@counterId", SqlDbType.Int).Value = counterId;
+
+                CounterInformation counterInformation = null;
+                DbUtils.ExecuteReader(command, (reader) => {
+                    if (reader.Read()) {
+                        string branchNameEn = (string) reader[BRANCH_NAME_EN];
+                        string branchNameAr = (string) reader[BRANCH_NAME_AR];
+                        string counterNameEn = (string) reader[COUNTER_NAME_EN];
+                        string counterNameAr = (string) reader[COUNTER_NAME_AR];
+
+                        counterInformation = new CounterInformation() {
+                            BranchNameEn = branchNameEn,
+                            BranchNameAr = branchNameAr,
+                            CounterNameEn = counterNameEn,
+                            CounterNameAr = counterNameAr,
+                        };
+                    }
+                    else {
+                        counterInformation = new CounterInformation();
+                    }
+
+                    reader.Close();
+                });
+
+                return counterInformation;
             }
             catch (Exception ex) {
                 ExceptionHelper.HandleGeneralException(ex);
